@@ -41,7 +41,19 @@ export const API = {
   getUserFollowing(username) {
     return get(`users/${username}/followig`);
   },
+  /**
+   *认证待开发
+   * @param {*} data
+   */
   authorizating(data) {
     return post('authorizations', data);
+  },
+  /**
+   * 根据query搜索仓库
+   * @param {string} query
+   * @param {object} params
+   */
+  searchRepositories(query, params) {
+    return get(parseUrl(`search/repositories?=${query}`, params));
   },
 };
