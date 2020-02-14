@@ -3,7 +3,7 @@
  */
 import {get, post} from './http';
 import {parseUrl} from './untils';
-export const API = {
+export default {
   /**
    * 获取用户基本信息只需要传入
    * @param {string} username  用户昵称 eg:laike

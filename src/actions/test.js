@@ -1,7 +1,9 @@
 import {TEST_ACTION} from '../constants/types';
-export const testAction = msg => {
-  return {
-    type: TEST_ACTION,
-    msg,
-  };
-};
+import {createActions} from 'redux-actions';
+export default createActions({
+  [TEST_ACTION]: msg => {
+    return {
+      msg,
+    };
+  },
+});

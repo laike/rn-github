@@ -288,9 +288,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
-    - GCDWebServer
-  trunk:
     - boost-for-react-native
+    - GCDWebServer
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -400,6 +399,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: ac91e3cf0baf4ef3c60d4d0cd56d4c7c1c643db2
+PODFILE CHECKSUM: 8fe8343dc53cceb6da9c7689658a4bcc3e3fcd99
 
 COCOAPODS: 1.8.4

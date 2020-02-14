@@ -1,6 +1,25 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-export default class Home extends Component {
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import actions from '../actions/test';
+import {TEST_ACTION} from '../constants/types';
+
+@connect(
+  state => ({
+    state,
+  }),
+  dispatch => ({
+    actions: bindActionCreators(actions, dispatch),
+  }),
+)
+class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    actions.testAction({msg: 'ok'});
+  }
   render() {
     return (
       <View style={styles}>
@@ -16,3 +35,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
 });
+
+export default Home;
