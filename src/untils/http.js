@@ -3,7 +3,19 @@
  * 下设置请求头，以及根据服务器端像一个的状态码判断，提示用户提升用户体验
  */
 import axios from 'axios';
-import {parseUrl} from './untils';
+import {parseUrl, handleError} from './untils';
+import {BASE_URL, TOKEN_KEY, CODE_KEY} from '../config/config';
+import QS from 'qs'; //这个库很强大
+import {
+  CODE_NOT_FOUND,
+  CODE_PERMENTLY_REDIRECT,
+  CODE_SERVER_ERROR,
+  CODE_SUCCESS,
+  CONTENT_TYPE_FORMURL,
+  CONTENT_TYPE_JSON,
+  NEED_AUTH,
+} from '../constants/net';
+import {AsyncStorage} from '@react-native-community/async-storage';
 /**
  *
  * @param {*} url
@@ -38,3 +50,103 @@ export const post = (url, data) => {
       });
   });
 };
+
+//在这里我们再封装一层使用单例模式，并且使用异步函数结合await
+class Http {
+  static instance = null;
+  static server = null;
+  constructor() {
+    this.options = {
+      token: null,
+      code: null,
+      timeout: 3000,
+    };
+    Http.server = axios.create({
+      baseURL: BASE_URL,
+      timeout: this.options.timeout, //请求超时时间
+      withCredentials: false, //不允许跨域防止XSRF
+    });
+    //这里我们设置请求拦截所有的请求方式默认都是Form方式请求提高兼容性 get 和post
+    //方法都是通用的 设置请求拦截
+    Http.server.interceptor.request.use(
+      config => {
+        config.headers['Content-Type'] = CONTENT_TYPE_FORMURL;
+        return config;
+      },
+      error => Promise.reject(error),
+    );
+    //设置响应拦截
+    Http.server.interceptor.response.use(
+      resp => {
+        //请求需要权限这里可以处理跳转到登录页面
+        if (resp.data.statusCode == 401) {
+          handleError(resp.data.statusCode);
+          return {
+            success: false,
+            code: NEED_AUTH,
+            msg: '权限不够，需要登录后进行操作！',
+          };
+        }
+        //请求成功的处理方式
+        return {
+          success: true,
+          code: CODE_SUCCESS,
+          data: resp.data,
+        };
+      },
+      error => {
+        //错误处理
+        if (error && error.response && error.response.status) {
+          handleError(error.response.status);
+          return Promise.reject(error);
+        }
+      },
+    );
+  }
+  /**
+   * 获取TOKEN
+   */
+  async getToken() {
+    const token = AsyncStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      //这里我们可能可以得到CODE用CODE去重新获取TOKEN
+      let code = AsyncStorage.getItem(CODE_KEY);
+      if (!code) {
+        //这里提示用户输入用户名和密码
+      } else {
+        return `code ${code}`;
+      }
+    } else {
+      this.options.token = token;
+      return token;
+    }
+  }
+  /**
+   * 设置TOKEN
+   */
+  async setToken() {
+    AsyncStorage.setItem(TOKEN_KEY, this.options.token);
+  }
+  /**
+   * 清楚TOKEN
+   */
+  async clearToken() {
+    AsyncStorage.removeItem(TOKEN_KEY);
+    this.options.token = null;
+  }
+  async get(url, params = {}, header) {
+    //在这里我们可能要对普通的Http请求进行一些处理和拦截
+  }
+  async post(url, data = {}) {
+    //在这里我们可能要对普通的Http请求进行一些处理和拦截
+  }
+  static getInstance() {
+    if (Http.instance instanceof Http) {
+      return Http.instance;
+    } else {
+      Http.instance = new Http();
+    }
+  }
+}
+
+export default Http.getInstance();

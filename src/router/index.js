@@ -17,6 +17,7 @@ import Setting from '../container/Setting';
 import Trending from '../container/Trending';
 import TabIcon from '../components/TabIcon';
 import SpanlashPage from '../container/SpanlashPage';
+import Login from '../container/Login';
 
 const router = () => (
   <Router>
@@ -29,6 +30,9 @@ const router = () => (
           hideTabBar
           hide
         />
+      </Scene>
+      <Scene key="login">
+        <Scene key="loginPage" component={Login} hideNavBar hideTabBar hide />
       </Scene>
       <Scene key="root" hideNavBar={true}>
         <Scene
