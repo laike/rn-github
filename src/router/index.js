@@ -20,7 +20,7 @@ import SpanlashPage from '../container/SpanlashPage';
 
 const router = () => (
   <Router>
-    <Lightbox key="lightbox">
+    <Lightbox key="lightbox" hide>
       <Scene key="main">
         <Scene
           key="SpanlashPage"

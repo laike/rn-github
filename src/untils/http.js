@@ -1,5 +1,6 @@
 /**
- * 网络请求封装类库，使用axios封装，也可以选择使用fetch
+ * 网络请求封装类库，使用axios封装，也可以选择使用fetch，注意这里可能我们要封装
+ * 下设置请求头，以及根据服务器端像一个的状态码判断，提示用户提升用户体验
  */
 import axios from 'axios';
 import {parseUrl} from './untils';

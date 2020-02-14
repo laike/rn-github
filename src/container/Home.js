@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
+//暂时不用这个等理清了再来用这个
 import {bindActionCreators} from 'redux';
 import actions from '../actions/test';
 import {TEST_ACTION} from '../constants/types';
@@ -10,20 +11,24 @@ import {TEST_ACTION} from '../constants/types';
     state,
   }),
   dispatch => ({
-    actions: bindActionCreators(actions, dispatch),
+    test: () => dispatch(actions.testAction),
+    dispatch,
   }),
 )
 class Home extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    actions.testAction({msg: 'ok'});
-  }
+  componentDidMount() {}
   render() {
     return (
       <View style={styles}>
-        <Text>this is Home Page </Text>
+        <Text
+          onPress={() => {
+            this.props.dispatch({type: TEST_ACTION, payload: {msg: 'ok'}});
+          }}>
+          this is Home Page{' '}
+        </Text>
       </View>
     );
   }
