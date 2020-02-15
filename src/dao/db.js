@@ -1,9 +1,8 @@
 /**
  * 这里返回一个realm对象给外界调用
  */
+//注意在新版本中我们不需要传入schema先
 import schema from './schema';
-import realm from 'realm';
-const Realm = realm.open({
-  schema,
-});
-export default Realm;
+import Realm from 'realm';
+let realm = new Realm();
+export default realm;

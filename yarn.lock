@@ -6547,10 +6547,10 @@ readable-stream@^3.1.1:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
-realm@4.0.0-beta.0:
-  version "4.0.0-beta.0"
-  resolved "https://registry.npm.taobao.org/realm/download/realm-4.0.0-beta.0.tgz#65cbc8a54de519955223b3d51a9fdb5c39c2526e"
-  integrity sha1-ZcvIpU3lGZVSI7PVGp/bXDnCUm4=
+realm@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.npm.taobao.org/realm/download/realm-3.6.4.tgz#efbe85c25fb9b358b1a1bde38da1f1c8bd49bccb"
+  integrity sha1-776Fwl+5s1ixob3jjaHxyL1JvMs=
   dependencies:
     command-line-args "^4.0.6"
     decompress "^4.2.0"

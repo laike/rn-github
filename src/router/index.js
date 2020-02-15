@@ -58,7 +58,9 @@ const router = () => (
               fontSize: 20,
             }}
             navigationBarStyle={{
-              backgroundColor: BG_COLOR,
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
             }}
           />
           <Scene

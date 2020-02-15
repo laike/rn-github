@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import Color from 'color';
 const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
@@ -36,10 +37,28 @@ const TabIcon = props => {
     <View style={styles.container}>
       <Icon
         name={name}
-        style={[styles.icon, {color: props.focused ? TEXT_COLOR : BG_COLOR}]}
+        style={[
+          styles.icon,
+          {
+            color: props.focused
+              ? TEXT_COLOR
+              : `${Color(BG_COLOR)
+                  .darken(0.1)
+                  .hex()}`,
+          },
+        ]}
       />
       <Text
-        style={[styles.title, {color: props.focused ? TEXT_COLOR : BG_COLOR}]}>
+        style={[
+          styles.title,
+          {
+            color: props.focused
+              ? TEXT_COLOR
+              : `${Color(BG_COLOR)
+                  .darken(0.1)
+                  .hex()}`,
+          },
+        ]}>
         {props.title}
       </Text>
     </View>

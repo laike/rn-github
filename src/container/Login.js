@@ -82,8 +82,6 @@ class Login extends Component {
             <View style={styles.control}>
               <Text style={styles.tips}>密码</Text>
               <TextInput
-                textContentType="address"
-                autoCompleteType="password"
                 style={styles.input}
                 placeholder="密码"
                 value={this.state.password}
@@ -161,6 +159,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     marginBottom: 3,
+    display: 'none',
   },
   input: {
     flex: 1,

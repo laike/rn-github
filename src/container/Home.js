@@ -3,8 +3,7 @@ import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 //暂时不用这个等理清了再来用这个
 import {bindActionCreators} from 'redux';
-import loginActions from '../actions/login';
-import {TEST_ACTION} from '../constants/types';
+import responsitoryActions from '../actions/reponsitory';
 import {STATUS_BAR_STYLE} from '../constants/styles';
 
 @connect(
@@ -12,7 +11,7 @@ import {STATUS_BAR_STYLE} from '../constants/styles';
     state,
   }),
   dispatch => ({
-    login: bindActionCreators(loginActions, dispatch),
+    responsitories: bindActionCreators(responsitoryActions, dispatch),
     dispatch,
   }),
 )
@@ -20,7 +19,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.responsitories.searchReponsitories('demo');
+  }
   render() {
     return (
       <View style={styles}>
