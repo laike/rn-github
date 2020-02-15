@@ -16,6 +16,7 @@ import {
   NEED_AUTH,
 } from '../constants/net';
 import {AsyncStorage} from '@react-native-community/async-storage';
+import {Actions} from 'react-native-router-flux';
 /**
  *
  * @param {*} url
@@ -68,7 +69,7 @@ class Http {
     });
     //这里我们设置请求拦截所有的请求方式默认都是Form方式请求提高兼容性 get 和post
     //方法都是通用的 设置请求拦截
-    Http.server.interceptor.request.use(
+    Http.server.interceptors.request.use(
       config => {
         config.headers['Content-Type'] = CONTENT_TYPE_FORMURL;
         return config;
@@ -76,7 +77,7 @@ class Http {
       error => Promise.reject(error),
     );
     //设置响应拦截
-    Http.server.interceptor.response.use(
+    Http.server.interceptors.response.use(
       resp => {
         //请求需要权限这里可以处理跳转到登录页面
         if (resp.data.statusCode == 401) {
@@ -106,31 +107,33 @@ class Http {
   /**
    * 获取TOKEN
    */
-  async getToken() {
-    const token = AsyncStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      //这里我们可能可以得到CODE用CODE去重新获取TOKEN
-      let code = AsyncStorage.getItem(CODE_KEY);
-      if (!code) {
-        //这里提示用户输入用户名和密码
+  getToken() {
+    try {
+      const token = AsyncStorage.getItem(TOKEN_KEY);
+      if (!token) {
+        //这里我们可能可以得到CODE用CODE去重新获取TOKEN
+        Actions.reset('login');
+        return null;
       } else {
-        return `code ${code}`;
+        this.options.token = token;
+        return token;
       }
-    } else {
-      this.options.token = token;
-      return token;
+    } catch (err) {
+      //获取失败也跳转到登录页面
+      Actions.reset('login');
+      return null;
     }
   }
   /**
    * 设置TOKEN
    */
-  async setToken() {
+  setToken() {
     AsyncStorage.setItem(TOKEN_KEY, this.options.token);
   }
   /**
    * 清楚TOKEN
    */
-  async clearToken() {
+  clearToken() {
     AsyncStorage.removeItem(TOKEN_KEY);
     this.options.token = null;
   }
@@ -144,7 +147,7 @@ class Http {
     if (Http.instance instanceof Http) {
       return Http.instance;
     } else {
-      Http.instance = new Http();
+      return (Http.instance = new Http());
     }
   }
 }
