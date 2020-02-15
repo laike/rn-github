@@ -1,4 +1,4 @@
-package com.rncnode;
+package com.rngithub;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-target 'rncnode' do
-  # Pods for rncnode
+target 'rngithub' do
+  # Pods for rngithub
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -36,7 +36,7 @@ target 'rncnode' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-  target 'rncnodeTests' do
+  target 'rngithubTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -44,10 +44,10 @@ target 'rncnode' do
   use_native_modules!
 end
 
-target 'rncnode-tvOS' do
-  # Pods for rncnode-tvOS
+target 'rngithub-tvOS' do
+  # Pods for rngithub-tvOS
 
-  target 'rncnode-tvOSTests' do
+  target 'rngithub-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
