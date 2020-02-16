@@ -1,31 +1,45 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, StatusBar} from 'react-native';
-import {connect} from 'react-redux';
-//暂时不用这个等理清了再来用这个
-import {bindActionCreators} from 'redux';
-import responsitoryActions from '../actions/reponsitory';
-import {STATUS_BAR_STYLE} from '../constants/styles';
+import {StyleSheet, StatusBar, Dimensions, View} from 'react-native';
 
-@connect(
-  state => ({
-    state,
-  }),
-  dispatch => ({
-    responsitories: bindActionCreators(responsitoryActions, dispatch),
-    dispatch,
-  }),
-)
+import {STATUS_BAR_STYLE, BG_COLOR, TEXT_COLOR} from '../constants/styles';
+import ScrollableTabView, {
+  ScrollableTabBar,
+} from 'react-native-scrollable-tab-view';
+import ScrollViewContainer from '../components/ScrollViewContainer';
+import Color from 'color';
+const keys = require('../data/keys.json');
+const {width, height} = Dimensions.get('window');
+
 class Home extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.props.responsitories.searchReponsitories('demo');
-  }
   render() {
     return (
-      <View style={styles}>
-        <StatusBar {...STATUS_BAR_STYLE} backgroundColor="red" />
+      <View style={styles.container}>
+        <StatusBar {...STATUS_BAR_STYLE} />
+        {/*这里暂时不封装scrollview，后面真个项目功能基本完善以后再来做代码重构。 */}
+        <ScrollableTabView
+          ref={ref => {
+            this.scrollTabs = ref;
+          }}
+          renderTabBar={() => <ScrollableTabBar />}
+          tabBarUnderlineStyle={{
+            borderWidth: 0.3,
+            borderColor: TEXT_COLOR,
+          }}
+          tabBarBackgroundColor={Color(BG_COLOR)
+            .darken(0.6)
+            .hex()}
+          tabBarActiveTextColor={TEXT_COLOR}
+          tabBarInactiveTextColor={Color(BG_COLOR)
+            .darken(0.1)
+            .hex()}>
+          {keys.map((item, key) => (
+            <ScrollViewContainer key={key} tabLabel={item.name} />
+          ))}
+        </ScrollableTabView>
       </View>
     );
   }
@@ -33,8 +47,7 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    backgroundColor: 'red',
+    flex: 1,
   },
 });
 

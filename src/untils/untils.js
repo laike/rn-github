@@ -6,6 +6,8 @@ import config from '../config/config';
 import Toast from 'react-native-root-toast';
 //引入Actions
 import {Actions} from 'react-native-router-flux';
+//引入判断工具库
+import _ from 'lodash';
 /**
  * 显示Toast
  * @param {string} msg
@@ -40,7 +42,10 @@ export const hideToast = toast => {
  */
 export const parseUrl = (url, params) => {
   // {name:'laike',pwd:'123456'} => name=laike&pwd=123456
-  console.log(Object.keys(params));
+  //如果params为空 返回空字符串
+  if (_.isEmpty(params)) {
+    return url;
+  }
   let str = Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`;
     return result;

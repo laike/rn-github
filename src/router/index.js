@@ -12,6 +12,7 @@ import {
   Stack,
   Lightbox,
 } from 'react-native-router-flux';
+import {Text, View, StyleSheet} from 'react-native';
 import Home from '../container/Home';
 import My from '../container/My';
 import Setting from '../container/Setting';
@@ -21,8 +22,22 @@ import SpanlashPage from '../container/SpanlashPage';
 import Login from '../container/Login';
 import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import Color from 'color';
+import Icon from 'react-native-vector-icons/FontAwesome';
+const renderRightButton = props => {
+  return (
+    <View>
+      <Icon
+        style={{color: TEXT_COLOR, marginRight: 15, fontSize: 16}}
+        name="search"
+      />
+    </View>
+  );
+};
 const router = () => (
-  <Router>
+  <Router
+    getSceneStyle={() => {
+      return styles.navigationBarStyle;
+    }}>
     <Lightbox key="lightbox">
       <Scene key="main">
         <Scene
@@ -36,18 +51,30 @@ const router = () => (
       <Scene key="login">
         <Scene key="loginPage" component={Login} hideNavBar hideTabBar hide />
       </Scene>
-      <Scene key="root" hideNavBar={true}>
+      <Scene
+        key="root"
+        navigationBarStyle={{
+          backgroundColor: Color(BG_COLOR)
+            .darken(0.6)
+            .hex(),
+          height: 30,
+        }}
+        hideNavBar>
         <Scene
           key="tabbar"
-          initial
-          tabs={true}
+          tabs
+          lazy
+          wrap={true}
+          showLabel={false}
           tabBarPosition="bottom"
           tabBarStyle={{
             backgroundColor: `${Color(BG_COLOR)
               .darken(0.6)
               .hex()}`,
-          }}
-          showLabel={false}>
+            height: 44,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <Scene
             key="home"
             component={Home}
@@ -55,8 +82,9 @@ const router = () => (
             icon={TabIcon}
             titleStyle={{
               color: TEXT_COLOR,
-              fontSize: 20,
+              fontSize: 18,
             }}
+            renderRightButton={renderRightButton}
             navigationBarStyle={{
               backgroundColor: `${Color(BG_COLOR)
                 .darken(0.6)
@@ -73,7 +101,9 @@ const router = () => (
               fontSize: 20,
             }}
             navigationBarStyle={{
-              backgroundColor: BG_COLOR,
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
             }}
           />
           <Scene
@@ -86,7 +116,9 @@ const router = () => (
               fontSize: 20,
             }}
             navigationBarStyle={{
-              backgroundColor: BG_COLOR,
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
             }}
           />
 
@@ -100,7 +132,9 @@ const router = () => (
               fontSize: 20,
             }}
             navigationBarStyle={{
-              backgroundColor: BG_COLOR,
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
             }}
           />
         </Scene>
@@ -109,4 +143,14 @@ const router = () => (
   </Router>
 );
 
+const styles = StyleSheet.create({
+  navigationBarStyle: {
+    flex: 1,
+    backgroundColor: TEXT_COLOR,
+    shadowColor: null,
+    shadowOffset: null,
+    shadowOpacity: null,
+    shadowRadius: null,
+  },
+});
 export default router;

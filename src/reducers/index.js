@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
-import test from '../reducers/test';
+import responsitories from '../reducers/reponsitories';
 
 export default combineReducers({
-  test,
+  responsitories,
 });

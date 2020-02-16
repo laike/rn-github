@@ -70,7 +70,7 @@ export default {
    * @param {object} params
    */
   searchRepositories(query, params) {
-    return get(`search/repositories?=${query}`, params);
+    return get(`search/repositories?q=${query}`, params);
   },
   /**
    * 获取仓库详情

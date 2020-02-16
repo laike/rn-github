@@ -4,5 +4,8 @@
 //注意在新版本中我们不需要传入schema先
 import schema from './schema';
 import Realm from 'realm';
-let realm = new Realm();
+let realm = new Realm({
+  schema,
+  schemaVersion: 0,
+});
 export default realm;

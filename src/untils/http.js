@@ -25,7 +25,7 @@ import {Actions} from 'react-native-router-flux';
 export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(parseUrl(url, params))
+      .get(`${BASE_URL}${parseUrl(url, params)}`)
       .then(resp => {
         resolve(resp);
       })
@@ -42,7 +42,7 @@ export const get = (url, params = {}) => {
 export const post = (url, data) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(url, data)
+      .post(`${BASE_URL}${url}`, data)
       .then(resp => {
         resolve(resp);
       })
@@ -60,7 +60,7 @@ class Http {
     this.options = {
       token: null,
       code: null,
-      timeout: 3000,
+      timeout: 10000, //这里设置十秒因为国内访问github api还是很慢
     };
     Http.server = axios.create({
       baseURL: BASE_URL,
