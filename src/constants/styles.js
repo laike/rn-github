@@ -3,10 +3,11 @@
  */
 export const BG_COLOR = '#6495ed';
 export const TEXT_COLOR = '#fff';
+export const MAIN_COLOR = '#ececec';
 //设置全局的状态栏颜色
 export const STATUS_BAR_STYLE = {
   animated: false,
-  backgroundColor: BG_COLOR,
+  backgroundColor: MAIN_COLOR,
   barStyle: 'light-content', // dark-content
   hidden: false, //是否隐藏状态栏
 };

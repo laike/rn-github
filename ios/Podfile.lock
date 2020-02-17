@@ -185,17 +185,17 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-camera (3.18.0):
+  - react-native-camera (3.17.0):
     - React
-    - react-native-camera/RCT (= 3.18.0)
-    - react-native-camera/RN (= 3.18.0)
-  - react-native-camera/RCT (3.18.0):
+    - react-native-camera/RCT (= 3.17.0)
+    - react-native-camera/RN (= 3.17.0)
+  - react-native-camera/RCT (3.17.0):
     - React
-  - react-native-camera/RN (3.18.0):
+  - react-native-camera/RN (3.17.0):
     - React
   - react-native-netinfo (5.5.0):
     - React
-  - react-native-safe-area-context (0.7.3):
+  - react-native-safe-area-context (0.7.2):
     - React
   - react-native-viewpager (3.3.0):
     - React
@@ -241,13 +241,13 @@ PODS:
     - React
   - RNCMaskedView (0.1.6):
     - React
-  - RNGestureHandler (1.6.0):
+  - RNGestureHandler (1.5.6):
     - React
   - RNI18n (2.0.15):
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-beta.4):
+  - RNScreens (2.0.0-beta.2):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -394,9 +394,9 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-camera: 3308898e1b09bf6211647c6e3e42d5f7aa02259e
+  react-native-camera: c549d50495c989688ef1819dab49441c7dc7c17d
   react-native-netinfo: b84ff0cae1147315b5dc1daf0f65c0cc6ee71fb3
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-safe-area-context: 4b3d1b9ebb040a4814a222703e7434b20c95fcf5
   react-native-viewpager: a7b438ca32c57b2614ece2a123e7fe116f743131
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
@@ -411,10 +411,10 @@ SPEC CHECKSUMS:
   RealmJS: efc6149c80687ae64c040148f7c2ade335a97416
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
-  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
+  RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 6053a007667bea81a69087caadf103bba04c032e
+  RNScreens: 5e4758109c6d35f9a009ce72af873df907548020
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 

@@ -6243,6 +6243,13 @@ react-native-check-box@^2.1.7:
   dependencies:
     prop-types "^15.5.7"
 
+react-native-dropdownmenus@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npm.taobao.org/react-native-dropdownmenus/download/react-native-dropdownmenus-1.0.6.tgz#8934309461d459de44657388fe4c08ac42f3567c"
+  integrity sha1-iTQwlGHUWd5EZXOI/kwIrELzVnw=
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-gesture-handler@^1.5.6:
   version "1.5.6"
   resolved "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.5.6.tgz#5d90145f624e3707db2930f43ab41579683e2375"

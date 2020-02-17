@@ -16,11 +16,8 @@ export default createActions({
   },
   [GET_TRENDING]: async (since, language) => {
     let res = await getTrending(since, language);
-    if (res && res.result && res.data.length > 0) {
-      dispatch({
-        type: SEARCH_REPONSITORIES,
-        res: res.data,
-      });
-    }
+    return {
+      ...res,
+    };
   },
 });

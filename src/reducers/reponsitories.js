@@ -8,7 +8,6 @@ export default handleActions(
       return {
         ...state,
         trending_list: action.res,
-        trending_list_length: action.res.length,
       };
     },
   },

@@ -186,24 +186,63 @@ export default {
     let promise = null;
     switch (type) {
       case FETCH_SPOKEN_LANGUAGES:
-        promise = spokenLanguages();
+        promise = new Promise((resolve, reject) => {
+          resolve(spokenLanguages);
+        });
         break;
       case FETCH_DEVOLOPERS:
-        promise = fetchDevelopers({language});
+        promise = new Promise((resolve, reject) => {
+          fetchDevelopers({language})
+            .then(res => {
+              resolve({
+                data: res,
+              });
+            })
+            .catch(error => reject(error));
+        });
         break;
       case FETCH_LANGUAGES:
-        promise = languages();
+        promise = new Promise((resolve, reject) => {
+          resolve(languages);
+        });
         break;
       case FETCH_RANDOM_REPOSITORIES:
-        promise = fetchRandomRepositories({language, since});
+        promise = new Promise((resolve, reject) => {
+          fetchRandomRepositories({language, since})
+            .then(res => {
+              resolve({
+                data: res,
+              });
+            })
+            .catch(error => reject(error));
+        });
         break;
       case FETCH_REPOSITORIES:
-        promise = fetchRepositories(language, since);
+        promise = new Promise((resolve, reject) => {
+          fetchRepositories({language, since})
+            .then(res => {
+              resolve({
+                data: res,
+              });
+            })
+            .catch(error => reject(error));
+        });
+
         break;
       default:
-        promise = fetchRepositories(language, since);
+        promise = new Promise((resolve, reject) => {
+          fetchRepositories({language, since})
+            .then(res => {
+              resolve({
+                data: res,
+              });
+            })
+            .catch(error => reject(error));
+        });
+
         break;
     }
+
     return promise;
   },
 };

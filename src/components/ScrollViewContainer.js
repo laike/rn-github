@@ -9,56 +9,65 @@ import {
   TouchableHighlight,
   Text,
   Linking,
+  AppState,
 } from 'react-native';
 import Home_List_Item from './Home_List_Item';
-import {connect} from 'react-redux';
+import Trending_List_Item from './Trending_List_Item';
 import _ from 'lodash';
-//暂时不用这个等理清了再来用这个
-import {bindActionCreators} from 'redux';
-import responsitoryActions from '../actions/reponsitories';
+import {MAIN_COLOR} from '../constants/styles';
+
 const propTypes = {
-  tabLabel: PropTypes.string,
+  action: PropTypes.any,
 };
 const defaultProps = {
-  tabLabel: '',
+  action: new Promise((resolve, reject) => {}),
 };
-@connect(
-  state => ({
-    state,
-  }),
-  dispatch => ({
-    responsitories: bindActionCreators(responsitoryActions, dispatch),
-  }),
-)
+
 class ScrollViewContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      appState: AppState.currentState,
       loading: false,
     };
     this.request = null;
   }
+  AppStateChange(nextAppState) {
+    if (
+      this.appState.match(/incative|background/) &&
+      nextAppState === 'active'
+    ) {
+      //表示APP已经从后台后者不活动状态唤醒了
+      this.LoadData(true);
+    }
+    this.setState({
+      appState: nextAppState,
+    });
+  }
   componentDidMount() {
     this.LoadData();
+    //在这里我们新增当前活动窗口事件监听
+    AppState.addEventListener('change', this.AppStateChange);
   }
   LoadData(saved = false) {
     InteractionManager.runAfterInteractions(() => {
       //开始请求
       this.setState({loading: true});
-      this.request = this.props.responsitories
-        .searchReponsitories(this.props.tabLabel, {})
+      this.request = this.props.action
         .then(({value}) => {
           const {data, save, result} = value;
           if (!result) {
             //表示本地数据库没有数据需要重新获取
             return save();
           } else if (result) {
+            this.setState({
+              loading: false,
+            });
             //表示正常获取到了数据，是本地数据库获取的
             if (data !== this.state.data) {
               this.setState({
                 data,
-                loading: false,
               });
             }
           }
@@ -69,10 +78,12 @@ class ScrollViewContainer extends PureComponent {
         })
         .then(resp => {
           if (resp && resp.data) {
+            this.setState({
+              loading: false,
+            });
             if (resp.data !== this.state.data) {
               this.setState({
                 data: resp.data,
-                loading: false,
               });
             }
           }
@@ -89,19 +100,27 @@ class ScrollViewContainer extends PureComponent {
     if (this.request) {
       this.request = null;
     }
+    AppState.removeEventListener('change', this.AppStateChange);
+  }
+  componentDidUpdate(prevProps, preveState) {
+    //console.log('insiderComponents', this.props.selectIndex);
+    if (prevProps.selectIndex !== this.props.selectIndex) {
+      this.LoadData();
+    }
   }
   Link(url) {
     Linking.open(url);
   }
   EmptyComponent() {
     return (
-      <View>
+      <View
+        style={{
+          justifyContent: 'center',
+        }}>
         <TouchableHighlight
           onPress={() => {
             //重新加载顺序
-            InteractionManager.runAfterInteractions(() => {
-              this.LoadData(true);
-            });
+            this.LoadData(true);
           }}>
           <Text style={styles.emptyLink}>点击刷新</Text>
         </TouchableHighlight>
@@ -117,7 +136,7 @@ class ScrollViewContainer extends PureComponent {
           }}
           ListEmptyComponent={this.EmptyComponent()}
           style={styles.flatList}
-          data={this.state.data.items}
+          data={this.state.data}
           refreshing={this.state.loading}
           onRefresh={() => {
             this.LoadData(true);
@@ -125,7 +144,21 @@ class ScrollViewContainer extends PureComponent {
           onEndReachedThreshold={0.1}
           keyExtractor={(item, index) => index.toString()}
           renderItem={data => {
-            return <Home_List_Item data={data.item} />;
+            if (this.props.type === 'home') {
+              return (
+                <Home_List_Item
+                  keyExtractor={(item, index) => index.toString()}
+                  data={data.item}
+                />
+              );
+            } else if (this.props.type === 'trending') {
+              return (
+                <Trending_List_Item
+                  keyExtractor={(item, index) => index.toString()}
+                  data={data.item}
+                />
+              );
+            }
           }}
         />
       </View>
@@ -137,6 +170,8 @@ ScrollViewContainer.propTypes = propTypes;
 ScrollViewContainer.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: MAIN_COLOR,
+    padding: 5,
     flex: 1,
   },
   flatList: {},

@@ -10,4 +10,20 @@ export default [
       data: 'string',
     },
   },
+  //趋势表
+  {
+    name: 'TrendingReponsitories',
+    properties: {
+      name: 'string',
+      data: 'string',
+    },
+  },
+  //语言表
+  {
+    name: 'Languages',
+    properties: {
+      name: 'string',
+      data: 'string',
+    },
+  },
 ];

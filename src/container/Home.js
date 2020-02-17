@@ -1,16 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {StyleSheet, StatusBar, Dimensions, View} from 'react-native';
-
+import {StyleSheet, StatusBar, View} from 'react-native';
+import {bindActionCreators} from 'redux';
+import responsitoryActions from '../actions/reponsitories';
+import {connect} from 'react-redux';
 import {STATUS_BAR_STYLE, BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import ScrollableTabView, {
   ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
+import {Text} from 'react-native';
 import ScrollViewContainer from '../components/ScrollViewContainer';
 import Color from 'color';
 const keys = require('../data/keys.json');
-const {width, height} = Dimensions.get('window');
-
+const Item = props => <Text>{props}</Text>;
+@connect(
+  state => ({
+    state,
+  }),
+  dispatch => ({
+    responsitories: bindActionCreators(responsitoryActions, dispatch),
+  }),
+)
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +47,12 @@ class Home extends Component {
             .darken(0.1)
             .hex()}>
           {keys.map((item, key) => (
-            <ScrollViewContainer key={key} tabLabel={item.name} />
+            <ScrollViewContainer
+              key={key}
+              type="home"
+              tabLabel={item.name}
+              action={this.props.responsitories.searchReponsitories(item.name)}
+            />
           ))}
         </ScrollableTabView>
       </View>
