@@ -2,6 +2,9 @@
  * 首先引入相关的包
  */
 import Realm from '../../dao/db';
+import Api from '../../untils/api';
+import {FETCH_LANGUAGES} from '../../constants/types';
+import {CONST_BASIC_LANGUAGES} from '../../constants/constants';
 /**
  * 搜索获取仓库信息（逻辑已经完善，接下来开发搜索页面）
  * @param {string} query  查询参数
@@ -42,5 +45,17 @@ export const getLanguages = async (query, data) => {
       result: false, //表示并没有获取到数据
       save,
     };
+  }
+};
+
+/**
+ * 获取语言列表暂时没有用因为获取到了太多页面，并且很多请求都是空的。
+ */
+export const getLanguageList = () => {
+  let langs = Api.getTrendingApi(FETCH_LANGUAGES);
+  if (langs) {
+    return langs;
+  } else {
+    return CONST_BASIC_LANGUAGES;
   }
 };

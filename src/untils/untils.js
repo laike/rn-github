@@ -8,10 +8,9 @@ import Toast from 'react-native-root-toast';
 import schema from '../dao/schema';
 //引入Actions
 import {Actions} from 'react-native-router-flux';
-import {FETCH_LANGUAGES} from '../constants/types';
+import {FETCH_LANGUAGES, FETCH_REPOSITORIES} from '../constants/types';
 import {CONST_BASIC_LANGUAGES} from '../constants/constants';
-//引入API
-import Api from './api';
+import Qs from 'qs';
 //引入判断工具库
 import _ from 'lodash';
 /**
@@ -125,6 +124,11 @@ export const clearRealmTable = table => {
     }
   });
 };
+export const clearAllCache = () => {
+  Realm.write(() => {
+    Realm.deleteAll();
+  });
+};
 /**
  * 清除数据库中的所有表
  */
@@ -133,14 +137,117 @@ export const clearAllRealmTabs = () => {
     clearRealmTable(s.name);
   });
 };
+//新增Realm数据表迁移相关工具
+export const RealmMigrations = () => {
+  //迁移表数据或者修改schema模型 现在的方法是修改db下面的schemaVersion
+  //后期可能会有迁移字段这种需求或者数据库schema大型更新
+};
+
 /**
- * 获取语言列表暂时没有用因为获取到了太多页面，并且很多请求都是空的。
+ * 检查数据是否过期，过期就要从新获取。
+ * @param {number}} time
  */
-export const getLanguageList = () => {
-  let langs = Api.getTrendingApi(FETCH_LANGUAGES);
-  if (langs) {
-    return langs;
-  } else {
-    return CONST_BASIC_LANGUAGES;
+export const checkIsDateDespred = time => {
+  let now = Date.now();
+  let diff = now - time;
+  //要转换成小时
+  let hours = Math.floor(diff / 1000 / 3600);
+  if (hours > 4) {
+    //四小时之内不需要更新用户缓存
+    return true; //已经过期
   }
+  return false;
+};
+/**
+ * 创建一个save函数 根据参数和字段以及api调用
+ * @param {object} params 参数
+ * @param {string} table 表名
+ * @param {array} fieldset 表字段
+ * @param {promise} API api
+ */
+export const createAsyncSaveFunc = (
+  params = [],
+  table = '',
+  fieldset = ['name', 'data', 'time'],
+  query,
+  filter = '',
+  API,
+) => {
+  return async () => {
+    //console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    //这里获取数据
+    let res = await API(...params);
+    if (res && res.data) {
+      Realm.write(() => {
+        let instert = {};
+        fieldset.forEach(item => {
+          if (item === 'name') {
+            instert[item] = query;
+          } else if (item === 'data') {
+            instert[item] = JSON.stringify(res.data);
+          } else if (item === 'time') {
+            instert[item] = Date.now().toString();
+          }
+        });
+        let localDatas = Realm.objects(table).filtered(`${filter}`);
+        if (localDatas && localDatas.length > 0) {
+          Realm.delete(localDatas);
+        }
+        Realm.create(table, instert);
+      });
+      return {
+        data: res.data,
+        result: true,
+      };
+    }
+  };
+};
+/**
+ *
+ * @param {string} table 表名字
+ * @param {string} filter 过滤字段
+ */
+
+export const getDataFromLocal = (table = '', filter = '') => {
+  //先从Realm数据库中进行查询
+  let localDatas = null;
+  // console.log(`getDataFromLocal\n ${table}\n ${filter}`);
+  try {
+    localDatas = Realm.objects(table).filtered(filter);
+    if (localDatas && localDatas.length > 0) {
+      //这里要判断过期没？
+      if (checkIsDateDespred(Number(JSON.parse(localDatas[0].time)))) {
+        return false;
+      } else {
+        return JSON.parse(localDatas[0].data);
+      }
+    } else {
+      console.log('数据库里面没有查询到');
+      return false; //没有获取到本地数据
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
+/**
+ * 浅复制一个arr
+ * @param {array} arr
+ */
+export const clone = (arr = []) => {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    newArr[i] = arr[i];
+  }
+  return newArr;
+};
+/**
+ * 初始化
+ */
+export const Init = () => {
+  //当用户退出的时候可以执行这个工具函数
+  clearAllRealmTabs(); //清除表
+  clearAllCache(); //清除缓存
 };

@@ -26,3 +26,6 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 #关于 react-native-vector-icons 这个组件目前我的开发环境的 rn 版本好像有点不通用，通过 pod install 会出现莫名其妙的错误 千万不能用 npx react-native link 这个命令，这个已经过时命令 对于目前开发环境的新版本会很不友好。
 
 #目前 ios 开发环境中，请一直使用 cd ios && pod install && cd .. 这个命令来关联组件。
+
+#今天遇到的问题 Realm 查询出错主要是少写了双引号
+`name = ${title}` 需要写成 `name = "${title}"`

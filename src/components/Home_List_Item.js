@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,35 +10,40 @@ const propTypes = {
 const defaultProps = {
   data: [],
 };
-const Home_List_Item = props => {
-  return (
-    <TouchableOpacity style={styles.container}>
-      <View>
-        <Text style={styles.title}>{props.data.full_name}</Text>
-      </View>
-      <View style={styles.p}>
-        <Text>{props.data.description}</Text>
-      </View>
-      <View style={styles.bottom}>
-        <View style={styles.owner}>
-          <Text>{props.data.owner.login}</Text>
-          <Image
-            source={{uri: props.data.owner.avatar_url}}
-            style={styles.avatar}
-          />
+class Home_List_Item extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <TouchableOpacity style={styles.container}>
+        <View>
+          <Text style={styles.title}>{this.props.data.full_name}</Text>
         </View>
-        <View style={styles.stars}>
-          <Icon name="star" onPress={() => {}} style={styles.icon} />
-          <Text style={styles.text}>{props.data.stargazers_count}</Text>
+        <View style={styles.p}>
+          <Text>{this.props.data.description}</Text>
         </View>
-        <View style={styles.forks}>
-          <Icon name="git" onPress={() => {}} style={styles.icon} />
-          <Text style={styles.text}>{props.data.forks_count}</Text>
+        <View style={styles.bottom}>
+          <View style={styles.owner}>
+            <Text>{this.props.data.owner.login}</Text>
+            <Image
+              source={{uri: this.props.data.owner.avatar_url}}
+              style={styles.avatar}
+            />
+          </View>
+          <View style={styles.stars}>
+            <Icon name="star" onPress={() => {}} style={styles.icon} />
+            <Text style={styles.text}>{this.props.data.stargazers_count}</Text>
+          </View>
+          <View style={styles.forks}>
+            <Icon name="git" onPress={() => {}} style={styles.icon} />
+            <Text style={styles.text}>{this.props.data.forks_count}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  }
+}
 
 Home_List_Item.propTypes = propTypes;
 Home_List_Item.defaultProps = defaultProps;

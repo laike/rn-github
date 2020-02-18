@@ -41,7 +41,7 @@ export default {
    * @param {object} params 查询阐述 eg:page,per_page,sort,order
    */
   searchUser(username, params) {
-    return get(`users/${username}`, params);
+    return get(`search/users?q=${username}`, params);
   },
   /**
    * 根据昵称获取某个用户的跟随者
@@ -70,7 +70,17 @@ export default {
    * @param {object} params
    */
   searchRepositories(query, params) {
-    return get(`search/repositories?q=${query}`, params);
+    return new Promise((resolve, reject) => {
+      get(`search/repositories?q=${query}`, params)
+        .then(res => {
+          resolve({
+            data: res.data.items,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   },
   /**
    * 获取仓库详情

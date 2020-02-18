@@ -37,4 +37,7 @@ export const TRENDING_PAGE_MENUS_DATA_QUERY = [
   CONST_BASIC_LANGUAGES,
 ];
 
-export const SEARCH_TABS = ['仓库', '用户'];
+export const SEARCH_TABS = [
+  {type: 'search/reponsitories', name: '仓库'},
+  {type: 'search/users', name: '用户'},
+];

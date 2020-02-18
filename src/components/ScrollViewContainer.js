@@ -6,13 +6,13 @@ import {
   StyleSheet,
   FlatList,
   InteractionManager,
-  TouchableHighlight,
-  Text,
   Linking,
   AppState,
 } from 'react-native';
 import Home_List_Item from './Home_List_Item';
 import Trending_List_Item from './Trending_List_Item';
+import User_List_item from './User_List_Item';
+import EmptyComponent from './EmptyComponent';
 import _ from 'lodash';
 import {MAIN_COLOR} from '../constants/styles';
 
@@ -39,7 +39,7 @@ class ScrollViewContainer extends PureComponent {
       nextAppState === 'active'
     ) {
       //表示APP已经从后台后者不活动状态唤醒了
-      this.LoadData(true);
+      this.LoadData();
     }
     this.setState({
       appState: nextAppState,
@@ -58,38 +58,36 @@ class ScrollViewContainer extends PureComponent {
         .then(({value}) => {
           const {data, save, result} = value;
           if (!result) {
-            //表示本地数据库没有数据需要重新获取
-            return save();
+            return typeof save === 'function' ? save() : null;
           } else if (result) {
             this.setState({
               loading: false,
+              data,
             });
-            //表示正常获取到了数据，是本地数据库获取的
-            if (data !== this.state.data) {
-              this.setState({
-                data,
-              });
-            }
           }
           //用户强制要求获取远程数据并且储存在本地realm数据库
           if (saved) {
-            save();
+            save && save();
           }
         })
         .then(resp => {
+          if (__DEV__) {
+            if (resp) {
+              console.log(
+                '正在从服务器重新获取数据，并且保存到realm本地数据库！',
+              );
+            }
+          }
           if (resp && resp.data) {
             this.setState({
               loading: false,
+              data: resp.data,
             });
-            if (resp.data !== this.state.data) {
-              this.setState({
-                data: resp.data,
-              });
-            }
           }
         })
         .catch(err => {
-          //请求失败也设置为false
+          //这里加载错误了的话我们再重新加载
+          //this.LoadData();
           if (__DEV__) {
             console.log(err);
           }
@@ -107,25 +105,13 @@ class ScrollViewContainer extends PureComponent {
     if (prevProps.selectIndex !== this.props.selectIndex) {
       this.LoadData();
     }
+    if (prevProps.search !== this.props.search) {
+      console.log(this.props.search);
+      this.LoadData();
+    }
   }
   Link(url) {
     Linking.open(url);
-  }
-  EmptyComponent() {
-    return (
-      <View
-        style={{
-          justifyContent: 'center',
-        }}>
-        <TouchableHighlight
-          onPress={() => {
-            //重新加载顺序
-            this.LoadData(true);
-          }}>
-          <Text style={styles.emptyLink}>点击刷新</Text>
-        </TouchableHighlight>
-      </View>
-    );
   }
   render() {
     return (
@@ -134,12 +120,12 @@ class ScrollViewContainer extends PureComponent {
           ref={ref => {
             this.list = ref;
           }}
-          ListEmptyComponent={this.EmptyComponent()}
+          ListEmptyComponent={() => <EmptyComponent />}
           style={styles.flatList}
           data={this.state.data}
           refreshing={this.state.loading}
           onRefresh={() => {
-            this.LoadData(true);
+            this.LoadData();
           }}
           onEndReachedThreshold={0.1}
           keyExtractor={(item, index) => index.toString()}
@@ -154,6 +140,20 @@ class ScrollViewContainer extends PureComponent {
             } else if (this.props.type === 'trending') {
               return (
                 <Trending_List_Item
+                  keyExtractor={(item, index) => index.toString()}
+                  data={data.item}
+                />
+              );
+            } else if (this.props.type === 'search/reponsitories') {
+              return (
+                <Home_List_Item
+                  keyExtractor={(item, index) => index.toString()}
+                  data={data.item}
+                />
+              );
+            } else if (this.props.type === 'search/users') {
+              return (
+                <User_List_item
                   keyExtractor={(item, index) => index.toString()}
                   data={data.item}
                 />

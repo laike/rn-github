@@ -27,7 +27,7 @@ export default class SearchTabBar extends Component {
                       this.props.activeTab === index
                         ? TEXT_COLOR
                         : Color(TEXT_COLOR)
-                            .darken(0.5)
+                            .darken(0.3)
                             .hex(),
                   },
                 ]}>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   option: {
     width: (SCREEN_WIDTH - 10) / 2,
     backgroundColor: Color(BG_COLOR)
-      .darken(0.8)
+      .darken(0.6)
       .hex(),
     padding: 15,
     fontSize: 14,

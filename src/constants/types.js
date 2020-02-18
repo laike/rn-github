@@ -30,3 +30,6 @@ export const GET_TRENDING = 'GET_TRENDING';
  * 语言筛选排序常量
  */
 export const GET_LANGUAGES = 'GET_LANGUAGES';
+
+//用户操作相关常量
+export const SEARCH_USER = 'SEARCH_USER';

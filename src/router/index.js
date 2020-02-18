@@ -28,6 +28,7 @@ import SearchPage from '../container/SearchPage';
 import CustomLanguagePage from '../container/CustomLanguagePage';
 import TrendingPage from '../container/TrendingPage';
 import Login from '../container/Login';
+import SearchFilter from '../components/SearchFilter';
 import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -170,6 +171,7 @@ const router = () => (
         <Drawer
           key="SearchPageDrawer"
           drawerPosition="right"
+          contentComponent={SearchFilter}
           hideNavBar
           drawer={false}
           drawerWidth={width / 2}

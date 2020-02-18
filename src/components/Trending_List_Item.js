@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,38 +10,43 @@ const propTypes = {
 const defaultProps = {
   data: [],
 };
-const Trending_List_Item = props => {
-  return (
-    <TouchableOpacity style={styles.container}>
-      <View>
-        <Text style={styles.title}>{props.data.name}</Text>
-      </View>
-      <View style={styles.p}>
-        <Text>{props.data.description}</Text>
-      </View>
-      <View style={styles.bottom}>
-        <View style={styles.owner}>
-          <Text>{props.data.author}</Text>
-          {props.data.builtBy.map((user, index) => (
-            <Image
-              key={index}
-              source={{uri: user.avatar}}
-              style={styles.avatar}
-            />
-          ))}
+class Trending_List_Item extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <TouchableOpacity style={styles.container}>
+        <View>
+          <Text style={styles.title}>{this.props.data.name}</Text>
         </View>
-        <View style={styles.stars}>
-          <Icon name="star" onPress={() => {}} style={styles.icon} />
-          <Text style={styles.text}>{props.data.stars}</Text>
+        <View style={styles.p}>
+          <Text>{this.props.data.description}</Text>
         </View>
-        <View style={styles.forks}>
-          <Icon name="git" onPress={() => {}} style={styles.icon} />
-          <Text style={styles.text}>{props.data.forks}</Text>
+        <View style={styles.bottom}>
+          <View style={styles.owner}>
+            <Text>{this.props.data.author}</Text>
+            {this.props.data.builtBy.map((user, index) => (
+              <Image
+                key={index}
+                source={{uri: user.avatar}}
+                style={styles.avatar}
+              />
+            ))}
+          </View>
+          <View style={styles.stars}>
+            <Icon name="star" onPress={() => {}} style={styles.icon} />
+            <Text style={styles.text}>{this.props.data.stars}</Text>
+          </View>
+          <View style={styles.forks}>
+            <Icon name="git" onPress={() => {}} style={styles.icon} />
+            <Text style={styles.text}>{this.props.data.forks}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  }
+}
 
 Trending_List_Item.propTypes = propTypes;
 Trending_List_Item.defaultProps = defaultProps;

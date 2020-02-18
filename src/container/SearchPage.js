@@ -9,8 +9,9 @@ import {
   TextInput,
 } from 'react-native';
 import Button from 'react-native-button';
-import languageActions from '../actions/language';
+import userActions from '../actions/user';
 import responsitoryActions from '../actions/reponsitories';
+
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 //引入checkbox
@@ -27,7 +28,7 @@ const defaultProps = {};
     state,
   }),
   dispatch => ({
-    language: bindActionCreators(languageActions, dispatch),
+    user: bindActionCreators(userActions, dispatch),
     responsitories: bindActionCreators(responsitoryActions, dispatch),
   }),
 )
@@ -36,6 +37,7 @@ class SearchPage extends Component {
     super(props);
     this.state = {
       data: [],
+      input: '',
       search: 'All',
     };
   }
@@ -56,13 +58,23 @@ class SearchPage extends Component {
       <View style={styles.container}>
         <View style={styles.search}>
           <TextInput
+            ref={ref => {
+              this.input = ref;
+            }}
             style={styles.searchInput}
             placeholder={'请输入搜索的关键字！'}
+            onChangeText={input => {
+              this.setState({
+                input: input.trim(), //取药去除空格
+              });
+            }}
           />
           <Button
             style={styles.searchBtn}
             onPress={() => {
-              this.SearchRepositories();
+              this.setState({
+                search: this.state.input ? this.state.input : 'All',
+              });
             }}>
             搜索
           </Button>
@@ -79,11 +91,16 @@ class SearchPage extends Component {
           {SEARCH_TABS.map((item, key) => (
             <ScrollViewContainer
               key={key}
-              type="home"
-              tabLabel={item}
-              action={this.props.responsitories.searchReponsitories(
-                this.state.search,
-              )}
+              type={item.type}
+              tabLabel={item.name}
+              search={this.state.search}
+              action={
+                item.type === 'search/users'
+                  ? this.props.user.searchUser(this.state.search)
+                  : this.props.responsitories.searchReponsitories(
+                      this.state.search,
+                    )
+              }
             />
           ))}
         </ScrollableTabView>
@@ -118,10 +135,11 @@ const styles = StyleSheet.create({
       .darken(0.6)
       .hex(),
     borderWidth: 0.3,
+    display: 'none',
   },
   searchBtn: {
     backgroundColor: Color(BG_COLOR)
-      .darken(0.8)
+      .darken(0.6)
       .hex(),
     color: TEXT_COLOR,
     padding: 10,

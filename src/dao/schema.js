@@ -8,6 +8,7 @@ export default [
     properties: {
       name: 'string',
       data: 'string',
+      time: 'string',
     },
   },
   //趋势表
@@ -16,6 +17,7 @@ export default [
     properties: {
       name: 'string',
       data: 'string',
+      time: 'string',
     },
   },
   //语言表
@@ -24,6 +26,25 @@ export default [
     properties: {
       name: 'string',
       data: 'string',
+      time: 'string',
+    },
+  },
+  //搜索历史的表
+  {
+    name: 'SearchHistory',
+    properties: {
+      name: 'string',
+      data: 'string',
+      time: 'string',
     },
   },
 ];
+
+export const a = {
+  name: 'SearchHistory',
+  properties: {
+    name: 'string',
+    data: 'string',
+    time: 'string',
+  },
+};
