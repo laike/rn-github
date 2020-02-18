@@ -33,35 +33,8 @@ import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import CustomIconComponent from '../components/CustomIconComponent';
 const {width, height} = Dimensions.get('window');
-const renderRightButton = () => {
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        //进行页面跳转
-        Actions.SearchPage();
-      }}>
-      <Icon
-        style={{color: TEXT_COLOR, marginRight: 15, fontSize: 16}}
-        name="search"
-      />
-    </TouchableOpacity>
-  );
-};
-const renderLeftButton = () => {
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        //进行页面跳转
-        Actions.pop();
-      }}>
-      <Icon
-        style={{color: TEXT_COLOR, marginLeft: 15, fontSize: 16}}
-        name="arrow-left"
-      />
-    </TouchableOpacity>
-  );
-};
 const router = () => (
   <Router
     getSceneStyle={() => {
@@ -114,7 +87,14 @@ const router = () => (
               color: TEXT_COLOR,
               fontSize: 18,
             }}
-            renderRightButton={renderRightButton}
+            renderRightButton={() => (
+              <CustomIconComponent
+                name="search"
+                onPress={() => {
+                  Actions.SearchPage();
+                }}
+              />
+            )}
             navigationBarStyle={{
               backgroundColor: `${Color(BG_COLOR)
                 .darken(0.6)
@@ -130,6 +110,14 @@ const router = () => (
               color: TEXT_COLOR,
               fontSize: 20,
             }}
+            renderRightButton={() => (
+              <CustomIconComponent
+                name="bar-chart-o"
+                onPress={() => {
+                  Actions.CustomLanguagePage();
+                }}
+              />
+            )}
             navigationBarStyle={{
               backgroundColor: `${Color(BG_COLOR)
                 .darken(0.6)
@@ -168,6 +156,32 @@ const router = () => (
             }}
           />
         </Scene>
+        <Stack>
+          <Scene
+            hide={true}
+            modal={true}
+            renderLeftButton={() => (
+              <CustomIconComponent
+                name="arrow-left"
+                onPress={() => {
+                  Actions.pop();
+                }}
+              />
+            )}
+            title="自定义语言"
+            key="CustomLanguagePage"
+            component={CustomLanguagePage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Stack>
         <Drawer
           key="SearchPageDrawer"
           drawerPosition="right"
@@ -184,7 +198,14 @@ const router = () => (
               }}
             />
           } //先不添加这个功能后面再来添加
-          renderLeftButton={renderLeftButton}
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}
           navigationBarStyle={{
             backgroundColor: Color(BG_COLOR)
               .darken(0.6)
@@ -194,38 +215,6 @@ const router = () => (
           <Scene
             key="SearchPage"
             component={SearchPage}
-            title="搜索"
-            titleStyle={{
-              color: TEXT_COLOR,
-              fontSize: 18,
-            }}
-          />
-        </Drawer>
-        {/* 这个是自定义添加新语言到首页 */}
-        <Drawer
-          key="CustomLanguagePageDrawer"
-          drawerPosition="right"
-          hideNavBar
-          drawerWidth={width / 2}
-          drawerIcon={
-            <Ionicon
-              name={'ios-list'}
-              style={{
-                color: TEXT_COLOR,
-                fontSize: 18,
-              }}
-            />
-          } //先不添加这个功能后面再来添加
-          renderLeftButton={renderLeftButton}
-          navigationBarStyle={{
-            backgroundColor: Color(BG_COLOR)
-              .darken(0.6)
-              .hex(),
-            height: 30,
-          }}>
-          <Scene
-            key="CustomLanguagePage"
-            component={CustomLanguagePage}
             title="搜索"
             titleStyle={{
               color: TEXT_COLOR,

@@ -8,8 +8,6 @@ import Toast from 'react-native-root-toast';
 import schema from '../dao/schema';
 //引入Actions
 import {Actions} from 'react-native-router-flux';
-import {FETCH_LANGUAGES, FETCH_REPOSITORIES} from '../constants/types';
-import {CONST_BASIC_LANGUAGES} from '../constants/constants';
 import Qs from 'qs';
 //引入判断工具库
 import _ from 'lodash';
@@ -174,7 +172,7 @@ export const createAsyncSaveFunc = (
   API,
 ) => {
   return async () => {
-    //console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
     //这里获取数据
     let res = await API(...params);
     if (res && res.data) {
@@ -223,6 +221,55 @@ export const getDataFromLocal = (table = '', filter = '') => {
       }
     } else {
       console.log('数据库里面没有查询到');
+      return false; //没有获取到本地数据
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
+/**
+ * 查询realm数据库
+ * @param {string} table 表
+ * @param {string} filter 过滤
+ * @param {string} filed 列
+ */
+export const queryOne = (table = '', filter = '', filed = 'data') => {
+  let localDatas = null;
+  try {
+    localDatas = Realm.objects(table).filtered(filter);
+    if (localDatas && localDatas.length > 0) {
+      return filed === 'data'
+        ? JSON.parse(localDatas[0][filed])
+        : localDatas[0][filed];
+    } else {
+      return false; //没有获取到本地数据
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
+/**
+ * 查询realm数据库
+ * @param {string} table 表
+ * @param {string} filter 过滤
+ * @param {number} limit 限制条数
+ */
+export const queryAll = (table = '', filter = '', limit = 5) => {
+  let localDatas = null;
+  try {
+    localDatas = Realm.objects(table).filtered(filter);
+    if (localDatas && localDatas.length > 0) {
+      return localDatas.slice(
+        0,
+        limit > localDatas.length ? localDatas.length : limit,
+      );
+    } else {
       return false; //没有获取到本地数据
     }
   } catch (error) {

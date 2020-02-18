@@ -1,17 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  InteractionManager,
-  Text,
-  TextInput,
-} from 'react-native';
+import {View, StyleSheet, FlatList, TextInput} from 'react-native';
 import Button from 'react-native-button';
 import userActions from '../actions/user';
 import responsitoryActions from '../actions/reponsitories';
-
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 //引入checkbox
@@ -21,6 +13,8 @@ import ScrollViewContainer from '../components/ScrollViewContainer';
 import {SEARCH_TABS, SCREEN_WIDTH} from '../constants/constants';
 import SearchTabBar from '../components/SearchTabBar';
 import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+//引入查询工具函数，为的是做搜索下拉
+import {queryAll, queryOne} from '../untils/untils';
 const propTypes = {};
 const defaultProps = {};
 @connect(

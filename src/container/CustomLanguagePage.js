@@ -67,6 +67,7 @@ class CustomLanguagePage extends Component {
   componentDidMount() {
     //组件加载
     this.getLang();
+    console.log(this.state.data);
   }
   componentWillUnmount() {
     //组件卸载

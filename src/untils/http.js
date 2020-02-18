@@ -24,6 +24,9 @@ import {Actions} from 'react-native-router-flux';
  */
 export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
+    if (__DEV__) {
+      console.log(`${BASE_URL}${parseUrl(url, params)}`);
+    }
     axios
       .get(`${BASE_URL}${parseUrl(url, params)}`)
       .then(resp => {

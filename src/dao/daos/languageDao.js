@@ -21,6 +21,7 @@ export const getLanguages = async (query, data) => {
       Realm.create('Languages', {
         name: Query,
         data: JSON.stringify(data),
+        time: Date.now().toString(),
       });
     });
     return {

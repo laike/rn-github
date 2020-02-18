@@ -39,12 +39,3 @@ export default [
     },
   },
 ];
-
-export const a = {
-  name: 'SearchHistory',
-  properties: {
-    name: 'string',
-    data: 'string',
-    time: 'string',
-  },
-};

@@ -25,7 +25,17 @@ export default {
    * @param {object } params 查询参数 eg:type,page,per_page,sort
    */
   searchUserInfo(username, params) {
-    return get(`users?q=${username}`, params);
+    return new Promise((resolve, reject) => {
+      get(`users?q=${username}`, params)
+        .then(res => {
+          resolve({
+            data: res.data.items,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   },
   /**
    *获取用户仓库
@@ -41,7 +51,18 @@ export default {
    * @param {object} params 查询阐述 eg:page,per_page,sort,order
    */
   searchUser(username, params) {
-    return get(`search/users?q=${username}`, params);
+    return new Promise((resolve, reject) => {
+      get(`search/users?q=${username}`, params)
+        .then(res => {
+          resolve({
+            data: res.data.items,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          reject(err);
+        });
+    });
   },
   /**
    * 根据昵称获取某个用户的跟随者
