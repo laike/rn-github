@@ -41,3 +41,12 @@ export const SEARCH_TABS = [
   {type: 'search/reponsitories', name: '仓库'},
   {type: 'search/users', name: '用户'},
 ];
+
+//用户登录相关提示
+
+export const USERNAME_NOT_ALLOWED_NULL = '用户名不能为空！';
+export const PASSWORD_NOT_ALLOWED_NULL = '密码不能为空！';
+
+export const CLIENT_ID = '6d3b92a0131a6b5a7b92';
+
+export const CLIENT_SECRET = '743854be1c99ef8a637aaba8863f253d8cbb781c';

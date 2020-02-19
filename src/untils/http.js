@@ -17,74 +17,35 @@ import {
 } from '../constants/net';
 import {AsyncStorage} from '@react-native-community/async-storage';
 import {Actions} from 'react-native-router-flux';
-/**
- *
- * @param {*} url
- * @param {*} params
- */
-export const get = (url, params = {}) => {
-  return new Promise((resolve, reject) => {
-    if (__DEV__) {
-      console.log(`${BASE_URL}${parseUrl(url, params)}`);
-    }
-    axios
-      .get(`${BASE_URL}${parseUrl(url, params)}`)
-      .then(resp => {
-        resolve(resp);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
-/**
- *
- * @param {*} url
- * @param {*} data
- */
-export const post = (url, data) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(`${BASE_URL}${url}`, data)
-      .then(resp => {
-        resolve(resp);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
-
 //在这里我们再封装一层使用单例模式，并且使用异步函数结合await
 class Http {
   static instance = null;
-  static server = null;
   constructor() {
     this.options = {
       token: null,
       code: null,
-      timeout: 10000, //这里设置十秒因为国内访问github api还是很慢
+      timeout: 15000, //这里设置十秒因为国内访问github api还是很慢
     };
-    Http.server = axios.create({
+    this.server = axios.create({
       baseURL: BASE_URL,
       timeout: this.options.timeout, //请求超时时间
       withCredentials: false, //不允许跨域防止XSRF
     });
     //这里我们设置请求拦截所有的请求方式默认都是Form方式请求提高兼容性 get 和post
     //方法都是通用的 设置请求拦截
-    Http.server.interceptors.request.use(
+    this.server.interceptors.request.use(
       config => {
-        config.headers['Content-Type'] = CONTENT_TYPE_FORMURL;
+        config.headers['Content-Type'] = CONTENT_TYPE_JSON;
         return config;
       },
       error => Promise.reject(error),
     );
     //设置响应拦截
-    Http.server.interceptors.response.use(
+    this.server.interceptors.response.use(
       resp => {
         //请求需要权限这里可以处理跳转到登录页面
-        if (resp.data.statusCode == 401) {
-          handleError(resp.data.statusCode);
+        if (resp.status === 401) {
+          handleError(resp.status);
           return {
             success: false,
             code: NEED_AUTH,
@@ -99,6 +60,9 @@ class Http {
         };
       },
       error => {
+        if (__DEV__) {
+          console.log('请求的错误代码：' + error.response.status);
+        }
         //错误处理
         if (error && error.response && error.response.status) {
           handleError(error.response.status);
@@ -140,12 +104,65 @@ class Http {
     AsyncStorage.removeItem(TOKEN_KEY);
     this.options.token = null;
   }
-  async get(url, params = {}, header) {
-    //在这里我们可能要对普通的Http请求进行一些处理和拦截
+  /**
+   *
+   * @param {*} url
+   * @param {*} params
+   */
+  get(url, config = {}) {
+    return this.server.get(url, config);
   }
-  async post(url, data = {}) {
-    //在这里我们可能要对普通的Http请求进行一些处理和拦截
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  post(url, config = {}) {
+    return this.server.post(url, config);
   }
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  delete(url, config) {
+    return this.server.delete(url, config);
+  }
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  head(url, config) {
+    return this.server.head(url, config);
+  }
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  put(url, config) {
+    return this.server.put(url, config);
+  }
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  patch(url, config) {
+    return this.server.patch(url, config);
+  }
+  /**
+   *
+   * @param {*} url
+   * @param {*} config
+   */
+  request(url, config) {
+    return this.server.request(url, config);
+  }
+  /**
+   * 返回Http实例
+   */
   static getInstance() {
     if (Http.instance instanceof Http) {
       return Http.instance;

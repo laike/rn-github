@@ -1,7 +1,7 @@
 /**
  * GitHub API 工具封装
  */
-import {get, post} from './http';
+import HttpManager from './http';
 //引入开源github trending api
 import {
   languages,
@@ -26,7 +26,7 @@ export default {
    */
   searchUserInfo(username, params) {
     return new Promise((resolve, reject) => {
-      get(`users?q=${username}`, params)
+      HttpManager.get(`users?q=${username}`, {params})
         .then(res => {
           resolve({
             data: res.data.items,
@@ -43,7 +43,7 @@ export default {
    * @param {object} params 查询参数 eg:type,page,per_page,sort
    */
   getUserRestoriesInfo(username, params) {
-    return get(`users/${username}/repos`, params);
+    return HttpManager.get(`users/${username}/repos`, {params});
   },
   /**
    * 搜索用户
@@ -52,7 +52,7 @@ export default {
    */
   searchUser(username, params) {
     return new Promise((resolve, reject) => {
-      get(`search/users?q=${username}`, params)
+      HttpManager.get(`search/users?q=${username}`, {params})
         .then(res => {
           resolve({
             data: res.data.items,
@@ -69,21 +69,21 @@ export default {
    * @param {sting} username 昵称
    */
   getUserFollowers(username) {
-    return get(`users/${username}/followers`);
+    return HttpManager.get(`users/${username}/followers`);
   },
   /**
    * 根据昵称获取某个用户正在跟随哪些人
    * @param {string} username
    */
   getUserFollowing(username) {
-    return get(`users/${username}/followig`);
+    return HttpManager.get(`users/${username}/followig`);
   },
   /**
    *认证待开发
    * @param {*} data
    */
   authorizating(data) {
-    return post('authorizations', data);
+    return HttpManager.post('authorizations', data);
   },
   /**
    * 根据query搜索仓库
@@ -92,8 +92,9 @@ export default {
    */
   searchRepositories(query, params) {
     return new Promise((resolve, reject) => {
-      get(`search/repositories?q=${query}`, params)
+      HttpManager.get(`search/repositories?q=${query}`, {params})
         .then(res => {
+          console.log(res);
           resolve({
             data: res.data.items,
           });
@@ -109,7 +110,7 @@ export default {
    * @param {string} repo 仓库名字
    */
   getRestoriesDetail(owner, repo) {
-    return get(`repos/${owner}/${repo}`);
+    return HttpManager.get(`repos/${owner}/${repo}`);
   },
   /**
    * 获取仓库活动  这个是新增api
@@ -118,7 +119,7 @@ export default {
    * @param {string} repo 仓库名 rn-github
    */
   getRestoriesEvent(owner, repo) {
-    return get(`networks/${owner}/${repo}/events`);
+    return HttpManager.get(`networks/${owner}/${repo}/events`);
   },
   /**
    * 获取仓库Forks
@@ -126,7 +127,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesForks(owner, repo) {
-    return get(`repos/${owner}/${repo}/forks`);
+    return HttpManager.get(`repos/${owner}/${repo}/forks`);
   },
   /**
    * 获取仓库Stars
@@ -134,7 +135,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesStars(owner, repo) {
-    return get(`repos/${owner}/${repo}/stargazers`);
+    return HttpManager.get(`repos/${owner}/${repo}/stargazers`);
   },
   /**
    * 获取仓库订阅者
@@ -142,7 +143,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesWatches(owner, repo) {
-    return get(`repos/${owner}/${repo}/subsribers`);
+    return HttpManager.get(`repos/${owner}/${repo}/subsribers`);
   },
   /**
    * 获取仓库提交数
@@ -150,7 +151,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesCommits(owner, repo) {
-    return get(`repos/${owner}/${repo}/commits`);
+    return HttpManager.get(`repos/${owner}/${repo}/commits`);
   },
   /**
    * 获取仓库指定提交详情
@@ -159,7 +160,7 @@ export default {
    * @param {string} sha 指定的sha编码串
    */
   getRestoriesCommitDetail(owner, repo, sha) {
-    return get(`repos/${owner}/${repo}/commits/${sha}`);
+    return HttpManager.get(`repos/${owner}/${repo}/commits/${sha}`);
   },
   /**
    * 获取仓库提交数
@@ -167,7 +168,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesReleases(owner, repo) {
-    return get(`repos/${owner}/${repo}/releases`);
+    return HttpManager.get(`repos/${owner}/${repo}/releases`);
   },
   /**
    * 获取仓库提交数
@@ -175,7 +176,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesTags(owner, repo) {
-    return get(`repos/${owner}/${repo}/tags`);
+    return HttpManager.get(`repos/${owner}/${repo}/tags`);
   },
   /**
    * 获取仓库提交数
@@ -183,7 +184,7 @@ export default {
    * @param {string} repo 仓库名
    */
   getRestoriesContributers(owner, repo) {
-    return get(`repos/${owner}/${repo}/contributors`);
+    return HttpManager.get(`repos/${owner}/${repo}/contributors`);
   },
   //下面部分的api请求主要是关于issues方面的
   /**
@@ -192,7 +193,7 @@ export default {
    * @param {object} data 额外参数 eg:page per_page sort=dec order=asc
    */
   searchRepositoriesIssues(query, data = {}) {
-    return get(`search/issues?q=${query}`, data);
+    return HttpManager.get(`search/issues?q=${query}`, data);
   },
   /**
    * 获取仓库issues
@@ -201,7 +202,7 @@ export default {
    * @param {object} data 额外查询参数
    */
   getRepositoriesIssues(owner, repo, data = {}) {
-    return get(`repos/${owner}/${repo}/issues`, data);
+    return HttpManager.get(`repos/${owner}/${repo}/issues`, data);
   },
   /**
    * 获取流行趋势 使用的是开源api 返回Promise

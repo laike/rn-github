@@ -1,6 +1,5 @@
-import {get, post} from './http';
+import HttpManager from './http';
 
 export default {
-  get,
-  post,
+  HttpManager,
 };

@@ -283,7 +283,7 @@ export const queryAll = (table = '', filter = '', limit = 5) => {
  * 浅复制一个arr
  * @param {array} arr
  */
-export const clone = (arr = []) => {
+export const cloneArr = (arr = []) => {
   let newArr = [];
   for (let i = 0; i < arr.length; i++) {
     newArr[i] = arr[i];

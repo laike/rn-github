@@ -23,6 +23,14 @@ const {width, height} = Dimensions.get('screen');
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import loginActions from '../actions/login';
+import {toast} from '../untils/untils';
+import {
+  USERNAME_NOT_ALLOWED_NULL,
+  PASSWORD_NOT_ALLOWED_NULL,
+  CLIENT_ID,
+  CLIENT_SECRET,
+} from '../constants/constants';
+import HttpManager from '../untils/http';
 
 @connect(
   state => ({
@@ -41,11 +49,23 @@ class Login extends Component {
       password: '',
     };
   }
+  componentDidMount() {}
+  doLogin() {}
   loginSubmit() {
     //获取到state 然后调用Api进行登录
     const {username, password} = this.state;
+    this.doLogin();
+    if (username === '') {
+      toast(USERNAME_NOT_ALLOWED_NULL);
+      return;
+    }
+    if (password === '') {
+      toast(PASSWORD_NOT_ALLOWED_NULL);
+      return;
+    }
     //登录判断逻辑
-    Actions.reset('root');
+
+    //Actions.reset('root');
     Keyboard.dismiss();
   }
   render() {

@@ -34,7 +34,7 @@ import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import CustomIconComponent from '../components/CustomIconComponent';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const router = () => (
   <Router
     getSceneStyle={() => {
@@ -50,10 +50,9 @@ const router = () => (
           hide
         />
       </Scene>
-
-      <Scene key="login">
+      {/* <Scene key="login">
         <Scene key="loginPage" component={Login} hideNavBar hideTabBar hide />
-      </Scene>
+      </Scene> */}
       <Scene
         key="root"
         navigationBarStyle={{
@@ -156,32 +155,30 @@ const router = () => (
             }}
           />
         </Scene>
-        <Stack>
-          <Scene
-            hide={true}
-            modal={true}
-            renderLeftButton={() => (
-              <CustomIconComponent
-                name="arrow-left"
-                onPress={() => {
-                  Actions.pop();
-                }}
-              />
-            )}
-            title="自定义语言"
-            key="CustomLanguagePage"
-            component={CustomLanguagePage}
-            titleStyle={{
-              color: TEXT_COLOR,
-              fontSize: 20,
-            }}
-            navigationBarStyle={{
-              backgroundColor: `${Color(BG_COLOR)
-                .darken(0.6)
-                .hex()}`,
-            }}
-          />
-        </Stack>
+        <Scene
+          hide={true}
+          modal={true}
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}
+          title="自定义语言"
+          key="CustomLanguagePage"
+          component={CustomLanguagePage}
+          titleStyle={{
+            color: TEXT_COLOR,
+            fontSize: 20,
+          }}
+          navigationBarStyle={{
+            backgroundColor: `${Color(BG_COLOR)
+              .darken(0.6)
+              .hex()}`,
+          }}
+        />
         <Drawer
           key="SearchPageDrawer"
           drawerPosition="right"
