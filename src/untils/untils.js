@@ -9,8 +9,12 @@ import schema from '../dao/schema';
 //引入Actions
 import {Actions} from 'react-native-router-flux';
 import Qs from 'qs';
+//导入url parse这个类库对URL进行分析
+import Parse from 'url-parse';
 //引入判断工具库
 import _ from 'lodash';
+//引入rn内置组件库
+import {Linking} from 'react-native';
 /**
  * 显示Toast
  * @param {string} msg
@@ -230,6 +234,66 @@ export const getDataFromLocal = (table = '', filter = '') => {
     return false;
   }
 };
+/**
+ * 创建执行函数
+ * @param {promise} action 执行的Actions
+ * @param {fn} callback 请求成功以后执行的操作函数
+ * @param {fn} before 请求Action之前进行操作的函数
+ * @param {boolean} saved 是否强制保存到realm数据库
+ */
+export const doActionsRequest = (
+  action = new Promise((resolve, reject) => {
+    resolve(false);
+  }),
+  callback = () => {},
+  before = () => {},
+  saved = false,
+) => async () => {
+  before();
+  action
+    .then(({value}) => {
+      const {data, save, result} = value;
+      if (!result) {
+        return typeof save === 'function' ? save() : null;
+      } else if (result) {
+        callback(data);
+      }
+      //用户强制要求获取远程数据并且储存在本地realm数据库
+      if (saved) {
+        save && save();
+      }
+    })
+    .then(resp => {
+      if (__DEV__) {
+        if (resp) {
+          console.log('正在从服务器重新获取数据，并且保存到realm本地数据库！');
+        }
+      }
+      if (resp && resp.data) {
+        callback(resp.data);
+      }
+    })
+    .catch(err => {
+      if (__DEV__) {
+        console.log(err);
+      }
+    });
+};
+export const openUrl = (url = '') => {
+  if (url) {
+    let parse = Parse(url);
+    //排除hash
+    if (parse.hash === '') {
+      if (parse.host === 'github.com') {
+        //是github内置网页
+        toast('内部页面后续功能开放');
+      } else {
+        Actions.WebPage({url: url});
+      }
+    }
+  }
+};
+
 /**
  * 查询realm数据库
  * @param {string} table 表

@@ -15,6 +15,7 @@ import User_List_item from './User_List_Item';
 import EmptyComponent from './EmptyComponent';
 import _ from 'lodash';
 import {MAIN_COLOR} from '../constants/styles';
+import {doActionsRequest} from '../untils/untils';
 
 const propTypes = {
   action: PropTypes.any,
@@ -52,46 +53,20 @@ class ScrollViewContainer extends PureComponent {
   }
   LoadData(saved = false) {
     InteractionManager.runAfterInteractions(() => {
-      //开始请求
-      this.setState({loading: true});
-      this.request = this.props.action
-        .then(({value}) => {
-          const {data, save, result} = value;
-          if (!result) {
-            return typeof save === 'function' ? save() : null;
-          } else if (result) {
-            this.setState({
-              loading: false,
-              data,
-            });
-          }
-          //用户强制要求获取远程数据并且储存在本地realm数据库
-          if (saved) {
-            save && save();
-          }
-        })
-        .then(resp => {
-          if (__DEV__) {
-            if (resp) {
-              console.log(
-                '正在从服务器重新获取数据，并且保存到realm本地数据库！',
-              );
-            }
-          }
-          if (resp && resp.data) {
-            this.setState({
-              loading: false,
-              data: resp.data,
-            });
-          }
-        })
-        .catch(err => {
-          //这里加载错误了的话我们再重新加载
-          //this.LoadData();
-          if (__DEV__) {
-            console.log(err);
-          }
-        });
+      doActionsRequest(
+        this.props.action,
+        data => {
+          this.setState({
+            loading: false,
+            data,
+          });
+        },
+        () => {
+          this.setState({
+            loading: true,
+          });
+        },
+      )();
     });
   }
   componentWillUnmount() {

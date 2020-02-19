@@ -24,13 +24,13 @@ export const searchResponsitories = async (query, data) => {
     [query, data],
     'Reponsitories',
     ['name', 'data', 'time'],
-    `${query}_${Qs.stringify(data)}`,
-    `name = "${query}_${Qs.stringify(data)}"`,
+    `${query}/${Qs.stringify(data)}`,
+    `name = "${query}/${Qs.stringify(data)}"`,
     Api.searchRepositories,
   );
   let localDatas = getDataFromLocal(
     'Reponsitories',
-    `name = "${query}_${Qs.stringify(data)}"`,
+    `name = "${query}/${Qs.stringify(data)}"`,
   );
   //如果查询到了数据那么就直接返回
   if (localDatas) {
@@ -47,19 +47,56 @@ export const searchResponsitories = async (query, data) => {
     };
   }
 };
-
+/**
+ *获取趋势
+ * @param {string} since
+ * @param {string} language
+ */
 export const getTrending = async (since, language) => {
   let save = createAsyncSaveFunc(
     [FETCH_REPOSITORIES, since, language],
     'TrendingReponsitories',
     ['name', 'data', 'time'],
-    `${since}_${language}`,
-    `name = "${since}_${language}"`,
+    `${since}/${language}`,
+    `name = "${since}/${language}"`,
     Api.getTrendingApi,
   );
   let localDatas = getDataFromLocal(
     'TrendingReponsitories',
-    `name = "${since}_${language}"`,
+    `name = "${since}/${language}"`,
+  );
+  //如果查询到了数据那么就直接返回
+  if (localDatas) {
+    return {
+      data: localDatas,
+      result: true,
+      save,
+    };
+  } else {
+    return {
+      data: [],
+      result: false, //表示并没有获取到数据
+      save,
+    };
+  }
+};
+/**
+ *获取readme数据
+ * @param {*} fullname
+ * @param {*} branch
+ */
+export const getReadMeData = async (fullname, branch = '') => {
+  let save = createAsyncSaveFunc(
+    [fullname, branch],
+    'ReadMes',
+    ['name', 'data', 'time'],
+    `${fullname}/${branch}`,
+    `name = "${fullname}/${branch}"`,
+    Api.getRepositoryReadme,
+  );
+  let localDatas = getDataFromLocal(
+    'ReadMes',
+    `name = "${fullname}/${branch}"`,
   );
   //如果查询到了数据那么就直接返回
   if (localDatas) {

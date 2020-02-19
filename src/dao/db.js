@@ -14,7 +14,7 @@ class Db {
       //初始化
       return (Db.instance = new Realm({
         schema,
-        schemaVersion: 4,
+        schemaVersion: 5,
       }));
     }
   }

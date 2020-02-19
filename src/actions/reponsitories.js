@@ -1,6 +1,14 @@
-import {SEARCH_REPONSITORIES, GET_TRENDING} from '../constants/types';
+import {
+  SEARCH_REPONSITORIES,
+  GET_TRENDING,
+  GET_README,
+} from '../constants/types';
 import {createActions} from 'redux-actions';
-import {getTrending, searchResponsitories} from '../dao/daos/responsitoriesDao';
+import {
+  getTrending,
+  searchResponsitories,
+  getReadMeData,
+} from '../dao/daos/responsitoriesDao';
 import store from '../stores';
 const {dispatch} = store;
 export default createActions({
@@ -14,8 +22,20 @@ export default createActions({
       ...res,
     };
   },
+  /**
+   * 获取趋势数据
+   */
   [GET_TRENDING]: async (since, language) => {
     let res = await getTrending(since, language);
+    return {
+      ...res,
+    };
+  },
+  /**
+   * 获取readme数据
+   */
+  [GET_README]: async (fullname, branch) => {
+    let res = await getReadMeData(fullname, branch);
     return {
       ...res,
     };

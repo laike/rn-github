@@ -30,9 +30,8 @@ const FadeInOut = props => {
 export default class SpanlashPage extends Component {
   componentDidMount() {
     setTimeout(() => {
-      if (Http.getToken()) {
-        Actions.reset('root');
-      }
+      //暂时不进行验证
+      Actions.reset('root');
     }, 2100);
   }
   render() {

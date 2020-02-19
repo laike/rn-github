@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR} from '../constants/styles';
+import {Actions} from 'react-native-router-flux';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -16,7 +17,13 @@ class Trending_List_Item extends PureComponent {
   }
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => {
+          // eslint-disable-next-line prettier/prettier
+          this.props.data.full_name = `${this.props.data.author}/${this.props.data.name}`;
+          Actions.RepositoryDetailPage({data: this.props.data});
+        }}>
         <View>
           <Text style={styles.title}>{this.props.data.name}</Text>
         </View>

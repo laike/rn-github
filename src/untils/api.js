@@ -277,4 +277,26 @@ export default {
 
     return promise;
   },
+  /**
+   * 获取仓库reademe资料
+   * @param {string} responsitoryName 仓库全名
+   * @param {string} branch 仓库分支
+   */
+  getRepositoryReadme(fullname = 'laike/rn-github', branch = 'master') {
+    return new Promise((resolve, reject) => {
+      console.log(`repos/${fullname}/readme`);
+      HttpManager.get(`repos/${fullname}/readme`, {
+        headers: {Accept: 'application/vnd.github.3.html'},
+        params: {branch},
+      })
+        .then(res => {
+          resolve({
+            data: res.data,
+          });
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
 };

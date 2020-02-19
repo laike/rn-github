@@ -25,6 +25,7 @@ export const LOGIN_OUT = 'LOGIN_OUT';
  */
 export const SEARCH_REPONSITORIES = 'SEARCH_REPONSITORIES';
 export const GET_TRENDING = 'GET_TRENDING';
+export const GET_README = 'GET_README';
 
 /**
  * 语言筛选排序常量

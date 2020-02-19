@@ -28,6 +28,9 @@ import SearchPage from '../container/SearchPage';
 import CustomLanguagePage from '../container/CustomLanguagePage';
 import TrendingPage from '../container/TrendingPage';
 import Login from '../container/Login';
+import RepositoryDetail from '../container/RepositoryDetail';
+import WebPage from '../container/WebPage';
+
 import SearchFilter from '../components/SearchFilter';
 import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import Color from 'color';
@@ -37,6 +40,7 @@ import CustomIconComponent from '../components/CustomIconComponent';
 const {width} = Dimensions.get('window');
 const router = () => (
   <Router
+    uriPrefix={'windke.cn'}
     getSceneStyle={() => {
       return styles.navigationBarStyle;
     }}>
@@ -50,9 +54,9 @@ const router = () => (
           hide
         />
       </Scene>
-      {/* <Scene key="login">
+      <Scene key="login">
         <Scene key="loginPage" component={Login} hideNavBar hideTabBar hide />
-      </Scene> */}
+      </Scene>
       <Scene
         key="root"
         navigationBarStyle={{
@@ -124,7 +128,7 @@ const router = () => (
             }}
           />
           <Scene
-            key="my"
+            key="MyPage"
             component={My}
             title="个人中心"
             icon={TabIcon}
@@ -156,8 +160,7 @@ const router = () => (
           />
         </Scene>
         <Scene
-          hide={true}
-          modal={true}
+          key="CustomLanguagePage"
           renderLeftButton={() => (
             <CustomIconComponent
               name="arrow-left"
@@ -165,20 +168,70 @@ const router = () => (
                 Actions.pop();
               }}
             />
-          )}
-          title="自定义语言"
-          key="CustomLanguagePage"
-          component={CustomLanguagePage}
-          titleStyle={{
-            color: TEXT_COLOR,
-            fontSize: 20,
-          }}
-          navigationBarStyle={{
-            backgroundColor: `${Color(BG_COLOR)
-              .darken(0.6)
-              .hex()}`,
-          }}
-        />
+          )}>
+          <Scene
+            title="自定义语言"
+            component={CustomLanguagePage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="RepositoryDetailPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="详情页面"
+            component={RepositoryDetail}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="WebPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="网页"
+            component={WebPage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+
         <Drawer
           key="SearchPageDrawer"
           drawerPosition="right"

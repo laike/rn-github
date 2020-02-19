@@ -38,4 +38,13 @@ export default [
       time: 'string',
     },
   },
+  //ReadMe表
+  {
+    name: 'ReadMes',
+    properties: {
+      name: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
 ];
