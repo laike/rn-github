@@ -8,8 +8,9 @@ buildscript {
         targetSdkVersion = 28
     }
     repositories {
+        maven{ url = "http://maven.aliyun.com/nexus/content/groups/public/" }
         google()
-        jcenter()
+        //jcenter()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.4.2")
@@ -22,6 +23,7 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
+        maven{ url = "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
@@ -32,7 +34,12 @@ allprojects {
         }
 
         google()
-        jcenter()
+        //jcenter()
         maven { url 'https://jitpack.io' }
+    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
     }
 }
