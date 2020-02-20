@@ -1,7 +1,7 @@
 /**
  * 工具类库（时间格式化 localstorage封装等等 realm库工具）
  */
-import config from '../config/config';
+import config, {TOKEN_KEY} from '../config/config';
 import Realm from '../dao/db';
 //这里我们需要引入一个toast
 import Toast from 'react-native-root-toast';
@@ -14,7 +14,7 @@ import Parse from 'url-parse';
 //引入判断工具库
 import _ from 'lodash';
 //引入rn内置组件库
-import {Linking} from 'react-native';
+import {Linking, AsyncStorage} from 'react-native';
 /**
  * 显示Toast
  * @param {string} msg
@@ -353,6 +353,36 @@ export const cloneArr = (arr = []) => {
     newArr[i] = arr[i];
   }
   return newArr;
+};
+
+export const getData = key => {
+  try {
+    let v = AsyncStorage.getItem(key);
+    if (__DEV__) {
+      console.log(`获取到了token: ${v}`);
+    }
+    if (v) {
+      return v;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+  }
+};
+export const storeData = (key, value) => {
+  try {
+    if (__DEV__) {
+      console.log(`正在设置token: ${key}=${value}`);
+    }
+    AsyncStorage.setItem(key, value);
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+  }
 };
 /**
  * 初始化

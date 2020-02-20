@@ -49,5 +49,4 @@ export const PASSWORD_NOT_ALLOWED_NULL = '密码不能为空！';
 export const GITHUB_THIRDPARTY_AUTHORIZATION_URL =
   'https://github.com/login/oauth/authorize';
 export const CLIENT_ID = '6d3b92a0131a6b5a7b92';
-
-export const CLIENT_SECRET = '743854be1c99ef8a637aaba8863f253d8cbb781c';
+export const USER_HAS_LOGIN_IN = 'USER_HAS_LOGIN_IN';
