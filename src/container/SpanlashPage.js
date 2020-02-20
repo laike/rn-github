@@ -1,10 +1,18 @@
 import React, {Component, useState, useEffect} from 'react';
-import {View, StyleSheet, Dimensions, Animated, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Animated,
+  Text,
+  StatusBar,
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
+import {BG_COLOR, TEXT_COLOR, STATUS_BAR_STYLE} from '../constants/styles';
 //引入Http类
 import Http from '../untils/http';
+import Color from 'color';
 //这个启动页我们后面再来处理
 const {width, height} = Dimensions.get('window');
 //定义一个淡入淡出的高阶组件使用hooks 钩子
@@ -37,6 +45,7 @@ export default class SpanlashPage extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar {...STATUS_BAR_STYLE} />
         <Icon name="github" style={styles.logo} />
         <View style={styles.animatedText}>
           <FadeInOut>
@@ -51,7 +60,9 @@ export default class SpanlashPage extends Component {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    backgroundColor: BG_COLOR,
+    backgroundColor: Color(BG_COLOR)
+      .darken(0.6)
+      .hex(),
     width: width,
     height: height,
     alignItems: 'center',

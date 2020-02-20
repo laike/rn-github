@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, TextInput} from 'react-native';
+import {View, StyleSheet, FlatList, TextInput, Platform} from 'react-native';
 import Button from 'react-native-button';
 import userActions from '../actions/user';
 import responsitoryActions from '../actions/reponsitories';
@@ -12,6 +12,7 @@ import Color from 'color';
 import ScrollViewContainer from '../components/ScrollViewContainer';
 import {SEARCH_TABS, SCREEN_WIDTH} from '../constants/constants';
 import SearchTabBar from '../components/SearchTabBar';
+import Display from 'react-native-display';
 import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
 //引入查询工具函数，为的是做搜索下拉
 import {queryAll, queryOne} from '../untils/untils';
@@ -33,6 +34,7 @@ class SearchPage extends Component {
       data: [],
       input: '',
       search: 'All',
+      enable: false,
     };
   }
 
@@ -74,7 +76,10 @@ class SearchPage extends Component {
           </Button>
           {/* 新增历史记录功能包括用户搜索过的所有关键字，我们需要一个历史记录表来操作， */}
         </View>
-        <FlatList style={styles.historyList} />
+        <Display enable={this.state.enable}>
+          <FlatList style={styles.historyList} />
+        </Display>
+
         {/* 搜索结果显示部分，使用一个scrollTabview */}
         <ScrollableTabView
           style={styles.list}
@@ -129,7 +134,6 @@ const styles = StyleSheet.create({
       .darken(0.6)
       .hex(),
     borderWidth: 0.3,
-    display: 'none',
   },
   searchBtn: {
     backgroundColor: Color(BG_COLOR)
@@ -141,11 +145,14 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    position: 'relative',
+    top: 0.5,
+    height: 38,
     borderColor: Color(TEXT_COLOR)
       .darken(0.6)
       .hex(),
-    borderWidth: 0.3,
-    paddingLeft: 5,
+    borderWidth: 0.5,
+    fontSize: 14,
   },
 });
 export default SearchPage;

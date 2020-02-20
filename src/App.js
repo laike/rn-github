@@ -5,6 +5,7 @@ import Router from './router';
 import {Provider} from 'react-redux';
 
 import store from './stores';
+import {View, Text} from 'react-native';
 
 const App = () => {
   return (
