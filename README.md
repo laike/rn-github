@@ -29,3 +29,13 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
 #今天遇到的问题 Realm 查询出错主要是少写了双引号
 `name = ${title}` 需要写成 `name = "${title}"`
+
+#今天遇到了在 Android 下面编译的问题主要原因是 build 目录的缓存问题导致，比如安装了 react-native-blur 插件后启动程序，会直接导致程序崩溃或者自动退出，解决方法就是去 android 目录下面删除 build 目录，然后从新编译，就不会有问题，同样的道理适用于 async-storage 这个插件。
+
+#今天也继承了微软的 code-push 据我使用和感觉比国内的友盟这些可靠多了，而且免费，集成也很方便，可以统计用户访问了 app 哪些操作，做了什么。而且支持在线编译。
+appcenter 微软的地址
+https://appcenter.ms/users/lake1355-qq.com/apps/rngithub/analytics/log-flow
+关于如何集成 code-push
+https://github.com/microsoft/react-native-code-push
+简书介入 code-push 教程
+https://www.jianshu.com/p/6a5e00d22723
