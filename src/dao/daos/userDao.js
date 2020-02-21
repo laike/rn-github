@@ -8,7 +8,6 @@ import Qs from 'qs';
 export const getSearchUser = async (username, data) => {
   //这里是我们最关键的一步使用闭包保存query和data变量
   let res = await Api.searchUser(username, data);
-  console.log(res);
   if (res && res.data) {
     return {
       data: res.data,

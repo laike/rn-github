@@ -94,7 +94,6 @@ export default {
     return new Promise((resolve, reject) => {
       HttpManager.get(`search/repositories?q=${query}`, {params})
         .then(res => {
-          console.log(res);
           resolve({
             data: res.data.items,
           });

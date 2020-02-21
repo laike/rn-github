@@ -25,6 +25,8 @@ class WebViewComponent extends PureComponent {
           scalesPageToFit={true}
           scrollEnabled={false}
           automaticallyAdjustContentInsets={true}
+          allowUniversalAccessFromFileURLs={true}
+          allowsInlineMediaPlayback={true}
           mixedContentMode={'always'}
           {...this.props}
         />

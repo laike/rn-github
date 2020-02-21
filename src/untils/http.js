@@ -10,6 +10,7 @@ import {
   storeData,
   insert,
   queryOne,
+  toast,
 } from './untils';
 import {BASE_URL, TOKEN_KEY, CODE_KEY} from '../config/config';
 import QS from 'qs'; //这个库很强大
@@ -44,8 +45,6 @@ class Http {
       timeout: this.options.timeout, //请求超时时间
       withCredentials: false, //不允许跨域防止XSRF
     });
-    //验证
-    this.authorization();
     //设置响应拦截
     this.server.interceptors.response.use(
       resp => {
@@ -78,23 +77,8 @@ class Http {
     );
   }
 
-  authorization() {
-    let token = this.getToken();
-    if (token) {
-      this.server.interceptors.request.use(
-        config => {
-          config.headers.Authorization = `token ${token}`;
-          return config;
-        },
-        error => Promise.reject(error),
-      );
-    } else {
-      //code here
-    }
-  }
-
   openAuthorizationPage() {
-    Actions.WebPage({
+    Actions.replace('GitHubLoginPage', {
       source: {
         uri: `${GITHUB_THIRDPARTY_AUTHORIZATION_URL}?client_id=${CLIENT_ID}`,
       },
@@ -103,13 +87,21 @@ class Http {
         if (__DEV__) {
           console.log(`获取到的AccessToken：${params.accessToken}`);
         }
-
         this.options.token = params.accessToken;
+        //设置请求header
+        this.server.interceptors.request.use(
+          config => {
+            config.headers.Authorization = `token ${params.accessToken}`;
+            return config;
+          },
+          error => Promise.reject(error),
+        );
         //设置token永久存储
         this.setToken(params.accessToken);
-        //发出通知个人中心页面等需要登录页面进行更新
-        DeviceEventEmitter.emit(USER_HAS_LOGIN_IN, {token: this.options.token});
-        Actions.pop(); //返回
+        //这里通知用户登录成功！
+        toast('登录成功！');
+        //然后跳转到首页
+        Actions.reset('root');
       },
     });
   }
@@ -123,7 +115,9 @@ class Http {
     }
     //否则去本地存储里面查询。
     let token = queryOne('UserToken', `key="${TOKEN_KEY}"`).token;
+    console.log('执行到了这一步', token);
     if (token) {
+      this.options.token = token;
       return token;
     } else {
       return null;
@@ -144,7 +138,12 @@ class Http {
    * 清楚TOKEN
    */
   clearToken() {
-    AsyncStorage.remove(TOKEN_KEY);
+    insert('UserToken', `key="${TOKEN_KEY}"`, {
+      key: TOKEN_KEY,
+      token: '',
+      data: '',
+      time: Date.now().toString(),
+    });
     this.options.token = null;
   }
   /**

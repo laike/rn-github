@@ -40,6 +40,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import CustomIconComponent from '../components/CustomIconComponent';
 const {width} = Dimensions.get('window');
+
 const router = () => (
   <Router
     uriPrefix={'windke.cn'}
@@ -56,7 +57,7 @@ const router = () => (
           hide
         />
       </Scene>
-      <Scene key="login">
+      <Scene key="Login">
         <Scene key="loginPage" component={Login} hideNavBar hideTabBar hide />
       </Scene>
       <Scene
@@ -274,6 +275,31 @@ const router = () => (
             }}
           />
         </Drawer>
+      </Scene>
+      <Scene
+        key="GitHubLoginPage"
+        renderLeftButton={() => (
+          <CustomIconComponent
+            name="arrow-left"
+            onPress={() => {
+              Actions.replace('Login');
+            }}
+          />
+        )}>
+        <Scene
+          title="正在前往GitHub授权页面....."
+          component={WebPage}
+          titleStyle={{
+            color: TEXT_COLOR,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+          navigationBarStyle={{
+            backgroundColor: `${Color(BG_COLOR)
+              .darken(0.6)
+              .hex()}`,
+          }}
+        />
       </Scene>
     </Lightbox>
   </Router>

@@ -26,7 +26,6 @@ class RepositoryDetail extends PureComponent {
       sourceData: [],
       issuesData: [],
     };
-    console.log(this.props.data);
   }
   loadReadMeData() {
     doActionsRequest(

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   View,
@@ -7,6 +8,7 @@ import {
   StyleSheet,
   Image,
   SectionList,
+  findNodeHandle,
   StatusBar,
 } from 'react-native';
 import WebView from '../components/WebViewComponent';
@@ -15,26 +17,35 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import HttpManager from '../untils/http';
 import {STATUS_BAR_STYLE, BG_COLOR} from '../constants/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {BlurView} from '@react-native-community/blur';
 import Color from 'color';
+import {ECHARTS_INSERT_JS} from '../constants/js';
 export default class My extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userinfo: {},
       data: [],
+      viewRef: null,
     };
   }
   componentDidMount() {
+    console.log('token is :', HttpManager.getToken());
     HttpManager.get('user').then(res => {
       //再来请求仓库
       this.setState({
         userinfo: res.data,
       });
-      HttpManager.get(res.data.repos_url).then(res => {
+      HttpManager.get(res.data.repos_url).then(res1 => {
         this.setState({
-          data: res.data,
+          data: res1.data,
         });
       });
+    });
+  }
+  imageLoaded() {
+    this.setState({
+      viewRef: findNodeHandle(this.backgroundImage),
     });
   }
   render() {
@@ -62,6 +73,9 @@ export default class My extends Component {
             return (
               <View style={styles.header}>
                 <WebView
+                  injectedJavascript={
+                    "(function(){document.body.innerHTML='';})()"
+                  }
                   style={styles.webwiew}
                   source={{uri: this.state.userinfo.html_url}}
                 />
@@ -79,21 +93,28 @@ export default class My extends Component {
               backgroundSpeed={10}
               renderBackground={() => (
                 <View key="background">
-                  <Image
-                    source={{
-                      uri: this.state.userinfo.avatar_url,
-                      width: window.width,
-                      height: PARALLAX_HEADER_HEIGHT,
-                    }}
-                  />
                   <View
                     style={{
                       position: 'absolute',
                       top: 0,
                       width: window.width,
-                      backgroundColor: Color(BG_COLOR)
-                        .darken(0.6)
-                        .hex(),
+                      height: PARALLAX_HEADER_HEIGHT,
+                    }}
+                  />
+                  <BlurView
+                    style={styles.absolute}
+                    viewRef={this.state.viewRef}
+                    blurType="light"
+                    blurAmount={10}
+                  />
+                  <Image
+                    ref={img => {
+                      this.backgroundImage = img;
+                    }}
+                    onLoadEnd={this.imageLoaded.bind(this)}
+                    source={{
+                      uri: 'https://windke.cn/Public/images/sina_cover_bg.jpg',
+                      width: window.width,
                       height: PARALLAX_HEADER_HEIGHT,
                     }}
                   />
@@ -104,7 +125,7 @@ export default class My extends Component {
                   <Image
                     style={styles.avatar}
                     source={{
-                      uri: this.state.userinfo.avatar_url,
+                      uri: 'https://windke.cn/Public/images/sina_cover_bg.jpg',
                       width: AVATAR_SIZE,
                       height: AVATAR_SIZE,
                     }}
@@ -157,6 +178,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 1,
   },
   background: {
     position: 'absolute',
@@ -225,6 +254,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webwiew: {
-    height: 80,
+    height: 500,
   },
 });
