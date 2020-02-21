@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import WebView from 'react-native-webview';
+import {STATUS_BAR_STYLE} from '../constants/styles';
 export default class Setting extends Component {
   render() {
     return (
-      <WebView
-        style={styles.container}
-        source={{uri: 'https://baidu.com/'}}
-        startInLoadingState={true}></WebView>
+      <View style={styles.setting}>
+        <StatusBar {...STATUS_BAR_STYLE} />
+        <View style={styles.header}>
+          <Text>头部</Text>
+        </View>
+      </View>
     );
   }
 }

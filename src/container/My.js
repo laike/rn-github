@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {BlurView} from '@react-native-community/blur';
 import Color from 'color';
 import {ECHARTS_INSERT_JS} from '../constants/js';
+import LottieView from 'lottie-react-native';
 export default class My extends Component {
   constructor(props) {
     super(props);
@@ -30,18 +31,21 @@ export default class My extends Component {
     };
   }
   componentDidMount() {
-    console.log('token is :', HttpManager.getToken());
-    HttpManager.get('user').then(res => {
-      //再来请求仓库
-      this.setState({
-        userinfo: res.data,
-      });
-      HttpManager.get(res.data.repos_url).then(res1 => {
+    HttpManager.get('user')
+      .then(res => {
+        //再来请求仓库
         this.setState({
-          data: res1.data,
+          userinfo: res.data,
         });
+        HttpManager.get(res.data.repos_url).then(res1 => {
+          this.setState({
+            data: res1.data,
+          });
+        });
+      })
+      .catch(err => {
+        console.log('错误 ', err);
       });
-    });
   }
   imageLoaded() {
     this.setState({
@@ -53,6 +57,11 @@ export default class My extends Component {
     return (
       <View style={styles.container}>
         <StatusBar {...STATUS_BAR_STYLE} />
+        <LottieView
+          source={require('../animations/TwitterHeart.json')}
+          autoPlay
+          loop
+        />
         <FlatList
           ref={ref => {
             this.ListView = ref;
@@ -72,13 +81,13 @@ export default class My extends Component {
           ListHeaderComponent={() => {
             return (
               <View style={styles.header}>
-                <WebView
-                  injectedJavascript={
-                    "(function(){document.body.innerHTML='';})()"
-                  }
+                {/* <WebView
                   style={styles.webwiew}
+                  injectedJavascript={
+                    '(function(){document.body.innerHTML = "" })()'
+                  }
                   source={{uri: this.state.userinfo.html_url}}
-                />
+                /> */}
               </View>
             );
           }}
@@ -101,12 +110,12 @@ export default class My extends Component {
                       height: PARALLAX_HEADER_HEIGHT,
                     }}
                   />
-                  <BlurView
+                  {/* <BlurView
                     style={styles.absolute}
                     viewRef={this.state.viewRef}
                     blurType="light"
                     blurAmount={10}
-                  />
+                  /> */}
                   <Image
                     ref={img => {
                       this.backgroundImage = img;
@@ -170,7 +179,7 @@ export default class My extends Component {
 
 const window = Dimensions.get('window');
 
-const AVATAR_SIZE = 100;
+const AVATAR_SIZE = 50;
 const ROW_HEIGHT = 50;
 const PARALLAX_HEADER_HEIGHT = 320;
 const STICKY_HEADER_HEIGHT = 70;
@@ -254,6 +263,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webwiew: {
-    height: 500,
+    height: 300,
   },
 });

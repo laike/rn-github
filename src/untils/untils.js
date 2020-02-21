@@ -14,7 +14,8 @@ import Parse from 'url-parse';
 //引入判断工具库
 import _ from 'lodash';
 //引入rn内置组件库
-import {Linking, AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 /**
  * 显示Toast
  * @param {string} msg
@@ -380,23 +381,18 @@ export const cloneArr = (arr = []) => {
   return newArr;
 };
 
-export const getData = key => {
-  try {
-    let v = AsyncStorage.getItem(key);
-    if (__DEV__) {
-      console.log(`获取到了token: ${v}`);
-      console.log(v);
-    }
-    if (v) {
-      return v;
-    } else {
+export const getData = async key => {
+  AsyncStorage.getItem(key)
+    .then(tk => {
+      if (tk) {
+        return tk;
+      } else {
+        return null;
+      }
+    })
+    .catch(() => {
       return null;
-    }
-  } catch (error) {
-    if (__DEV__) {
-      console.log(error);
-    }
-  }
+    });
 };
 export const storeData = (key, value) => {
   try {

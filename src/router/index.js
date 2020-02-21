@@ -18,6 +18,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from 'react-native';
 import Home from '../container/Home';
 import My from '../container/My';
@@ -39,6 +40,7 @@ import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import CustomIconComponent from '../components/CustomIconComponent';
+import CustomNavigation from '../components/CustomNavigation';
 const {width} = Dimensions.get('window');
 
 const router = () => (
@@ -130,21 +132,7 @@ const router = () => (
                 .hex()}`,
             }}
           />
-          <Scene
-            key="dynamicPage"
-            component={DynamicPage}
-            title="动态"
-            icon={TabIcon}
-            titleStyle={{
-              color: TEXT_COLOR,
-              fontSize: 20,
-            }}
-            navigationBarStyle={{
-              backgroundColor: `${Color(BG_COLOR)
-                .darken(0.6)
-                .hex()}`,
-            }}
-          />
+
           <Scene
             key="MyPage"
             component={My}
@@ -160,6 +148,13 @@ const router = () => (
                 .darken(0.6)
                 .hex()}`,
             }}
+          />
+          <Scene
+            key="dynamicPage"
+            component={Setting}
+            title="设置"
+            icon={TabIcon}
+            navBar={() => <CustomNavigation title={'ceshi'} />}
           />
         </Scene>
         <Scene
