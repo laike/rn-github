@@ -3,7 +3,14 @@
  * 下设置请求头，以及根据服务器端像一个的状态码判断，提示用户提升用户体验
  */
 import axios from 'axios';
-import {parseUrl, handleError, getData, storeData} from './untils';
+import {
+  parseUrl,
+  handleError,
+  getData,
+  storeData,
+  insert,
+  queryOne,
+} from './untils';
 import {BASE_URL, TOKEN_KEY, CODE_KEY} from '../config/config';
 import QS from 'qs'; //这个库很强大
 import {
@@ -31,20 +38,14 @@ class Http {
       token: null,
       timeout: 15000, //这里设置十秒因为国内访问github api还是很慢
     };
+    //初始化的时候要
     this.server = axios.create({
       baseURL: BASE_URL,
       timeout: this.options.timeout, //请求超时时间
       withCredentials: false, //不允许跨域防止XSRF
     });
-    //这里我们设置请求拦截所有的请求方式默认都是Form方式请求提高兼容性 get 和post
-    //方法都是通用的 设置请求拦截
-    this.server.interceptors.request.use(
-      config => {
-        config.headers['Content-Type'] = CONTENT_TYPE_JSON;
-        return config;
-      },
-      error => Promise.reject(error),
-    );
+    //验证
+    this.authorization();
     //设置响应拦截
     this.server.interceptors.response.use(
       resp => {
@@ -66,7 +67,7 @@ class Http {
       },
       error => {
         if (__DEV__) {
-          console.log('请求的错误代码：' + error.response.status);
+          console.log('请求的错误代码：' + error);
         }
         //错误处理
         if (error && error.response && error.response.status) {
@@ -76,6 +77,22 @@ class Http {
       },
     );
   }
+
+  authorization() {
+    let token = this.getToken();
+    if (token) {
+      this.server.interceptors.request.use(
+        config => {
+          config.headers.Authorization = `token ${token}`;
+          return config;
+        },
+        error => Promise.reject(error),
+      );
+    } else {
+      //code here
+    }
+  }
+
   openAuthorizationPage() {
     Actions.WebPage({
       source: {
@@ -105,7 +122,7 @@ class Http {
       return this.options.token;
     }
     //否则去本地存储里面查询。
-    let token = getData(TOKEN_KEY);
+    let token = queryOne('UserToken', `key="${TOKEN_KEY}"`).token;
     if (token) {
       return token;
     } else {
@@ -116,7 +133,12 @@ class Http {
    * 设置TOKEN
    */
   setToken(token) {
-    storeData(TOKEN_KEY, token);
+    insert('UserToken', `key="${TOKEN_KEY}"`, {
+      key: TOKEN_KEY,
+      token: token,
+      data: '',
+      time: Date.now().toString(),
+    });
   }
   /**
    * 清楚TOKEN
@@ -131,13 +153,6 @@ class Http {
    * @param {*} params
    */
   get(url, config = {}) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.get(url, config);
   }
   /**
@@ -146,13 +161,6 @@ class Http {
    * @param {*} config
    */
   post(url, config = {}) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.post(url, config);
   }
   /**
@@ -161,13 +169,6 @@ class Http {
    * @param {*} config
    */
   delete(url, config) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.delete(url, config);
   }
   /**
@@ -176,13 +177,6 @@ class Http {
    * @param {*} config
    */
   head(url, config) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.head(url, config);
   }
   /**
@@ -191,13 +185,6 @@ class Http {
    * @param {*} config
    */
   put(url, config) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.put(url, config);
   }
   /**
@@ -206,13 +193,6 @@ class Http {
    * @param {*} config
    */
   patch(url, config) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.patch(url, config);
   }
   /**
@@ -221,13 +201,6 @@ class Http {
    * @param {*} config
    */
   request(url, config) {
-    //如果用户已经登录那么每次请求的时候参数中加入access-token
-    if (this.options.token !== null) {
-      this.server.defaults.headers.common[
-        'Authorization: token'
-      ] = this.options.token;
-      this.server.defaults.params.common['access_token'] = this.options.token;
-    }
     return this.server.request(url, config);
   }
   /**

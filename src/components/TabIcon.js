@@ -23,8 +23,8 @@ const TabIcon = props => {
     case '个人中心':
       name = 'user';
       break;
-    case '设置':
-      name = 'gear';
+    case '动态':
+      name = 'google-plus-circle';
       break;
     case '趋势':
       name = 'bar-chart-o';

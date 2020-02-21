@@ -46,7 +46,7 @@ class Trending_List_Item extends PureComponent {
             <Text style={styles.text}>{this.props.data.stars}</Text>
           </View>
           <View style={styles.forks}>
-            <Icon name="git" onPress={() => {}} style={styles.icon} />
+            <Icon name="code-fork" onPress={() => {}} style={styles.icon} />
             <Text style={styles.text}>{this.props.data.forks}</Text>
           </View>
         </View>

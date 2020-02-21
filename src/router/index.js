@@ -30,7 +30,9 @@ import TrendingPage from '../container/TrendingPage';
 import Login from '../container/Login';
 import RepositoryDetail from '../container/RepositoryDetail';
 import WebPage from '../container/WebPage';
-
+//测试页面以后很有用，所有新功能开发之前现在测试页面，测试
+import TestPage from '../container/TestPage';
+import DynamicPage from '../container/DynamicPage';
 import SearchFilter from '../components/SearchFilter';
 import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
 import Color from 'color';
@@ -128,9 +130,9 @@ const router = () => (
             }}
           />
           <Scene
-            key="MyPage"
-            component={My}
-            title="个人中心"
+            key="dynamicPage"
+            component={DynamicPage}
+            title="动态"
             icon={TabIcon}
             titleStyle={{
               color: TEXT_COLOR,
@@ -142,12 +144,12 @@ const router = () => (
                 .hex()}`,
             }}
           />
-
           <Scene
-            key="setting"
-            component={Setting}
-            title="设置"
+            key="MyPage"
+            component={My}
+            title="个人中心"
             icon={TabIcon}
+            hideNavBar
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,

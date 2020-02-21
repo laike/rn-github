@@ -9,12 +9,33 @@ import {
   SectionList,
   StatusBar,
 } from 'react-native';
+import WebView from '../components/WebViewComponent';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import {ScrollView} from 'react-native-gesture-handler';
-import {STATUS_BAR_STYLE} from '../constants/styles';
+//引入mannager
+import HttpManager from '../untils/http';
+import {STATUS_BAR_STYLE, BG_COLOR} from '../constants/styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Color from 'color';
 export default class My extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      userinfo: {},
+      data: [],
+    };
+  }
+  componentDidMount() {
+    HttpManager.get('user').then(res => {
+      //再来请求仓库
+      this.setState({
+        userinfo: res.data,
+      });
+      HttpManager.get(res.data.repos_url).then(res => {
+        this.setState({
+          data: res.data,
+        });
+      });
+    });
   }
   render() {
     const {onScroll = () => {}} = this.props;
@@ -26,34 +47,33 @@ export default class My extends Component {
             this.ListView = ref;
           }}
           style={styles.container}
-          data={[
-            'Simplicity Matters',
-            'Hammock Driven Development',
-            'Value of Values',
-            'Are We There Yet?',
-            'The Language of the System',
-            'Design, Composition, and Performance',
-            'Clojure core.async',
-            'The Functional Database',
-            'Deconstructing the Database',
-            'Hammock Driven Development',
-            'Value of Values',
-          ]}
+          data={this.state.data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={rowData => {
-            console.log(rowData);
             return (
               <View
                 style={styles.row}
                 keyExtractor={(item, index) => index.toString()}>
-                <Text style={styles.rowText}>{rowData.item}</Text>
+                <Text style={styles.rowText}>{rowData.item.full_name}</Text>
+              </View>
+            );
+          }}
+          ListHeaderComponent={() => {
+            return (
+              <View style={styles.header}>
+                <WebView
+                  style={styles.webwiew}
+                  source={{uri: this.state.userinfo.html_url}}
+                />
               </View>
             );
           }}
           renderScrollComponent={props => (
             <ParallaxScrollView
               onScroll={onScroll}
-              headerBackgroundColor="#333"
+              headerBackgroundColor={Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}
               stickyHeaderHeight={STICKY_HEADER_HEIGHT}
               parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
               backgroundSpeed={10}
@@ -61,7 +81,7 @@ export default class My extends Component {
                 <View key="background">
                   <Image
                     source={{
-                      uri: 'https://windke.cn/Public/images/sina_cover_bg.jpg',
+                      uri: this.state.userinfo.avatar_url,
                       width: window.width,
                       height: PARALLAX_HEADER_HEIGHT,
                     }}
@@ -71,7 +91,9 @@ export default class My extends Component {
                       position: 'absolute',
                       top: 0,
                       width: window.width,
-                      backgroundColor: 'rgba(0,0,0,.4)',
+                      backgroundColor: Color(BG_COLOR)
+                        .darken(0.6)
+                        .hex(),
                       height: PARALLAX_HEADER_HEIGHT,
                     }}
                   />
@@ -82,34 +104,39 @@ export default class My extends Component {
                   <Image
                     style={styles.avatar}
                     source={{
-                      uri:
-                        'https://tvax3.sinaimg.cn/crop.0.0.1080.1080.180/7b915431ly8gabxso0h1tj20u00u0q8d.jpg?KID=imgbed,tva&Expires=1582195086&ssig=k33pNooXsC',
+                      uri: this.state.userinfo.avatar_url,
                       width: AVATAR_SIZE,
                       height: AVATAR_SIZE,
                     }}
                   />
                   <Text style={styles.sectionSpeakerText}>
-                    Talks by Rich Hickey
+                    {this.state.userinfo.name}
                   </Text>
                   <Text style={styles.sectionTitleText}>
-                    CTO of Cognitec, Creator of Clojure
+                    {this.state.userinfo.bio}
                   </Text>
                 </View>
               )}
               renderStickyHeader={() => (
                 <View key="sticky-header" style={styles.stickySection}>
-                  <Text style={styles.stickySectionText}>
-                    Rich Hickey Talks
-                  </Text>
+                  <Icon
+                    name={'arrow-left'}
+                    style={[
+                      styles.stickySectionText,
+                      {position: 'absolute', left: 10, top: 10},
+                    ]}
+                    onPress={() => this.ListView.scrollToEnd(true)}
+                  />
+                  <Text style={styles.stickySectionText}>个人详情</Text>
                 </View>
               )}
               renderFixedHeader={() => (
                 <View key="fixed-header" style={styles.fixedSection}>
-                  <Text
+                  <Icon
+                    name={'share'}
                     style={styles.fixedSectionText}
-                    onPress={() => this.ListView.scrollToEnd(true)}>
-                    Scroll to top
-                  </Text>
+                    onPress={() => this.ListView.scrollToEnd(true)}
+                  />
                 </View>
               )}
             />
@@ -122,14 +149,14 @@ export default class My extends Component {
 
 const window = Dimensions.get('window');
 
-const AVATAR_SIZE = 120;
-const ROW_HEIGHT = 60;
-const PARALLAX_HEADER_HEIGHT = 350;
+const AVATAR_SIZE = 100;
+const ROW_HEIGHT = 50;
+const PARALLAX_HEADER_HEIGHT = 320;
 const STICKY_HEADER_HEIGHT = 70;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#fff',
   },
   background: {
     position: 'absolute',
@@ -140,22 +167,27 @@ const styles = StyleSheet.create({
   },
   stickySection: {
     height: STICKY_HEADER_HEIGHT,
-    width: 300,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Color(BG_COLOR)
+      .darken(0.6)
+      .hex(),
   },
   stickySectionText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 14,
     margin: 10,
   },
   fixedSection: {
     position: 'absolute',
-    bottom: 10,
+    top: 10,
     right: 10,
   },
   fixedSectionText: {
     color: '#999',
-    fontSize: 20,
+    fontSize: 14,
+    margin: 20,
   },
   parallaxHeader: {
     alignItems: 'center',
@@ -169,24 +201,30 @@ const styles = StyleSheet.create({
   },
   sectionSpeakerText: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 20,
     paddingVertical: 5,
   },
   sectionTitleText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 14,
     paddingVertical: 5,
   },
   row: {
     overflow: 'hidden',
     paddingHorizontal: 10,
     height: ROW_HEIGHT,
-    backgroundColor: 'white',
     borderColor: '#ccc',
     borderBottomWidth: 1,
     justifyContent: 'center',
   },
   rowText: {
-    fontSize: 20,
+    fontSize: 14,
+  },
+  //my
+  header: {
+    flex: 1,
+  },
+  webwiew: {
+    height: 80,
   },
 });

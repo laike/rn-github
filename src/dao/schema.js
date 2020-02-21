@@ -47,4 +47,14 @@ export default [
       time: 'string',
     },
   },
+  //用户token表
+  {
+    name: 'UserToken',
+    properties: {
+      key: 'string',
+      token: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
 ];

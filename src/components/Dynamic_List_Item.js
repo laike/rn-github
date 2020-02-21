@@ -11,7 +11,7 @@ const propTypes = {
 const defaultProps = {
   data: [],
 };
-class Home_List_Item extends PureComponent {
+class Dynamic_List_Item extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -41,7 +41,7 @@ class Home_List_Item extends PureComponent {
             <Text style={styles.text}>{this.props.data.stargazers_count}</Text>
           </View>
           <View style={styles.forks}>
-            <Icon name="code-fork" onPress={() => {}} style={styles.icon} />
+            <Icon name="git" onPress={() => {}} style={styles.icon} />
             <Text style={styles.text}>{this.props.data.forks_count}</Text>
           </View>
         </View>
@@ -50,8 +50,8 @@ class Home_List_Item extends PureComponent {
   }
 }
 
-Home_List_Item.propTypes = propTypes;
-Home_List_Item.defaultProps = defaultProps;
+Dynamic_List_Item.propTypes = propTypes;
+Dynamic_List_Item.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
 });
-export default Home_List_Item;
+export default Dynamic_List_Item;

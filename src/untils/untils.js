@@ -73,9 +73,6 @@ export const handleError = (code, msg = '') => {
     case 401:
       //这里处理未授权
       //授权逻辑
-      if (Actions.currentScene !== 'login') {
-        Actions.reset('login');
-      }
       return '未授权，请登录';
     case 403:
       toast('拒绝访问');
@@ -300,14 +297,23 @@ export const openUrl = (url = '') => {
  * @param {string} filter 过滤
  * @param {string} filed 列
  */
-export const queryOne = (table = '', filter = '', filed = 'data') => {
+export const queryOne = (
+  table = '',
+  filter = '',
+  isparse = false,
+  filed = '',
+) => {
   let localDatas = null;
   try {
     localDatas = Realm.objects(table).filtered(filter);
     if (localDatas && localDatas.length > 0) {
-      return filed === 'data'
-        ? JSON.parse(localDatas[0][filed])
-        : localDatas[0][filed];
+      if (filed) {
+        return isparse
+          ? JSON.parse(localDatas[0][filed])
+          : localDatas[0][filed];
+      } else {
+        return isparse ? JSON.parse(localDatas[0]) : localDatas[0];
+      }
     } else {
       return false; //没有获取到本地数据
     }
@@ -343,6 +349,25 @@ export const queryAll = (table = '', filter = '', limit = 5) => {
     return false;
   }
 };
+
+export const insert = (table = '', filter = '', data = {}) => {
+  try {
+    console.log(`正在向${table}表中插入数据...`);
+    console.log(filter, data);
+    Realm.write(() => {
+      let localDatas = Realm.objects(table).filtered(`${filter}`);
+      if (localDatas && localDatas.length > 0) {
+        Realm.delete(localDatas);
+      }
+      Realm.create(table, data);
+    });
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
 /**
  * 浅复制一个arr
  * @param {array} arr
@@ -360,6 +385,7 @@ export const getData = key => {
     let v = AsyncStorage.getItem(key);
     if (__DEV__) {
       console.log(`获取到了token: ${v}`);
+      console.log(v);
     }
     if (v) {
       return v;
