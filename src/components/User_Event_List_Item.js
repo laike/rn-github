@@ -11,7 +11,7 @@ const propTypes = {
 const defaultProps = {
   data: [],
 };
-class Home_List_Item extends PureComponent {
+class User_Event_List_Item extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -20,38 +20,22 @@ class Home_List_Item extends PureComponent {
       <TouchableOpacity
         style={styles.container}
         onPress={() => {
-          Actions.RepositoryDetailPage({ data: this.props.data });
+          // Actions.RepositoryDetailPage({ data: this.props.data });
         }}>
         <View>
-          <Text style={styles.title}>{this.props.data.full_name}</Text>
+          <Text style={styles.title}>{this.props.data.actor.login}</Text>
+          <Image source={{ uri: this.props.data.actor.avatar_url }} style={styles.avatar_url} />
         </View>
         <View style={styles.p}>
-          <Text>{this.props.data.description}</Text>
-        </View>
-        <View style={styles.bottom}>
-          <View style={styles.owner}>
-            <Text>{this.props.data.owner.login}</Text>
-            <Image
-              source={{ uri: this.props.data.owner.avatar_url }}
-              style={styles.avatar}
-            />
-          </View>
-          <View style={styles.stars}>
-            <Icon name="star" onPress={() => { }} style={styles.icon} />
-            <Text style={styles.text}>{this.props.data.stargazers_count}</Text>
-          </View>
-          <View style={styles.forks}>
-            <Icon name="code-fork" onPress={() => { }} style={styles.icon} />
-            <Text style={styles.text}>{this.props.data.forks_count}</Text>
-          </View>
+          <Text>{this.props.data.repo.name}</Text>
         </View>
       </TouchableOpacity>
     );
   }
 }
 
-Home_List_Item.propTypes = propTypes;
-Home_List_Item.defaultProps = defaultProps;
+User_Event_List_Item.propTypes = propTypes;
+User_Event_List_Item.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -107,4 +91,4 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
 });
-export default Home_List_Item;
+export default User_Event_List_Item;

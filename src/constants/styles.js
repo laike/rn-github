@@ -6,6 +6,7 @@ import Color from 'color';
 export const BG_COLOR = '#6495ed';
 export const TEXT_COLOR = '#fff';
 export const MAIN_COLOR = '#ececec';
+export const BLACK_COLOR = '#000000';
 
 //设置全局的状态栏颜色
 export const STATUS_BAR_STYLE = {

@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 // 这里使用新功能Hooks
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Router from './router';
 //这里我们需要引入redux中间件等等一下东西
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
 import store from './stores';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import CodePush from 'react-native-code-push';
+import { MenuProvider } from 'react-native-popup-menu';
 const codePushOptions = {
   //设置检查更新的频率
   //ON_APP_RESUME APP恢复到前台的时候
@@ -51,7 +52,9 @@ const App = () => {
   });
   return (
     <Provider store={store}>
-      <Router />
+      <MenuProvider>
+        <Router />
+      </MenuProvider>
     </Provider>
   );
 };

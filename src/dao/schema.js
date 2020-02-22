@@ -57,4 +57,13 @@ export default [
       time: 'string',
     },
   },
+  //用户动态表
+  {
+    name: 'UserDynamic',
+    properties: {
+      key: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
 ];
