@@ -35,13 +35,19 @@ import WebPage from '../container/WebPage';
 import TestPage from '../container/TestPage';
 import DynamicPage from '../container/DynamicPage';
 import SearchFilter from '../components/SearchFilter';
-import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
+import { BG_COLOR, TEXT_COLOR } from '../constants/styles';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import CustomIconComponent from '../components/CustomIconComponent';
 import CustomNavigation from '../components/CustomNavigation';
-const {width} = Dimensions.get('window');
+import Profile from '../container/Profile';
+import Notifictions from '../container/Notifictions';
+import News from '../container/News';
+import Issues from '../container/Issues';
+import Rss from '../container/Rss';
+import OwnedRepository from '../container/OwnedRepositoryPage';
+const { width } = Dimensions.get('window');
 
 const router = () => (
   <Router
@@ -87,28 +93,21 @@ const router = () => (
             justifyContent: 'center',
           }}>
           <Scene
-            key="home"
-            component={Home}
-            title="首页"
+            key="DynamicPage"
+            component={DynamicPage}
+            title="动态"
             icon={TabIcon}
             titleStyle={{
               color: TEXT_COLOR,
-              fontSize: 18,
+              fontSize: 20,
             }}
-            renderRightButton={() => (
-              <CustomIconComponent
-                name="search"
-                onPress={() => {
-                  Actions.SearchPage();
-                }}
-              />
-            )}
             navigationBarStyle={{
               backgroundColor: `${Color(BG_COLOR)
                 .darken(0.6)
                 .hex()}`,
             }}
           />
+
           <Scene
             key="trending"
             component={TrendingPage}
@@ -132,29 +131,36 @@ const router = () => (
                 .hex()}`,
             }}
           />
-
-          <Scene
-            key="MyPage"
-            component={My}
-            title="个人中心"
+          {/* <Scene
+            key="home"
+            component={Home}
+            title="首页"
             icon={TabIcon}
-            hideNavBar
             titleStyle={{
               color: TEXT_COLOR,
-              fontSize: 20,
+              fontSize: 18,
             }}
+            renderRightButton={() => (
+              <CustomIconComponent
+                name="search"
+                onPress={() => {
+                  Actions.SearchPage();
+                }}
+              />
+            )}
             navigationBarStyle={{
               backgroundColor: `${Color(BG_COLOR)
                 .darken(0.6)
                 .hex()}`,
             }}
-          />
+          /> */}
+
           <Scene
-            key="dynamicPage"
+            key="SettingPage"
             component={Setting}
-            title="设置"
+            title="个人中心"
             icon={TabIcon}
-            navBar={() => <CustomNavigation title={'ceshi'} />}
+            navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} />}
           />
         </Scene>
         <Scene
@@ -194,6 +200,152 @@ const router = () => (
           <Scene
             title="详情页面"
             component={RepositoryDetail}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="ProfilePage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title=""
+            component={Profile}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="NewsPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="事件中心"
+            component={News}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="IssuesPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="问题中心"
+            component={Issues}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="RssPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="RSS订阅中心"
+            component={Rss}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+
+        <Scene
+          key="OwnedRepositoryPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="我的仓库"
+            component={OwnedRepository}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+
+        <Scene
+          key="NotifictionsPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title="消息中心"
+            component={Notifictions}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,

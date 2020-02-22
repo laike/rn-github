@@ -3,7 +3,7 @@
  */
 import Api from '../../untils/api';
 import Qs from 'qs';
-import {FETCH_REPOSITORIES} from '../../constants/types';
+import { FETCH_REPOSITORIES } from '../../constants/types';
 import {
   clearRealmTable,
   clearAllRealmTabs,
@@ -11,8 +11,8 @@ import {
   getDataFromLocal,
   clearAllCache,
 } from '../../untils/untils';
-//clearAllRealmTabs();
-//clearAllCache();
+// clearAllRealmTabs();
+// clearAllCache();
 /**
  * 搜索获取仓库信息（逻辑已经完善，接下来开发搜索页面）
  * @param {string} query  查询参数

@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,18 +7,18 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BG_COLOR, TEXT_COLOR, STATUS_BAR_STYLE} from '../constants/styles';
+import { BG_COLOR, TEXT_COLOR, STATUS_BAR_STYLE } from '../constants/styles';
 //引入Http类
 import Http from '../untils/http';
 import Color from 'color';
 //这个启动页我们后面再来处理
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 //定义一个淡入淡出的高阶组件使用hooks 钩子
 const FadeInOut = props => {
   const [fade] = useState(new Animated.Value(0));
-  const {duration = 2000, style = {}, children} = props;
+  const { duration = 2000, style = {}, children } = props;
   useEffect(() => {
     Animated.timing(fade, {
       toValue: 1,

@@ -12,7 +12,7 @@ import {
   queryOne,
   toast,
 } from './untils';
-import {BASE_URL, TOKEN_KEY, CODE_KEY} from '../config/config';
+import { BASE_URL, TOKEN_KEY, CODE_KEY } from '../config/config';
 import QS from 'qs'; //这个库很强大
 import {
   CODE_NOT_FOUND,
@@ -29,8 +29,8 @@ import {
   USERNAME_NOT_ALLOWED_NULL,
   USER_HAS_LOGIN_IN,
 } from '../constants/constants';
-import {Actions} from 'react-native-router-flux';
-import {DeviceEventEmitter} from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { DeviceEventEmitter } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 //在这里我们再封装一层使用单例模式，并且使用异步函数结合await
@@ -47,6 +47,7 @@ class Http {
       timeout: this.options.timeout, //请求超时时间
       withCredentials: false, //不允许跨域防止XSRF
     });
+
     //这里在本地存储里面查找
     AsyncStorage.getItem(TOKEN_KEY).then(token => {
       console.log('初始化成功', token);
@@ -63,6 +64,7 @@ class Http {
     this.server.interceptors.response.use(
       resp => {
         //请求需要权限这里可以处理跳转到登录页面
+        console.log(resp);
         if (resp.status === 401) {
           handleError(resp.status);
           return {
@@ -90,11 +92,21 @@ class Http {
       },
     );
   }
-
+  //这里我们要写一个，当用户登录以后马上向本地数据库中存储用户的基本信息 
+  //https://api.github.com/user
+  saveUserInfo() {
+    this.get('user')
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        //一般不会错
+      });
+  }
   openAuthorizationPage() {
     Actions.replace('GitHubLoginPage', {
       source: {
-        uri: `${GITHUB_THIRDPARTY_AUTHORIZATION_URL}?client_id=${CLIENT_ID}`,
+        uri: `${GITHUB_THIRDPARTY_AUTHORIZATION_URL}?client_id=${CLIENT_ID}&scope=user,public_repo,repo,notifications,gist`,
       },
       onMessage: event => {
         let params = JSON.parse(event.nativeEvent.data);

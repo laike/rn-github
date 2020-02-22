@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import { TEXT_COLOR, BG_COLOR } from '../constants/styles';
 import Color from 'color';
 const propTypes = {
   focused: PropTypes.bool,
@@ -23,7 +23,7 @@ const TabIcon = props => {
     case '个人中心':
       name = 'user';
       break;
-    case '设置':
+    case '动态':
       name = 'google-plus-circle';
       break;
     case '趋势':
@@ -43,8 +43,8 @@ const TabIcon = props => {
             color: props.focused
               ? TEXT_COLOR
               : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+                .darken(0.1)
+                .hex()}`,
           },
         ]}
       />
@@ -55,8 +55,8 @@ const TabIcon = props => {
             color: props.focused
               ? TEXT_COLOR
               : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+                .darken(0.1)
+                .hex()}`,
           },
         ]}>
         {props.title}

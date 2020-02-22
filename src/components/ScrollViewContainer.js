@@ -28,6 +28,8 @@ const defaultProps = {
 class ScrollViewContainer extends PureComponent {
   constructor(props) {
     super(props);
+    this.page = 1;
+    this.pagesize = 10;//最大就请求到10就行了这个github考虑的
     this.state = {
       data: [],
       appState: AppState.currentState,
@@ -61,6 +63,7 @@ class ScrollViewContainer extends PureComponent {
             loading: false,
             data,
           });
+          //添加page
         },
         () => {
           this.setState({
@@ -104,6 +107,7 @@ class ScrollViewContainer extends PureComponent {
             this.LoadData();
           }}
           onEndReachedThreshold={0.1}
+          onEndReached={this.onEndReached}
           keyExtractor={(item, index) => index.toString()}
           renderItem={data => {
             if (this.props.type === 'home') {

@@ -8,14 +8,15 @@ import Color from 'color';
 import { bindActionCreators } from 'redux';
 import responsitoryActions from '../actions/reponsitories';
 import { connect } from 'react-redux';
-//引入react-native-dropdown-menus;
-import DropDownMenus from 'react-native-dropdownmenus';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
+  renderers
 } from 'react-native-popup-menu';
+const { Popover } = renderers
 // import {getLanguageList} from '../untils/untils';
 //导入trending常量
 import {
@@ -40,63 +41,28 @@ class Home extends Component {
       language: TRENDING_PAGE_MENUS_DATA_QUERY[1][0], //否则就需要传递参数了
       selectIndex: [0, 0],
       langs: TRENDING_PAGE_MENUS_DATA,
-      Touchable: Button,
+      iconname: 'chevron-down',
+      s: TRENDING_PAGE_MENUS_DATA[0][0],
+      l: TRENDING_PAGE_MENUS_DATA[1][0]
     };
   }
   componentDidMount() {
-    //这里请求数据
-    // getLanguageList().then(res => {
-    //   this.setState({
-    //     langs: [
-    //       ['daily', 'weekly', 'monthly'],
-    //       res.splice(0, 15).map(lang => lang.name),
-    //     ],
-    //   });
-    //   console.log(this.state.langs);
-    // });
-  }
 
-  renderTabBar() {
-    return (
-      <View
-        style={{
-          height: 50,
-        }}>
-        {/* <DropDownMenus
-          data={TRENDING_PAGE_MENUS_DATA}
-          titleStyle={{
-            fontSize: 16,
-          }}
-          bgColor={TEXT_COLOR}
-          tintColor={'#999'}
-          optionTextStyle={{ fontSize: 16 }}
-          activityTintColor={Color(BG_COLOR)
-            .darken(0.8)
-            .hex()}
-          handler={(selection, row) => {
-            console.log(selection, row);
-            if (selection === 0) {
-              //第一个数组
-              this.setState({
-                selectIndex: [0, row],
-                since: TRENDING_PAGE_MENUS_DATA_QUERY[selection][row],
-              });
-            } else if (selection === 1) {
-              //第二个数组
-              this.setState({
-                selectIndex: [1, row],
-                language: TRENDING_PAGE_MENUS_DATA_QUERY[selection][row],
-              });
-            }
-          }}
-          seletIndex={this.state.selectIndex}
-        /> */}
-      </View>
-    );
+  }
+  onSelect(opt) {
+    this.setState({
+      selectIndex: [0, opt],
+      since: TRENDING_PAGE_MENUS_DATA_QUERY[0][opt],
+    });
+  }
+  onSelect2(opt) {
+    this.setState({
+      selectIndex: [1, opt],
+      language: TRENDING_PAGE_MENUS_DATA_QUERY[1][opt],
+    });
   }
   render() {
     const { Touchable } = this.state;
-    const buttonText = 'Select ' + (Touchable ? (getDisplayName(Touchable)) : 'default');
     return (
       <View style={styles.container}>
         <StatusBar {...STATUS_BAR_STYLE} />
@@ -104,23 +70,45 @@ class Home extends Component {
 
         <View style={styles.top}>
 
-          <Menu style={{ paddingTop: 30 }}>
+          <Menu style={styles.menu} renderer={Popover} rendererProps={{
+            preferredPlacement: 'bottom'
+          }} onSelect={this.onSelect.bind(this)} >
             <MenuTrigger
-              customStyles={{
-                TriggerTouchableComponent: Touchable,
-                triggerTouchable: { title: buttonText },
-              }}
-              text={buttonText}
+              style={styles.item}
+              text={this.state.s}
             />
+            <Icon name={this.state.iconname} style={styles.icon} />
             <MenuOptions customStyles={{
               OptionTouchableComponent: TouchableOpacity,
               optionTouchable: touchableOpacityProps,
-            }}>
-              <MenuOption text='Option 1' />
-              <MenuOption text='Option 2' />
-              <MenuOption text='Option 3' />
-              <MenuOption text='Option 4' />
+            }}
+
+            >
+              {
+                TRENDING_PAGE_MENUS_DATA[0].map((item, key) => <MenuOption key={key} text={item} style={styles.option} value={key} />)
+              }
             </MenuOptions>
+
+          </Menu>
+          <Menu style={styles.menu} renderer={Popover} rendererProps={{
+            preferredPlacement: 'bottom'
+          }} onSelect={this.onSelect2.bind(this)} >
+            <MenuTrigger
+              style={styles.item}
+              text={this.state.l}
+            />
+            <Icon name={this.state.iconname} style={styles.icon} />
+            <MenuOptions customStyles={{
+              OptionTouchableComponent: TouchableOpacity,
+              optionTouchable: touchableOpacityProps,
+            }}
+
+            >
+              {
+                TRENDING_PAGE_MENUS_DATA[1].map((item, key) => <MenuOption key={key} text={item} style={styles.option} value={key} />)
+              }
+            </MenuOptions>
+
           </Menu>
         </View>
         <ScrollViewContainer
@@ -133,7 +121,7 @@ class Home extends Component {
           )}
         />
 
-      </View>
+      </View >
     );
   }
 }
@@ -143,14 +131,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   top: {
+    flexDirection: 'row',
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  menu: {
+    width: 110,
+    position: "relative",
+    flexDirection: 'row',
+    alignItems: "center",
+  },
+  item: {
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 10,
+  },
+  option: {
+    fontSize: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 50,
+    paddingRight: 50,
 
   }
 });
-const getDisplayName = Component => (
-  Component.displayName ||
-  Component.name ||
-  (typeof Component === 'string' ? Component : 'Component')
-);
+
 const touchableOpacityProps = {
   activeOpacity: 0.6,
 };

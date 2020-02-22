@@ -3,6 +3,13 @@
  */
 import Api from '../../untils/api';
 import Qs from 'qs';
+import {
+  clearRealmTable,
+  clearAllRealmTabs,
+  createAsyncSaveFunc,
+  getDataFromLocal,
+  clearAllCache,
+} from '../../untils/untils';
 //clearAllRealmTabs();
 /**
  * 

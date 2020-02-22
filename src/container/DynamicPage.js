@@ -29,14 +29,10 @@ class DynamicPage extends Component {
     return (
       <View style={styles.container}>
         <StatusBar {...STATUS_BAR_STYLE} />
-
-
-
         <ScrollViewContainer
           type="events"
-          action={this.props.user.getUserDynamic('')}
+          action={this.props.user.getUserDynamic('events')}
         />
-
 
       </View>
     );

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {PureComponent} from 'react';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import React, { PureComponent } from 'react';
+import { Text, View, StyleSheet, Image } from 'react-native';
 const propTypes = {};
 const defaultProps = {};
 class EmptyComponent extends PureComponent {
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 15,
   },
   image: {
     height: 200,

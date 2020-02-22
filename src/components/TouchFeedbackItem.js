@@ -10,12 +10,18 @@ export default class TouchFeedbackItem extends Component {
             Platform.OS === 'android' ? <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple()} {...this.props}>
                 <View style={styles.item}>
                     <View style={styles.left}>
-                        <Icon name={this.props.name ? this.props.name : 'wechat'} style={[styles.icon, this.props.iconStyle]} />
+                        {
+
+                            this.props.name ? <Icon name={this.props.name} style={[styles.icon, this.props.iconStyle]} />
+                                : <View />
+                        }
                         <Text style={[styles.text, this.props.textStyle]}>{this.props.title ? this.props.title : 'tile'}</Text>
                     </View>
-                    <View style={styles.right}>
-                        <Icon name={'arrow-right'} style={styles.rightarrow} />
-                    </View>
+                    {
+                        this.props.hideArrow ? <View /> : <View style={styles.right}>
+                            <Icon name={'arrow-right'} style={styles.rightarrow} />
+                        </View>
+                    }
                 </View>
             </TouchableNativeFeedback> :
                 <TouchableHighlight  >
@@ -43,10 +49,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.3,
         marginBottom: 3,
     },
-    left: { flex: 1, flexDirection: 'row', alignItems: 'center' },
+    left: { flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 20 },
     icon: { fontSize: 18 },
     right: {
         paddingRight: 10,
+
     },
     text: {
         fontSize: 16,

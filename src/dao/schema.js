@@ -61,7 +61,7 @@ export default [
   {
     name: 'UserDynamic',
     properties: {
-      key: 'string',
+      name: 'string',
       data: 'string',
       time: 'string',
     },
