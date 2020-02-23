@@ -9,7 +9,8 @@ import { BG_COLOR, MAIN_COLOR, TEXT_COLOR } from '../constants/styles';
 import { Actions } from 'react-native-router-flux';
 import WebViewComponent from '../components/WebViewComponent';
 import { GH_CHART_API, SCREEN_WIDTH } from '../constants/constants';
-
+import CommonHeader from '../components/CommonHeader';
+import CommonToolBar from '../components/CommonToolBar'
 export default class Profile extends Component {
     constructor(props) {
         super(props);
@@ -49,54 +50,17 @@ export default class Profile extends Component {
     render() {
         return (
             <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh.bind(this)} />}>
-                <View style={styles.header}>
-                    <Image ref={(ref) => {
-                        this.avatar = ref;
-                    }} source={require('../data/images/github2.png')} style={styles.avatar} onPartialLoad={() => {
-                        this.avatar.source = require('../data/images/github.png');
-                    }} />
-                    <Text style={styles.nickname}>{this.state.user.login ? this.state.user.login : "还没有昵称"}</Text>
-                    <Text style={styles.bio}>{this.state.user.bio ? this.state.user.bio.replace('\n', '') : '这个人很懒还没有写描述'}</Text>
-                    <Text style={styles.company}>{this.state.user.company ? this.state.user.company : '这个人还没有填写公司'}</Text>
-                    <Text style={styles.blog}>{this.state.user.blog ? this.state.user.blog : '这个人还没有开通博客'}</Text>
-                    <Text style={styles.location}>{this.state.user.location ? this.state.user.location : '没有定位'}</Text>
-
-                </View>
-
+                <CommonHeader data={this.state.user} />
                 <WebViewComponent source={{ uri: `${GH_CHART_API}${this.state.user.login}` }}
                     style={styles.commits}
                     scrollEnabled={true}
-
                 />
-
-                <View style={styles.toolbar}>
-                    {
-                        Platform.OS === 'android' ? <View style={styles.subitem}>
-                            <TouchableNativeFeedback>
-                                <Text style={styles.num}>{this.state.user.followers}</Text>
-                                <Text style={styles.info} >Followers</Text>
-                            </TouchableNativeFeedback>
-                        </View> : <View style={styles.subitem}>
-                                <TouchableHighlight >
-                                    <Text style={styles.num}>{this.state.user.followers}</Text>
-                                    <Text style={styles.info} >Followers</Text>
-                                </TouchableHighlight>
-                            </View>
-                    }
-                    {
-                        Platform.OS === 'android' ? <View style={styles.subitem}>
-                            <TouchableNativeFeedback >
-                                <Text style={styles.num}>{this.state.user.following}</Text>
-                                <Text style={styles.info} >Following</Text>
-                            </TouchableNativeFeedback>
-                        </View> : <View style={styles.subitem}>
-                                <TouchableHighlight >
-                                    <Text style={styles.num}>{this.state.user.following}</Text>
-                                    <Text style={styles.info} >Following</Text>
-                                </TouchableHighlight>
-                            </View>
-                    }
-                </View>
+                {/* <WebViewComponent source={{ uri: 'file:///android_asset/template.html' }}
+                    style={styles.commits}
+                    scrollEnabled={true}
+                /> */}
+                <CommonToolBar data={[{ label: 'Followers', data: this.state.user.followers },
+                { label: 'Following', data: this.state.user.following }]} />
                 <View style={styles.list}>
                     <TouchFeedbackItem name="rss" title="Events" onPress={() => {
                         Actions.push('ProfilePage', {});
@@ -110,7 +74,6 @@ export default class Profile extends Component {
                     <TouchFeedbackItem name="git" title="Gists" onPress={() => {
                         Actions.push('ProfilePage', {});
                     }} />
-
                 </View>
             </ScrollView >
         );

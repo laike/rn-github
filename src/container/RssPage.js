@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, RefreshControl, Image, Platform } f
 import { BG_COLOR, MAIN_COLOR, TEXT_COLOR } from '../constants/styles';
 import CommonDetail from '../components/CommonDetail';
 
-export default class News extends Component {
+export default class RssPage extends Component {
     constructor(props) {
         super(props);
     }

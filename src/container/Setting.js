@@ -39,7 +39,9 @@ export default class Setting extends Component {
             Actions.push('NotifictionsPage', {});
           }} />
           <TouchFeedbackItem name="hacker-news" title="News" onPress={() => {
-            Actions.push('NewsPage', {});
+            Actions.push('NewsPage', {
+              url: 'https://api.github.com/users/laike/received_events'
+            });
           }} />
           <TouchFeedbackItem name="question-circle" title="Issues" onPress={() => {
             Actions.push('IssuesPage', {});
@@ -48,7 +50,9 @@ export default class Setting extends Component {
             <Text style={styles.eventtitle}>Event</Text>
           </View>
           <TouchFeedbackItem name="rss" title="Laike" onPress={() => {
-            Actions.push('RssPage', {});
+            Actions.push('RssPage', {
+              url: 'https://api.github.com/users/laike/events'
+            });
           }} />
           <View style={styles.event}>
             <Text style={styles.eventtitle}>Respositories</Text>

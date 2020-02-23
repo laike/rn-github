@@ -6,7 +6,7 @@ import { toast } from '../untils/untils';
 import EventListItem from './EventListItem';
 import EmptyComponent from './EmptyComponent';
 
-const CommonDetail = ({ url }) => {
+const ShowDetail = ({ url }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     function load() {
@@ -42,7 +42,7 @@ const CommonDetail = ({ url }) => {
     )
 
 }
-export default CommonDetail
+export default ShowDetail
 
 const styles = StyleSheet.create({
     container: {

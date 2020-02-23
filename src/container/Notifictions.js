@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl, Image, Platform } from 'react-native';
-import { toast } from '../untils/untils';
-import http from '../untils/http';
-import TouchFeedbackItem from '../components/TouchFeedbackItem';
-import { TouchableHighlight, TouchableNativeFeedback } from 'react-native-gesture-handler';
 import Color from 'color';
 import { BG_COLOR, MAIN_COLOR, TEXT_COLOR } from '../constants/styles';
 import { Actions } from 'react-native-router-flux';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import CommonDetail from '../components/CommonDetail';
-import { color } from 'react-native-reanimated';
-import Setting from './Setting';
-import My from './My';
+import CommonDetailForTab from '../components/CommonDetailForTab';
 
 
 const renderScene = SceneMap({
-    notread: CommonDetail,
-    readed: CommonDetail,
-    all: CommonDetail
+    notread: CommonDetailForTab,
+    readed: CommonDetailForTab,
+    all: CommonDetailForTab
 })
 
 
@@ -36,20 +29,11 @@ export default class Notifictions extends Component {
         this.state = {
             index: 0,
             routes: [
-                { key: 'notread', title: '未读' },
-                { key: 'readed', title: '已读' },
-                { key: 'all', title: '全部' }
+                { key: 'notread', title: '未读', url: `notifications?participating=true` },
+                { key: 'readed', title: '已读', url: `notifications?participating=false` },
+                { key: 'all', title: '全部', url: `notifications?all=true` }
             ]
         };
-    }
-    componentDidMount() {
-        //进行请求获取用户信息
-        // this.load();
-    }
-
-
-    onRefresh() {
-        load();
     }
 
 

@@ -2,7 +2,7 @@
 export const ECHARTS_INSERT_JS = `
 (function() {
   //先清空页面
-  document.body = '';
+  document.body.innerHTML = '';
   var container = document.createElement('div');
   container.setAttribute('id', 'main');
   container.style.width = '600px';
@@ -16,7 +16,7 @@ export const ECHARTS_INSERT_JS = `
     //进行操作
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(container);
-
+ 
     // 指定图表的配置项和数据
     var option = {
       title: {
@@ -43,4 +43,6 @@ export const ECHARTS_INSERT_JS = `
     myChart.setOption(option);
   };
 })();
+
+
 `;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, TouchableNativeFeedback, Platform, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import moment from 'moment'
+moment.locale();
 export default class TouchFeedbackItem extends Component {
     constructor(props) {
         super(props);
@@ -11,11 +13,14 @@ export default class TouchFeedbackItem extends Component {
                 <View style={styles.item}>
                     <View style={styles.left}>
                         {
-
                             this.props.name ? <Icon name={this.props.name} style={[styles.icon, this.props.iconStyle]} />
                                 : <View />
                         }
-                        <Text style={[styles.text, this.props.textStyle]}>{this.props.title ? this.props.title : 'tile'}</Text>
+                        <View style={styles.subinfo}>
+                            {this.props.title ? <Text style={[styles.text, this.props.textStyle]}>{this.props.title}</Text> : <View />}
+
+                            {this.props.updated_at ? <Text style={[styles.text, this.props.small]}>{moment(this.props.updated_at, "YYYYMMDD").fromNow()}</Text> : <View />}
+                        </View>
                     </View>
                     {
                         this.props.hideArrow ? <View /> : <View style={styles.right}>
@@ -27,12 +32,21 @@ export default class TouchFeedbackItem extends Component {
                 <TouchableHighlight  >
                     <View style={styles.item}>
                         <View style={styles.left}>
-                            <Icon name={this.props.name ? this.props.name : 'wechat'} style={[styles.icon, this.props.iconStyle]} />
-                            <Text style={[styles.text, this.props.textStyle]}>{this.props.title ? this.props.title : 'tile'}</Text>
+                            {
+                                this.props.name ? <Icon name={this.props.name} style={[styles.icon, this.props.iconStyle]} />
+                                    : <View />
+                            }
+                            <View style={styles.subinfo}>
+                                {this.props.title ? <Text style={[styles.text, this.props.textStyle]}>{this.props.title}</Text> : <View />}
+
+                                {this.props.updated_at ? <Text style={[styles.text, this.props.small]}>{moment(this.props.updated_at, "YYYYMMDD").fromNow()}</Text> : <View />}
+                            </View>
                         </View>
-                        <View style={styles.right}>
-                            <Icon name={'arrow-right'} style={styles.rightarrow} />
-                        </View>
+                        {
+                            this.props.hideArrow ? <View /> : <View style={styles.right}>
+                                <Icon name={'arrow-right'} style={styles.rightarrow} />
+                            </View>
+                        }
                     </View>
                 </TouchableHighlight>
         )
@@ -53,10 +67,13 @@ const styles = StyleSheet.create({
     icon: { fontSize: 18 },
     right: {
         paddingRight: 10,
-
     },
     text: {
         fontSize: 16,
         paddingLeft: 10,
     },
+    small: {
+        fontSize: 12,
+        color: '#999',
+    }
 })

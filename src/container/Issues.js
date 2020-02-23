@@ -8,50 +8,28 @@ import Color from 'color';
 import { BG_COLOR, MAIN_COLOR, TEXT_COLOR } from '../constants/styles';
 import { Actions } from 'react-native-router-flux';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import CommonDetail from '../components/CommonDetail';
-import { color } from 'react-native-reanimated';
-import Setting from './Setting';
-import My from './My';
-
-
+import CommonDetailForTab from '../components/CommonDetailForTab';
 const renderScene = SceneMap({
-    notread: CommonDetail,
-    readed: CommonDetail,
-    all: CommonDetail
+    notread: CommonDetailForTab,
+    readed: CommonDetailForTab,
 })
-
-
-
 const renderTabBar = (props) =>
     (<TabBar {...props} scrollEnabled indicatorStyle={styles.indicatorStyle}
         style={styles.tabbar}
         labelStyle={styles.labelStyle}
         tabStyle={styles.tabStyle}
-
     />)
-
 export default class Issues extends Component {
     constructor(props) {
         super(props);
         this.state = {
             index: 0,
             routes: [
-                { key: 'notread', title: '未读' },
-                { key: 'readed', title: '已读' },
-                { key: 'all', title: '全部' }
+                { key: 'notread', title: '开启', url: '' },
+                { key: 'readed', title: '关闭', url: '' },
             ]
         };
     }
-    componentDidMount() {
-        //进行请求获取用户信息
-        // this.load();
-    }
-
-
-    onRefresh() {
-        load();
-    }
-
 
     onIndexChange(index) {
         this.setState({
@@ -78,11 +56,8 @@ const styles = StyleSheet.create({
         backgroundColor: TEXT_COLOR,
         flex: 1,
     },
-
-
     tabbar: {
         backgroundColor: Color(BG_COLOR).darken(0.6).hex(),
-
     },
     tabStyle: {
         borderBottomColor: TEXT_COLOR,

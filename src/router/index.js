@@ -35,6 +35,7 @@ import WebPage from '../container/WebPage';
 import TestPage from '../container/TestPage';
 import DynamicPage from '../container/DynamicPage';
 import SearchFilter from '../components/SearchFilter';
+import RssPage from '../container/RssPage'
 import { BG_COLOR, TEXT_COLOR } from '../constants/styles';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -246,8 +247,21 @@ const router = () => (
             />
           )}>
           <Scene
-            title="事件中心"
+            title="新闻中心"
             component={News}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+          <Scene
+            title="我的动态"
+            component={RssPage}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,
@@ -294,8 +308,8 @@ const router = () => (
             />
           )}>
           <Scene
-            title="RSS订阅中心"
-            component={Rss}
+            title="个人动态"
+            component={RssPage}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,
