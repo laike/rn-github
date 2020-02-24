@@ -187,7 +187,7 @@ export default {
     return new Promise((resolve, reject) => {
       console.log(`repos/${fullname}/readme`);
       HttpManager.get(`repos/${fullname}/readme`, {
-        headers: { Accept: 'application/vnd.github.3.html' },
+        headers: { Accept: 'application/vnd.github.3.raw+json' },
         params: { branch },
       })
         .then(res => {

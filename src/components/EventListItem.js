@@ -23,6 +23,7 @@ const componentName = ({
                     <Text style={styles.a}>{data.actor.login}</Text>
                     <Text> {data.payload.action} Issues </Text>
                     <Text style={styles.a}> {data.repo.name}</Text>
+
                 </View>
             )
         } if (data.type === 'IssueCommentEvent') {
@@ -55,6 +56,7 @@ const componentName = ({
                     <Text style={styles.a}>{data.actor.login}</Text>
                     <Text> push to {data.payload.action} </Text>
                     <Text style={styles.a}> {data.repo.name}</Text>
+
                 </View>
             )
         } else if (data.type === 'ForkEvent') {
@@ -141,6 +143,10 @@ const componentName = ({
                     }
                     {
                         data.type === 'CreateEvent' ? <Text>{data.payload.description}</Text> : <View />
+                    }
+                    {
+                        data.type === 'PushEvent' ?
+                            data.payload.commits.map(commit => <Text>{commit.message}</Text>) : <View />
                     }
                 </View>
 

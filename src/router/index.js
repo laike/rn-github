@@ -48,6 +48,8 @@ import News from '../container/News';
 import Issues from '../container/Issues';
 import Rss from '../container/Rss';
 import OwnedRepository from '../container/OwnedRepositoryPage';
+import ShowCode from '../container/ShowCode';
+import ReposityPage from '../container/ReposityPage';
 const { width } = Dimensions.get('window');
 
 const router = () => (
@@ -132,38 +134,48 @@ const router = () => (
                 .hex()}`,
             }}
           />
-          {/* <Scene
-            key="home"
-            component={Home}
-            title="首页"
-            icon={TabIcon}
-            titleStyle={{
-              color: TEXT_COLOR,
-              fontSize: 18,
-            }}
-            renderRightButton={() => (
-              <CustomIconComponent
-                name="search"
-                onPress={() => {
-                  Actions.SearchPage();
-                }}
-              />
-            )}
-            navigationBarStyle={{
-              backgroundColor: `${Color(BG_COLOR)
-                .darken(0.6)
-                .hex()}`,
-            }}
-          /> */}
+
 
           <Scene
             key="SettingPage"
             component={Setting}
             title="个人中心"
             icon={TabIcon}
-            navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} />}
+            navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} onPress={() => {
+              Actions.push('SearchPage');
+            }} />}
+          />
+
+        </Scene>
+        <Scene
+          key="ReposityPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            component={ReposityPage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
           />
         </Scene>
+        <Scene
+          key="ShowCodePage"
+          component={ShowCode}
+          icon={TabIcon}
+          navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} />}
+        />
         <Scene
           key="CustomLanguagePage"
           renderLeftButton={() => (
@@ -199,7 +211,6 @@ const router = () => (
             />
           )}>
           <Scene
-            title="详情页面"
             component={RepositoryDetail}
             titleStyle={{
               color: TEXT_COLOR,

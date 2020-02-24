@@ -58,7 +58,7 @@ export default class Setting extends Component {
             <Text style={styles.eventtitle}>Respositories</Text>
           </View>
           <TouchFeedbackItem name="book" title="Owned" onPress={() => {
-            Actions.push('OwnedRepositoryPage', {});
+            Actions.push('ReposityPage', { title: '我的仓库' });
           }} />
           <TouchFeedbackItem name="star" title="Stared" />
           <TouchFeedbackItem name="bar-chart-o" title="trending" />

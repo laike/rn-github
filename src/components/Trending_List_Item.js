@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR} from '../constants/styles';
-import {Actions} from 'react-native-router-flux';
+import { TEXT_COLOR } from '../constants/styles';
+import { Actions } from 'react-native-router-flux';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -22,7 +22,7 @@ class Trending_List_Item extends PureComponent {
         onPress={() => {
           // eslint-disable-next-line prettier/prettier
           this.props.data.full_name = `${this.props.data.author}/${this.props.data.name}`;
-          Actions.RepositoryDetailPage({data: this.props.data});
+          Actions.push('RepositoryDetailPage', { full_name: this.props.data.full_name, title: this.props.data.full_name });
         }}>
         <View>
           <Text style={styles.title}>{this.props.data.name}</Text>
@@ -36,17 +36,17 @@ class Trending_List_Item extends PureComponent {
             {this.props.data.builtBy.map((user, index) => (
               <Image
                 key={index}
-                source={{uri: user.avatar}}
+                source={{ uri: user.avatar }}
                 style={styles.avatar}
               />
             ))}
           </View>
           <View style={styles.stars}>
-            <Icon name="star" onPress={() => {}} style={styles.icon} />
+            <Icon name="star" onPress={() => { }} style={styles.icon} />
             <Text style={styles.text}>{this.props.data.stars}</Text>
           </View>
           <View style={styles.forks}>
-            <Icon name="code-fork" onPress={() => {}} style={styles.icon} />
+            <Icon name="code-fork" onPress={() => { }} style={styles.icon} />
             <Text style={styles.text}>{this.props.data.forks}</Text>
           </View>
         </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 10,
-    shadowOffset: {x: 4, y: 4},
+    shadowOffset: { x: 4, y: 4 },
     shadowColor: '#dddddd',
     shadowRadius: 2,
     shadowOpacity: 0.2,
