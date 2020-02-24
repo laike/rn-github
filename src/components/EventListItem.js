@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, StyleSheet, View, TouchableNativeFeedback, Platform, TouchableHighlight, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
-moment.locale();
+import momentLocaleZhCn from 'moment/locale/zh-cn'
+moment.updateLocale('zh-cn', momentLocaleZhCn);
 const componentName = ({
     data,
     ...rest
@@ -146,7 +147,7 @@ const componentName = ({
                     }
                     {
                         data.type === 'PushEvent' ?
-                            data.payload.commits.map(commit => <Text>{commit.message}</Text>) : <View />
+                            data.payload.commits.map((commit, index) => <Text key={index}>{commit.message}</Text>) : <View />
                     }
                 </View>
 

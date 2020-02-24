@@ -31,8 +31,9 @@ export default class Profile extends Component {
         this.setState({
             loading: true,
         })
-        console.log(http.getToken());
-        http.get('https://api.github.com/user')
+        //这里我们提供一个外部接口如果外面传入了参数那么我们就接收这个参数
+        const { url = 'https://api.github.com/user' } = this.props;
+        http.get(url)
             .then(res => {
                 this.setState({
                     loading: false,

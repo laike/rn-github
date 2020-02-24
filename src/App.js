@@ -9,6 +9,8 @@ import store from './stores';
 import { View, Text } from 'react-native';
 import CodePush from 'react-native-code-push';
 import { MenuProvider } from 'react-native-popup-menu';
+
+
 const codePushOptions = {
   //设置检查更新的频率
   //ON_APP_RESUME APP恢复到前台的时候

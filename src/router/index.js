@@ -50,6 +50,7 @@ import Rss from '../container/Rss';
 import OwnedRepository from '../container/OwnedRepositoryPage';
 import ShowCode from '../container/ShowCode';
 import ReposityPage from '../container/ReposityPage';
+import StaredPage from '../container/StaredPage';
 const { width } = Dimensions.get('window');
 
 const router = () => (
@@ -142,7 +143,7 @@ const router = () => (
             title="个人中心"
             icon={TabIcon}
             navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} onPress={() => {
-              Actions.push('SearchPage');
+              Actions.SearchPage({})
             }} />}
           />
 
@@ -171,11 +172,85 @@ const router = () => (
           />
         </Scene>
         <Scene
+          key="StaredPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            component={StaredPage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+
+        <Scene
+          key="TrendingPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            component={TrendingPage}
+            icon={TabIcon}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            renderRightButton={() => (
+              <CustomIconComponent
+                name="bar-chart-o"
+                onPress={() => {
+                  Actions.CustomLanguagePage();
+                }}
+              />
+            )}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
           key="ShowCodePage"
-          component={ShowCode}
-          icon={TabIcon}
-          navBar={() => <CustomNavigation renderLeft={() => <View />} title={'个人中心'} />}
-        />
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title=""
+            component={ShowCode}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
         <Scene
           key="CustomLanguagePage"
           renderLeftButton={() => (
@@ -393,7 +468,7 @@ const router = () => (
             />
           )}>
           <Scene
-            title="网页"
+
             component={WebPage}
             titleStyle={{
               color: TEXT_COLOR,
@@ -407,6 +482,30 @@ const router = () => (
           />
         </Scene>
 
+        <Scene
+          key="MyPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+
+            component={My}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
         <Drawer
           key="SearchPageDrawer"
           drawerPosition="right"
@@ -419,31 +518,29 @@ const router = () => (
               name={'ios-list'}
               style={{
                 color: TEXT_COLOR,
-                fontSize: 18,
+                fontSize: 20,
               }}
             />
-          } //先不添加这个功能后面再来添加
-          renderLeftButton={() => (
-            <CustomIconComponent
-              name="arrow-left"
-              onPress={() => {
-                Actions.pop();
-              }}
-            />
-          )}
+          }
           navigationBarStyle={{
             backgroundColor: Color(BG_COLOR)
               .darken(0.6)
               .hex(),
-            height: 30,
           }}>
           <Scene
             key="SearchPage"
             component={SearchPage}
+            renderLeftButton={() => (
+              <CustomIconComponent
+                name="arrow-left"
+                onPress={() => {
+                  Actions.pop();
+                }}
+              />
+            )}
             title="搜索"
             titleStyle={{
               color: TEXT_COLOR,
-              fontSize: 18,
             }}
           />
         </Drawer>

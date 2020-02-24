@@ -25,8 +25,8 @@ export default class Issues extends Component {
         this.state = {
             index: 0,
             routes: [
-                { key: 'notread', title: '开启', url: '' },
-                { key: 'readed', title: '关闭', url: '' },
+                { key: 'notread', title: '开启', url: '', component: 'normal' },
+                { key: 'readed', title: '关闭', url: '', component: 'normal' },
             ]
         };
     }

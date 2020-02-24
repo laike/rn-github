@@ -1,13 +1,13 @@
 /**
  * 工具类库（时间格式化 localstorage封装等等 realm库工具）
  */
-import config, {TOKEN_KEY} from '../config/config';
+import config, { TOKEN_KEY } from '../config/config';
 import Realm from '../dao/db';
 //这里我们需要引入一个toast
 import Toast from 'react-native-root-toast';
 import schema from '../dao/schema';
 //引入Actions
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Qs from 'qs';
 //导入url parse这个类库对URL进行分析
 import Parse from 'url-parse';
@@ -243,14 +243,14 @@ export const doActionsRequest = (
   action = new Promise((resolve, reject) => {
     resolve(false);
   }),
-  callback = () => {},
-  before = () => {},
+  callback = () => { },
+  before = () => { },
   saved = false,
 ) => async () => {
   before();
   action
-    .then(({value}) => {
-      const {data, save, result} = value;
+    .then(({ value }) => {
+      const { data, save, result } = value;
       if (!result) {
         return typeof save === 'function' ? save() : null;
       } else if (result) {
@@ -286,7 +286,7 @@ export const openUrl = (url = '') => {
         //是github内置网页
         toast('内部页面后续功能开放');
       } else {
-        Actions.WebPage({url: url});
+        Actions.WebPage({ url: url });
       }
     }
   }
@@ -331,10 +331,10 @@ export const queryOne = (
  * @param {string} filter 过滤
  * @param {number} limit 限制条数
  */
-export const queryAll = (table = '', filter = '', limit = 5) => {
+export const queryAll = (table = '', limit = 5) => {
   let localDatas = null;
   try {
-    localDatas = Realm.objects(table).filtered(filter);
+    localDatas = Realm.objects(table);
     if (localDatas && localDatas.length > 0) {
       return localDatas.slice(
         0,

@@ -96,6 +96,7 @@ class ScrollViewContainer extends PureComponent {
     return (
       <View style={styles.container}>
         <FlatList
+
           ref={ref => {
             this.list = ref;
           }}

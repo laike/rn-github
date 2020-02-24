@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, TouchableNativeFeedback, Platform, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment'
-moment.locale();
+import momentLocaleZhCn from 'moment/locale/zh-cn'
+moment.updateLocale('zh-cn', momentLocaleZhCn);
 export default class TouchFeedbackItem extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +25,7 @@ export default class TouchFeedbackItem extends Component {
                     </View>
                     {
                         this.props.hideArrow ? <View /> : <View style={styles.right}>
+                            {this.props.rightTitle ? <Text style={styles.rightTitle}>{this.props.rightTitle}</Text> : <View />}
                             <Icon name={'arrow-right'} style={styles.rightarrow} />
                         </View>
                     }
@@ -44,6 +46,7 @@ export default class TouchFeedbackItem extends Component {
                         </View>
                         {
                             this.props.hideArrow ? <View /> : <View style={styles.right}>
+                                {this.props.rightTitle ? <Text style={styles.rightTitle}>{this.props.rightTitle}</Text> : <View />}
                                 <Icon name={'arrow-right'} style={styles.rightarrow} />
                             </View>
                         }
@@ -67,13 +70,20 @@ const styles = StyleSheet.create({
     icon: { fontSize: 18 },
     right: {
         paddingRight: 10,
+        flexDirection: 'row',
+        alignItems: "center",
     },
     text: {
         fontSize: 16,
-        paddingLeft: 10,
+        paddingLeft: 15,
     },
     small: {
         fontSize: 12,
         color: '#999',
+    }, rightTitle: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        fontSize: 18,
+        color: "#999"
     }
 })

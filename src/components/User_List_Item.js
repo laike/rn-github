@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR} from '../constants/styles';
+import { TEXT_COLOR } from '../constants/styles';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -15,7 +15,7 @@ class User_List_Item extends PureComponent {
     return (
       <TouchableOpacity style={styles.container}>
         <Image
-          source={{uri: this.props.data.avatar_url}}
+          source={require("../data/images/github.png")}
           style={styles.avatar}
         />
         <Text style={styles.title}>{this.props.data.login}</Text>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 10,
-    shadowOffset: {x: 4, y: 4},
+    shadowOffset: { x: 4, y: 4 },
     shadowColor: '#dddddd',
     shadowRadius: 2,
     shadowOpacity: 0.2,

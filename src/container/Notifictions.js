@@ -29,9 +29,9 @@ export default class Notifictions extends Component {
         this.state = {
             index: 0,
             routes: [
-                { key: 'notread', title: '未读', url: `notifications?participating=true` },
-                { key: 'readed', title: '已读', url: `notifications?participating=false` },
-                { key: 'all', title: '全部', url: `notifications?all=true` }
+                { key: 'notread', title: '未读', url: `notifications?participating=true`, component: 'normal' },
+                { key: 'readed', title: '已读', url: `notifications?participating=false`, component: 'normal' },
+                { key: 'all', title: '全部', url: `notifications?all=true`, component: 'normal' }
             ]
         };
     }

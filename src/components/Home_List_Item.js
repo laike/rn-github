@@ -5,6 +5,9 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TEXT_COLOR } from '../constants/styles';
 import { Actions } from 'react-native-router-flux';
+import moment from 'moment'
+import momentLocaleZhCn from 'moment/locale/zh-cn'
+moment.updateLocale('zh-cn', momentLocaleZhCn);
 const propTypes = {
   data: PropTypes.object,
 };
@@ -22,8 +25,9 @@ class Home_List_Item extends PureComponent {
         onPress={() => {
           Actions.push('RepositoryDetailPage', { full_name: this.props.data.full_name, title: this.props.data.full_name });
         }}>
-        <View>
+        <View style={styles.titleContainer}>
           <Text style={styles.title}>{this.props.data.full_name}</Text>
+          <Text style={{ fontSize: 12, color: '#999', paddingTop: 3, }}>创建于 {moment(this.props.data.created_at).format('YYYY年M月/D日')}</Text>
         </View>
         <View style={styles.p}>
           <Text>{this.props.data.description}</Text>
@@ -32,7 +36,7 @@ class Home_List_Item extends PureComponent {
           <View style={styles.owner}>
             <Text>{this.props.data.owner.login}</Text>
             <Image
-              source={{ uri: this.props.data.owner.avatar_url }}
+              source={require('../data/images/github.png')}
               style={styles.avatar}
             />
           </View>
@@ -64,6 +68,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     elevation: 4,
     backgroundColor: TEXT_COLOR,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: "center"
   },
   title: {
     fontSize: 16,

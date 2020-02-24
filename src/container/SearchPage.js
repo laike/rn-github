@@ -1,32 +1,30 @@
+
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, TextInput, Platform} from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet, FlatList, TextInput, Text, } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import Button from 'react-native-button';
-import userActions from '../actions/user';
-import responsitoryActions from '../actions/reponsitories';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-//引入checkbox
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Color from 'color';
-import ScrollViewContainer from '../components/ScrollViewContainer';
-import {SEARCH_TABS, SCREEN_WIDTH} from '../constants/constants';
-import SearchTabBar from '../components/SearchTabBar';
+import { SEARCH_TABS, SCREEN_WIDTH } from '../constants/constants';
 import Display from 'react-native-display';
-import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
-//引入查询工具函数，为的是做搜索下拉
-import {queryAll, queryOne} from '../untils/untils';
+import { TEXT_COLOR, BG_COLOR } from '../constants/styles';
+import CommonDetailForTab from '../components/CommonDetailForTab';
+import { toast, insert, queryOne, queryAll } from '../untils/untils';
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 const propTypes = {};
 const defaultProps = {};
-@connect(
-  state => ({
-    state,
-  }),
-  dispatch => ({
-    user: bindActionCreators(userActions, dispatch),
-    responsitories: bindActionCreators(responsitoryActions, dispatch),
-  }),
-)
+const renderScene = SceneMap({
+  repository: CommonDetailForTab,
+  users: CommonDetailForTab,
+})
+const renderTabBar = (props) =>
+  (<TabBar {...props} scrollEnabled indicatorStyle={styles.indicatorStyle}
+    style={styles.tabbar}
+    labelStyle={styles.labelStyle}
+    tabStyle={styles.tabStyle}
+
+
+  />)
 class SearchPage extends Component {
   constructor(props) {
     super(props);
@@ -35,20 +33,29 @@ class SearchPage extends Component {
       input: '',
       search: 'All',
       enable: false,
+      index: 0,
+      histories: [],
+      routes: [
+        {
+          key: 'repository',
+          component: 'search/reponsitories',
+          title: '仓库',
+          url: `search/repositories?q=All`
+        },
+        {
+          key: 'users',
+          component: 'search/users',
+          title: '用户',
+          url: `search/users?q=All`
+        },
+      ]
     };
   }
-
-  componentDidMount() {
-    //组件加载
-    //  this.getLang();
+  onIndexChange(index) {
+    this.setState({
+      index
+    })
   }
-  componentWillUnmount() {
-    //组件卸载
-  }
-  SearchRepositories() {
-    //搜索的代码
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -64,12 +71,52 @@ class SearchPage extends Component {
                 input: input.trim(), //取药去除空格
               });
             }}
+            onFocus={() => {
+              //设置显示
+              //同时从数据库中查找是否有历史记录没有就显示没有记录
+              this.setState({
+                enable: true,
+                histories: queryAll('SearchHistory', 10)
+              });
+
+
+            }}
+            onBlur={() => {
+              this.setState({
+                enable: false,
+              });
+            }}
           />
           <Button
             style={styles.searchBtn}
             onPress={() => {
+              if (this.state.input === '') {
+                toast('请输入搜索关键字！')
+                return;
+              }
+              //保存到历史搜索记录表
+              insert('SearchHistory', `name="${this.state.input}"`, {
+                name: this.state.input,
+                data: this.state.input,
+                time: Date.now().toString()
+              })
+
               this.setState({
-                search: this.state.input ? this.state.input : 'All',
+                histories: queryAll('SearchHistory', 10),
+                routes: [
+                  {
+                    key: 'repository',
+                    component: 'search/reponsitories',
+                    title: '仓库',
+                    url: `search/repositories?q=${this.state.input}`
+                  },
+                  {
+                    key: 'users',
+                    component: 'search/users',
+                    title: '用户',
+                    url: `search/users?q=${this.state.input}`
+                  },
+                ]
               });
             }}>
             搜索
@@ -77,42 +124,61 @@ class SearchPage extends Component {
           {/* 新增历史记录功能包括用户搜索过的所有关键字，我们需要一个历史记录表来操作， */}
         </View>
         <Display enable={this.state.enable}>
-          <FlatList style={styles.historyList} />
+          <FlatList
+            ref={ref => {
+              this.list = ref;
+            }}
+            style={styles.historyList}
+            data={this.state.histories}
+            ListEmptyComponent={() => <Text>暂时没有搜索记录</Text>}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={data => {
+              return (
+                <TouchableHighlight style={styles.historyItem} onPress={() => {
+                  console.log(data.item.name);
+                  this.setState({
+                    enable: false,
+                    input: data.item.name,
+                    routes: [
+                      {
+                        key: 'repository',
+                        component: 'search/reponsitories',
+                        title: '仓库',
+                        url: `search/repositories?q=${data.item.name}`
+                      },
+                      {
+                        key: 'users',
+                        component: 'search/users',
+                        title: '用户',
+                        url: `search/users?q=${data.item.name}`
+                      },
+                    ]
+                  })
+                }}>
+                  <Text>{data.item.name}</Text>
+                </TouchableHighlight>
+              )
+            }}
+          />
         </Display>
-
-        {/* 搜索结果显示部分，使用一个scrollTabview */}
-        <ScrollableTabView
-          style={styles.list}
-          ref={ref => {
-            this.scrollTabs = ref;
-          }}
-          renderTabBar={() => <SearchTabBar />}>
-          {SEARCH_TABS.map((item, key) => (
-            <ScrollViewContainer
-              key={key}
-              type={item.type}
-              tabLabel={item.name}
-              search={this.state.search}
-              action={
-                item.type === 'search/users'
-                  ? this.props.user.searchUser(this.state.search)
-                  : this.props.responsitories.searchReponsitories(
-                      this.state.search,
-                    )
-              }
-            />
-          ))}
-        </ScrollableTabView>
+        <TabView
+          lazy
+          navigationState={this.state}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+          onIndexChange={this.onIndexChange.bind(this)}
+        />
       </View>
+
     );
   }
 }
-
 SearchPage.propTypes = propTypes;
 SearchPage.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    zIndex: 1,
   },
   list: {
     flex: 1,
@@ -124,9 +190,9 @@ const styles = StyleSheet.create({
   },
   historyList: {
     position: 'absolute',
-    top: 46,
+    top: 0,
     left: 10,
-    height: 100,
+    padding: 10,
     width: SCREEN_WIDTH - 20,
     backgroundColor: TEXT_COLOR,
     zIndex: 2,
@@ -134,13 +200,31 @@ const styles = StyleSheet.create({
       .darken(0.6)
       .hex(),
     borderWidth: 0.3,
+    shadowOffset: { x: 4, y: 4 },
+    shadowColor: '#dddddd',
+    shadowRadius: 2,
+    shadowOpacity: 0.2,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 1,
+    elevation: 4,
+  },
+  historyItem: {
+    padding: 5,
+    borderBottomWidth: '#ddd',
+    borderBottomWidth: 0.3,
+  },
+  historyItemText: {
+
   },
   searchBtn: {
     backgroundColor: Color(BG_COLOR)
       .darken(0.6)
       .hex(),
     color: TEXT_COLOR,
-    padding: 10,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
     fontSize: 14,
   },
   searchInput: {
@@ -153,6 +237,20 @@ const styles = StyleSheet.create({
       .hex(),
     borderWidth: 0.5,
     fontSize: 14,
+    paddingLeft: 10,
   },
+
+  tabbar: {
+    backgroundColor: Color(BG_COLOR).darken(0.6).hex(),
+
+  },
+  tabStyle: {
+    borderBottomColor: TEXT_COLOR,
+    borderBottomWidth: 0.3,
+    width: SCREEN_WIDTH / 2,
+
+  },
+  labelStyle: {}
 });
-export default SearchPage;
+
+export default SearchPage

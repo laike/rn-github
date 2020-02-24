@@ -60,17 +60,30 @@ export default class Setting extends Component {
           <TouchFeedbackItem name="book" title="Owned" onPress={() => {
             Actions.push('ReposityPage', { title: '我的仓库' });
           }} />
-          <TouchFeedbackItem name="star" title="Stared" />
-          <TouchFeedbackItem name="bar-chart-o" title="trending" />
-          <TouchFeedbackItem name="search" title="Search" />
+          <TouchFeedbackItem name="star" title="Stared" onPress={() => {
+            Actions.push('StaredPage', { title: '我的关注' });
+          }} />
+          <TouchFeedbackItem name="bar-chart-o" title="trending" onPress={() => {
+            Actions.push('TrendingPage', { title: '热门趋势' });
+          }} />
+          <TouchFeedbackItem name="search" title="Search" onPress={() => {
+            Actions.SearchPage({})
+          }} />
           <View style={styles.event}>
             <Text style={styles.eventtitle}>Favorite Respositories</Text>
           </View>
-          <TouchFeedbackItem name="book" title="GSYGithubAPP" />
+
+          <TouchFeedbackItem name="book" title="GSYGithubAPP" onPress={() => {
+            Actions.push('ShowCodePage', { title: '仓库信息页' });
+          }} />
           <View style={styles.event}>
             <Text style={styles.eventtitle}>Info and Preference</Text>
           </View>
-          <TouchFeedbackItem name="gear" title="Settings" />
+          <TouchFeedbackItem name="gear" title="Settings" onPress={() => {
+            Actions.push('MyPage', {
+
+            });
+          }} />
           <TouchFeedbackItem name="wechat" title="Feedback and Suggest" />
           <TouchFeedbackItem name="user" title="Accounts" />
         </View>
