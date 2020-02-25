@@ -45,7 +45,8 @@ const SourcePage = ({ url, }) => {
                         if (source.type === 'file') {
                             //这里还要进一步判断是否是图片格式或者其他格式如果是图片格式
                             //我们可以使用一个插件或者页面打开这个图片来进行查看
-                            let reg = new RegExp(/\.png|\.jpg|\.gif|\.jpeg/ig)
+                            let reg = new RegExp(/\.png|\.jpg|\.gif|\.jpeg/ig);
+                            let jsonreg = new RegExp(/\.json/ig);
                             if (reg.test(source.name)) {
 
                                 Actions.push('PicturesPage', {
@@ -53,7 +54,7 @@ const SourcePage = ({ url, }) => {
                                     title: source.path
                                 });
                             } else {
-                                Actions.push('RepositoryDetailPage', {
+                                Actions.push('CodeFilePage', {
                                     url: source.url,
                                     title: source.path
                                 });

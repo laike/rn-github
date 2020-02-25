@@ -34,6 +34,7 @@
         "qs": "^6.9.1",
         "react": "16.9.0",
         "react-native": "0.61",
+        "react-native-autoheight-webview": "^1.4.2",
         "react-native-button": "^2.4.0",
         "react-native-check-box": "^2.1.7",
         "react-native-code-push": "^6.1.0",

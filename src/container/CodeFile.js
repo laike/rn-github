@@ -1,4 +1,34 @@
 /**
  * 用于展示 source js rb python java c c++ eg
  */
+import React, { useState, useContext, useEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/constants';
+import CommonDetail from '../components/CommonDetail';
+import Color from 'color';
+import { BG_COLOR } from '../constants/styles';
+const CodeFile = ({ url }) => {
 
+    return (
+        <View style={styles.container}>
+            <CommonDetail url={url ? url : ``}
+                component={'code'}
+                initial={''}
+
+            />
+        </View>
+    );
+}
+
+export default CodeFile;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#2b2b2b'
+    },
+    code: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+    }
+});

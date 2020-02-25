@@ -3,11 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title id="title"></title>
+
+    <link rel="stylesheet" href="file:///android_asset/highlight/styles/a11y-dark.css">
+    <script src="file:///android_asset/highlight/highlight.pack.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body,
+        html {
+            background-color: #2b2b2b;
+        }
+    </style>
 </head>
 
 <body>
+    <pre><code id="code"></code></pre>
+    <!--这个地方用来暂时readme同时将readme markdown格式转换成html在页面中显示-->
+    <div id="md"></div>
+    <script>
+        function InitHightlightjs(url) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/vnd.github.3.raw'
+                }
+            }).then(res => {
+                res.text().then(rs => {
+                    var code = document.getElementById('code');
+                    code.innerText = `${rs}`;
+                    var codes = document.querySelectorAll('pre code');
+                    codes.forEach(function(block, i) {
+                        console.log(block);
+                        hljs.highlightBlock(block);
+                    });
 
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+    </script>
 </body>
+
 
 </html>

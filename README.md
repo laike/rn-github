@@ -45,4 +45,8 @@ https://www.jianshu.com/p/6a5e00d22723
 启动页报错要设置canOverrideExistingModule=true
 解决如下：
 \node_modules\react-native-splash-screen\android\src\main\java\org\devio\rn\splashscreen\SplashScreenModule.java
+
+@Override    
+public boolean canOverrideExistingModule() { return true; }
+
 SplashScreenModule.java 需要加上这个，否则报错。

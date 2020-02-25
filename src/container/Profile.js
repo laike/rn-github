@@ -56,10 +56,7 @@ export default class Profile extends Component {
                     style={styles.commits}
                     scrollEnabled={true}
                 />
-                {/* <WebViewComponent source={{ uri: 'file:///android_asset/template.html' }}
-                    style={styles.commits}
-                    scrollEnabled={true}
-                /> */}
+
                 <CommonToolBar data={[{ label: 'Followers', data: this.state.user.followers },
                 { label: 'Following', data: this.state.user.following }]} />
                 <View style={styles.list}>

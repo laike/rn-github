@@ -6604,6 +6604,13 @@ react-native-animatable@^1.1.0:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-autoheight-webview@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.npm.taobao.org/react-native-autoheight-webview/download/react-native-autoheight-webview-1.4.2.tgz#029774eeda5b041949e73a2eb4d8a53f946d36c5"
+  integrity sha1-Apd07tpbBBlJ5zoutNilP5RtNsU=
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-button@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npm.taobao.org/react-native-button/download/react-native-button-2.4.0.tgz#42b487073a7ce7c54ab503f77c6ced1ab95742bf"

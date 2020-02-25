@@ -1,14 +1,17 @@
 import React, { Component, useState, useEffect } from 'react'
-import { Text, ScrollView, StyleSheet, Image, RefreshControl, View } from 'react-native'
+import { Text, ScrollView, StyleSheet, Image, RefreshControl, View, Dimensions } from 'react-native'
 import { BG_COLOR } from '../constants/styles'
 import http from '../untils/http';
 import { toast } from '../untils/untils';
 import EventListItem from './EventListItem';
 import EmptyComponent from './EmptyComponent';
 import { markdownToNative } from '../untils/MdHtmlUntils';
-import { getActiveChildNavigationOptions } from 'react-navigation';
+
+import AutoHeightWebView from 'react-native-autoheight-webview'
 import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
+import WebViewComponent from './WebViewComponent';
+import { SYSTEM_VERSION, SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/constants';
 
 
 const CommonDetail = ({ url, component, initial = [] }) => {
@@ -16,7 +19,7 @@ const CommonDetail = ({ url, component, initial = [] }) => {
     const [loading, setLoading] = useState(false);
     console.log(component, url);
     function getHttp() {
-        if (component === 'readme') {
+        if (component === 'readme' || component === 'code') {
             return http.get(url, {
                 headers: { Accept: 'application/vnd.github.3.raw+json' },
                 params: { branch: 'master' },
@@ -35,6 +38,69 @@ const CommonDetail = ({ url, component, initial = [] }) => {
             setData(res.data);
         }
     }
+    //处理获取数据
+    function renderData() {
+        if (typeof data === 'object') {
+            return JSON.stringify(data)
+        }
+        //否者直接返回 
+        return data;
+    }
+
+    function renderView(type = 'webwiew') {
+        if (type === 'webview') {
+            return (<WebViewComponent
+                source={{ uri: `file:///android_asset/template.html?=${SYSTEM_VERSION}` }}
+                style={styles.code}
+                scrollEnabled={true}
+                injectedJavaScript={`
+                (function(){
+                     document.body.style.backgroundColor = '#2b2b2b';
+                     var str = \`${renderData()}\`;
+                     var code = document.getElementById('code');
+                     code.innerText= str;
+                     var codes = document.querySelectorAll('pre code');
+                     codes.forEach(function(block, i) {
+                        hljs.highlightBlock(block);
+                     });
+               
+                })()
+                `}
+
+            />)
+        } else {
+            return (
+
+                <AutoHeightWebView
+                    style={{
+                        width: Dimensions.get('window').width,
+                    }}
+                    customScript={`
+                (function(){
+                     document.body.style.backgroundColor = '#2b2b2b';
+                     var str = \`${renderData()}\`;
+                     var code = document.getElementById('code');
+                     code.innerText= str;
+                     var codes = document.querySelectorAll('pre code');
+                     codes.forEach(function(block, i) {
+                        hljs.highlightBlock(block);
+                     });
+               
+                })()
+                `}
+                    // onSizeUpdated={size => console.log(size.height)}
+                    files={[{
+                        href: 'cssfileaddress',
+                        type: 'text/css',
+                        rel: 'stylesheet'
+                    }]}
+                    source={{ uri: `file:///android_asset/template.html?=${SYSTEM_VERSION}` }}
+                    scalesPageToFit={true}
+                    viewportContent={'width=device-width, user-scalable=no'}
+                />
+            );
+        }
+    }
 
     function load() {
         setLoading(true);
@@ -43,6 +109,7 @@ const CommonDetail = ({ url, component, initial = [] }) => {
 
                 setLoading(false);
                 setResponse(res);
+                console.log('data 类型是：', typeof res.data);
 
             })
             .catch(err => {
@@ -83,6 +150,10 @@ const CommonDetail = ({ url, component, initial = [] }) => {
 
                 />) : <EmptyComponent /> : <View />
             }
+            {/* 如果是代码显示那么 */}
+            {
+                component === 'code' ? data ? renderView('autoview') : <EmptyComponent /> : <View />
+            }
 
         </ScrollView>
     )
@@ -99,5 +170,8 @@ const styles = StyleSheet.create({
     },
     text: {
         color: BG_COLOR
+    }, code: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT
     }
 })

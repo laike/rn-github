@@ -55,11 +55,12 @@ import AboutAuthor from '../container/AboutAuthor';
 import FeedBack from '../container/FeedBack'
 import SourcePage from '../container/SourcePage';
 import Pictures from '../container/Pictures'
+import CodeFile from '../container/CodeFile'
 const { width } = Dimensions.get('window');
 
 const router = () => (
   <Router
-    uriPrefix={'windke.cn'}
+    uriPrefix={Platform.OS == 'android' ? 'windke://windke/' : 'windke://'}
     getSceneStyle={() => {
       return styles.navigationBarStyle;
     }}>
@@ -268,6 +269,31 @@ const router = () => (
           <Scene
             title=""
             component={ShowCode}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+
+        <Scene
+          key="CodeFilePage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            title=""
+            component={CodeFile}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,
