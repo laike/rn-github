@@ -1,268 +1,93 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  Dimensions,
-  FlatList,
   StyleSheet,
-  Image,
-  SectionList,
-  findNodeHandle,
   StatusBar,
+  ScrollView,
+  RefreshControl
 } from 'react-native';
-import WebView from '../components/WebViewComponent';
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
-//引入mannager
-import HttpManager from '../untils/http';
-import {STATUS_BAR_STYLE, BG_COLOR} from '../constants/styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {BlurView} from '@react-native-community/blur';
+import { STATUS_BAR_STYLE, BLACK_COLOR, TEXT_COLOR, BG_COLOR } from '../constants/styles';
 import Color from 'color';
-import {ECHARTS_INSERT_JS} from '../constants/js';
-import LottieView from 'lottie-react-native';
-export default class My extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userinfo: {},
-      data: [],
-      viewRef: null,
-    };
+import TouchFeedbackItem from '../components/TouchFeedbackItem';
+import { Actions } from 'react-native-router-flux';
+import { clearAllRealmTabs, clearAllCache, toast } from '../untils/untils';
+const MyPage = ({
+  params,
+}) => {
+  function onRefresh() {
+
   }
-  componentDidMount() {
-    HttpManager.get('user')
-      .then(res => {
-        //再来请求仓库
-        this.setState({
-          userinfo: res.data,
-        });
-        HttpManager.get(res.data.repos_url).then(res1 => {
-          this.setState({
-            data: res1.data,
+  return (
+    <ScrollView style={styles.setting} refreshControl={<RefreshControl onRefresh={onRefresh} />}
+    >
+      <StatusBar {...STATUS_BAR_STYLE} />
+
+      <View style={styles.body}>
+
+        <TouchFeedbackItem name="user" title="个人信息" onPress={() => {
+          Actions.push('ProfilePage', {});
+        }} />
+        <TouchFeedbackItem name="history" title="阅读历史" onPress={() => {
+          Actions.push('NotifictionsPage', {});
+        }} />
+
+        <View style={styles.event}>
+          <Text style={styles.eventtitle}>系统选项</Text>
+        </View>
+        <TouchFeedbackItem name="gear" title="清除缓存" onPress={() => {
+          //这里主要是清除realm的缓存，使得页面能够重新更新数据
+          clearAllRealmTabs();
+          clearAllCache();
+          toast('缓存清除成功！');
+        }} />
+        <View style={styles.event}>
+          <Text style={styles.eventtitle}>项目信息</Text>
+        </View>
+        <TouchFeedbackItem name="github" title="关于项目" onPress={() => {
+          Actions.push('ShowCodePage', {
+            url: 'repos/laike/rn-github',
+            title: "关于此项目"
           });
-        });
-      })
-      .catch(err => {
-        console.log('错误 ', err);
-      });
-  }
-  imageLoaded() {
-    this.setState({
-      viewRef: findNodeHandle(this.backgroundImage),
-    });
-  }
-  render() {
-    const {onScroll = () => {}} = this.props;
-    return (
-      <View style={styles.container}>
-        <StatusBar {...STATUS_BAR_STYLE} />
-        <LottieView
-          source={require('../animations/TwitterHeart.json')}
-          autoPlay
-          loop
-        />
-        <FlatList
-          ref={ref => {
-            this.ListView = ref;
-          }}
-          style={styles.container}
-          data={this.state.data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={rowData => {
-            return (
-              <View
-                style={styles.row}
-                keyExtractor={(item, index) => index.toString()}>
-                <Text style={styles.rowText}>{rowData.item.full_name}</Text>
-              </View>
-            );
-          }}
-          ListHeaderComponent={() => {
-            return (
-              <View style={styles.header}>
-                {/* <WebView
-                  style={styles.webwiew}
-                  injectedJavascript={
-                    '(function(){document.body.innerHTML = "" })()'
-                  }
-                  source={{uri: this.state.userinfo.html_url}}
-                /> */}
-              </View>
-            );
-          }}
-          renderScrollComponent={props => (
-            <ParallaxScrollView
-              onScroll={onScroll}
-              headerBackgroundColor={Color(BG_COLOR)
-                .darken(0.6)
-                .hex()}
-              stickyHeaderHeight={STICKY_HEADER_HEIGHT}
-              parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
-              backgroundSpeed={10}
-              renderBackground={() => (
-                <View key="background">
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      width: window.width,
-                      height: PARALLAX_HEADER_HEIGHT,
-                    }}
-                  />
-                  {/* <BlurView
-                    style={styles.absolute}
-                    viewRef={this.state.viewRef}
-                    blurType="light"
-                    blurAmount={10}
-                  /> */}
-                  <Image
-                    ref={img => {
-                      this.backgroundImage = img;
-                    }}
-                    onLoadEnd={this.imageLoaded.bind(this)}
-                    source={{
-                      uri: 'https://windke.cn/Public/images/sina_cover_bg.jpg',
-                      width: window.width,
-                      height: PARALLAX_HEADER_HEIGHT,
-                    }}
-                  />
-                </View>
-              )}
-              renderForeground={() => (
-                <View key="parallax-header" style={styles.parallaxHeader}>
-                  <Image
-                    style={styles.avatar}
-                    source={{
-                      uri: 'https://windke.cn/Public/images/sina_cover_bg.jpg',
-                      width: AVATAR_SIZE,
-                      height: AVATAR_SIZE,
-                    }}
-                  />
-                  <Text style={styles.sectionSpeakerText}>
-                    {this.state.userinfo.name}
-                  </Text>
-                  <Text style={styles.sectionTitleText}>
-                    {this.state.userinfo.bio}
-                  </Text>
-                </View>
-              )}
-              renderStickyHeader={() => (
-                <View key="sticky-header" style={styles.stickySection}>
-                  <Icon
-                    name={'arrow-left'}
-                    style={[
-                      styles.stickySectionText,
-                      {position: 'absolute', left: 10, top: 10},
-                    ]}
-                    onPress={() => this.ListView.scrollToEnd(true)}
-                  />
-                  <Text style={styles.stickySectionText}>个人详情</Text>
-                </View>
-              )}
-              renderFixedHeader={() => (
-                <View key="fixed-header" style={styles.fixedSection}>
-                  <Icon
-                    name={'share'}
-                    style={styles.fixedSectionText}
-                    onPress={() => this.ListView.scrollToEnd(true)}
-                  />
-                </View>
-              )}
-            />
-          )}
-        />
+        }} />
+        <TouchFeedbackItem name="code" title="关于作者" onPress={() => {
+          Actions.push('AboutAuthorPage', {});
+        }} />
+
+        <View style={styles.event}>
+          <Text style={styles.eventtitle}>其他</Text>
+        </View>
+
+        <TouchFeedbackItem name="info" title="版本(beta 1.0)" onPress={() => {
+          //这里本来是要进行版本更新的操作的但是现在默认只给一个提示
+          toast('版本已经最新！');
+        }} />
+
       </View>
-    );
-  }
+    </ScrollView >
+  );
 }
 
-const window = Dimensions.get('window');
-
-const AVATAR_SIZE = 50;
-const ROW_HEIGHT = 50;
-const PARALLAX_HEADER_HEIGHT = 320;
-const STICKY_HEADER_HEIGHT = 70;
+export default MyPage;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  setting: {
+
   },
-  absolute: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    zIndex: 1,
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: window.width,
-    height: PARALLAX_HEADER_HEIGHT,
-  },
-  stickySection: {
-    height: STICKY_HEADER_HEIGHT,
-    justifyContent: 'center',
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
   },
-  stickySectionText: {
-    color: 'white',
-    fontSize: 14,
-    margin: 10,
-  },
-  fixedSection: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-  },
-  fixedSectionText: {
-    color: '#999',
-    fontSize: 14,
-    margin: 20,
-  },
-  parallaxHeader: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
-    paddingTop: 100,
-  },
-  avatar: {
-    marginBottom: 10,
-    borderRadius: AVATAR_SIZE / 2,
-  },
-  sectionSpeakerText: {
-    color: 'white',
-    fontSize: 20,
-    paddingVertical: 5,
-  },
-  sectionTitleText: {
-    color: 'white',
-    fontSize: 14,
-    paddingVertical: 5,
-  },
-  row: {
-    overflow: 'hidden',
-    paddingHorizontal: 10,
-    height: ROW_HEIGHT,
-    borderColor: '#ccc',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-  },
-  rowText: {
-    fontSize: 14,
-  },
-  //my
-  header: {
+  body: {
     flex: 1,
   },
-  webwiew: {
-    height: 300,
+  event: {
+    backgroundColor: Color(BG_COLOR).darken(0.6).hex(),
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+  },
+  eventtitle: {
+    color: TEXT_COLOR,
+    fontSize: 14,
   },
 });

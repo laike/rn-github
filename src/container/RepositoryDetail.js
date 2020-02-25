@@ -16,7 +16,7 @@ class RepositoryDetail extends PureComponent {
     return (
       <View style={styles.container}>
         {/* <HtmlViewComponent html={this.state.readmeData} /> */}
-        <CommonDetail url={`repos/${this.props.full_name}/readme`}
+        <CommonDetail url={this.props.url ? this.props.url : `repos/${this.props.full_name}/readme`}
           component={'readme'}
           initial={''}
         />

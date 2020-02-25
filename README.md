@@ -40,3 +40,9 @@ https://github.com/microsoft/react-native-code-push
 简书介入 code-push 教程
 https://www.jianshu.com/p/6a5e00d22723
 #今天遇到的问题，在获取notifications这个api的时候，突然发现一只401，403状态码表示用户没有得到授权，最后解决方法是在授权地址中需要加入scopes这个参数。页面基本上都有了，但是有几个问题待解决启动页白屏问题，暂时因为编译问题没有弄。还有就是向WebView这个组件插入js代码还没有实现，实现了的话很多东西可以做，
+#今天遇到的问题就是使用组件react-native-splash-screen的时候遇到的，如下解决方案可行
+
+启动页报错要设置canOverrideExistingModule=true
+解决如下：
+\node_modules\react-native-splash-screen\android\src\main\java\org\devio\rn\splashscreen\SplashScreenModule.java
+SplashScreenModule.java 需要加上这个，否则报错。

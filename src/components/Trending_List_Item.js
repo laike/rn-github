@@ -25,7 +25,7 @@ class Trending_List_Item extends PureComponent {
         onPress={() => {
           // eslint-disable-next-line prettier/prettier
           this.props.data.full_name = `${this.props.data.author}/${this.props.data.name}`;
-          Actions.push('RepositoryDetailPage', { full_name: this.props.data.full_name, title: this.props.data.full_name });
+          Actions.push('ShowCodePage', { url: `repos/${this.props.data.full_name}`, title: this.props.data.full_name });
         }}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{this.props.data.name}</Text>

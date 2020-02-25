@@ -15,7 +15,23 @@ import { STATUS_BAR_STYLE, BLACK_COLOR, TEXT_COLOR, BG_COLOR } from '../constant
 import Color from 'color';
 import TouchFeedbackItem from '../components/TouchFeedbackItem';
 import { Actions } from 'react-native-router-flux';
+import { getUserInfo } from '../untils/userUntils';
 export default class Setting extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    }
+  }
+  componentDidMount() {
+    //这里获取一下用户基本信息
+    getUserInfo().then(info => {
+      this.setState({
+        user: info
+      })
+    })
+
+  }
   onRefresh() {
     //这里写刷新的代码
   }
@@ -25,52 +41,52 @@ export default class Setting extends Component {
       >
         <StatusBar {...STATUS_BAR_STYLE} />
         <View style={styles.header}>
-          <TouchFeedbackItem name="github" title="GeekWindKe" iconStyle={{
+          <TouchFeedbackItem name="github" title={this.state.user.login} iconStyle={{
             fontSize: 80,
           }} onPress={() => {
             Actions.push('ProfilePage', {});
           }} />
         </View>
         <View style={styles.body}>
-          <TouchFeedbackItem name="user" title="profile" onPress={() => {
+          <TouchFeedbackItem name="user" title="个人信息" onPress={() => {
             Actions.push('ProfilePage', {});
           }} />
-          <TouchFeedbackItem name="bell" title="Notifictions" onPress={() => {
+          <TouchFeedbackItem name="bell" title="消息通知" onPress={() => {
             Actions.push('NotifictionsPage', {});
           }} />
-          <TouchFeedbackItem name="hacker-news" title="News" onPress={() => {
+          <TouchFeedbackItem name="hacker-news" title="新闻中心" onPress={() => {
             Actions.push('NewsPage', {
-              url: 'https://api.github.com/users/laike/received_events'
+              url: `users/${this.state.user.login}/received_events`
             });
           }} />
-          <TouchFeedbackItem name="question-circle" title="Issues" onPress={() => {
+          <TouchFeedbackItem name="question-circle" title="问题中心" onPress={() => {
             Actions.push('IssuesPage', {});
           }} />
           <View style={styles.event}>
-            <Text style={styles.eventtitle}>Event</Text>
+            <Text style={styles.eventtitle}>动态</Text>
           </View>
-          <TouchFeedbackItem name="rss" title="Laike" onPress={() => {
+          <TouchFeedbackItem name="rss" title={this.state.user.login} onPress={() => {
             Actions.push('RssPage', {
-              url: 'https://api.github.com/users/laike/events'
+              url: `users/${this.state.user.login}/events`
             });
           }} />
           <View style={styles.event}>
-            <Text style={styles.eventtitle}>Respositories</Text>
+            <Text style={styles.eventtitle}>仓库信息</Text>
           </View>
-          <TouchFeedbackItem name="book" title="Owned" onPress={() => {
-            Actions.push('ReposityPage', { title: '我的仓库' });
+          <TouchFeedbackItem name="book" title="我的仓库" onPress={() => {
+            Actions.push('ReposityPage', { title: '我的仓库', url: `users/${this.state.user.login}/repos` });
           }} />
-          <TouchFeedbackItem name="star" title="Stared" onPress={() => {
+          <TouchFeedbackItem name="star" title="我的关注" onPress={() => {
             Actions.push('StaredPage', { title: '我的关注' });
           }} />
-          <TouchFeedbackItem name="bar-chart-o" title="trending" onPress={() => {
+          <TouchFeedbackItem name="bar-chart-o" title="热门趋势" onPress={() => {
             Actions.push('TrendingPage', { title: '热门趋势' });
           }} />
-          <TouchFeedbackItem name="search" title="Search" onPress={() => {
+          <TouchFeedbackItem name="search" title="搜索" onPress={() => {
             Actions.SearchPage({})
           }} />
           <View style={styles.event}>
-            <Text style={styles.eventtitle}>Favorite Respositories</Text>
+            <Text style={styles.eventtitle}>搜藏的仓库</Text>
           </View>
 
           <TouchFeedbackItem name="book" title="GSYGithubAPP" onPress={() => {
@@ -79,13 +95,17 @@ export default class Setting extends Component {
           <View style={styles.event}>
             <Text style={styles.eventtitle}>Info and Preference</Text>
           </View>
-          <TouchFeedbackItem name="gear" title="Settings" onPress={() => {
+          <TouchFeedbackItem name="gear" title="设置中心" onPress={() => {
             Actions.push('MyPage', {
-
+              title: '设置中心'
             });
           }} />
-          <TouchFeedbackItem name="wechat" title="Feedback and Suggest" />
-          <TouchFeedbackItem name="user" title="Accounts" />
+          <TouchFeedbackItem name="wechat" title="反馈和建议" onPress={() => {
+            Actions.push('FeedBackPage', {
+              title: '反馈和建议'
+            });
+          }} />
+
         </View>
       </ScrollView >
     );

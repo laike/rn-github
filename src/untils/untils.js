@@ -254,6 +254,7 @@ export const doActionsRequest = (
       if (!result) {
         return typeof save === 'function' ? save() : null;
       } else if (result) {
+        toast(`获取到${resp.data.length}条数据`);
         callback(data);
       }
       //用户强制要求获取远程数据并且储存在本地realm数据库
@@ -261,13 +262,17 @@ export const doActionsRequest = (
         save && save();
       }
     })
-    .then(resp => {
+    .then((resp = null) => {
+      //这里进行数据获取
+      console.log('这里进行数据获取 resp')
       if (__DEV__) {
         if (resp) {
           console.log('正在从服务器重新获取数据，并且保存到realm本地数据库！');
         }
       }
       if (resp && resp.data) {
+        toast(`获取到${resp.data.length}条数据`);
+
         callback(resp.data);
       }
     })
@@ -275,6 +280,8 @@ export const doActionsRequest = (
       if (__DEV__) {
         console.log(err);
       }
+      console.log('这里进行数据获取 resp');
+      toast('获取数据失败，请下拉刷新试试');
     });
 };
 export const openUrl = (url = '') => {
@@ -382,15 +389,21 @@ export const cloneArr = (arr = []) => {
 };
 
 export const getData = async key => {
-  AsyncStorage.getItem(key)
+  return AsyncStorage.getItem(key)
     .then(tk => {
+      if (__DEV__) {
+        console.log(`正在获取${key}...`)
+      }
       if (tk) {
-        return tk;
+        return JSON.parse(tk);//默认进行了JSON编码转换
       } else {
         return null;
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      if (__DEV__) {
+        console.log(err);
+      }
       return null;
     });
 };
@@ -400,10 +413,12 @@ export const storeData = (key, value) => {
       console.log(`正在设置token: ${key}=${value}`);
     }
     AsyncStorage.setItem(key, value);
+    return true;
   } catch (error) {
     if (__DEV__) {
       console.log(error);
     }
+    return false;
   }
 };
 /**

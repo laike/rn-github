@@ -13,6 +13,7 @@ import { BG_COLOR, TEXT_COLOR, STATUS_BAR_STYLE } from '../constants/styles';
 //引入Http类
 import Http from '../untils/http';
 import Color from 'color';
+import { getUserInfo, doUserLogin } from '../untils/userUntils';
 //这个启动页我们后面再来处理
 const { width, height } = Dimensions.get('window');
 //定义一个淡入淡出的高阶组件使用hooks 钩子
@@ -43,7 +44,15 @@ export default class SpanlashPage extends Component {
       if (!Http.getToken()) {
         Actions.reset('Login');
       } else {
-        Actions.reset('root');
+        //这里还要进一步获取用户基本信息
+        getUserInfo().then(info => {
+          console.log(info);
+          if (info) {
+            Actions.reset('root');
+          } else {
+            Http.doUserLogin()
+          }
+        })
       }
     }, 2100);
   }

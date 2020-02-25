@@ -29,11 +29,11 @@ export default class ShowCode extends Component {
         this.setState({
             loading: true,
         })
-        console.log(http.getToken());
-        http.get('https://api.github.com/repos/laike/GSYGithubAPP')
+        const { url = 'repos/laike/GSYGithubAPP' } = this.props;
+        http.get(url)
             .then(res => {
-                console.log('https://api.github.com/repos/laike/GSYGithubAPP');
-                console.log(res);
+
+
                 this.setState({
                     loading: false,
                     repo: res.data
@@ -49,7 +49,9 @@ export default class ShowCode extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh.bind(this)} />}>
+            <ScrollView
+
+                style={styles.container} refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh.bind(this)} />}>
 
                 <CommonHeader type={'repo'} data={this.state.repo} />
 
@@ -80,13 +82,42 @@ export default class ShowCode extends Component {
 
                 <View style={styles.list}>
                     <TouchFeedbackItem name="crosshairs" title="Commits" onPress={() => {
-                        Actions.push('ProfilePage', {});
+                        Actions.push('Issues', {
+                            routes: [
+                                {
+                                    key: 'notread', title: '开启',
+                                    url: this.state.repo.issue_events_url ? this.state.repo.issue_events_url.replace('/(\{.*\})/', '') : '',
+                                    component: 'normal'
+                                },
+                                {
+                                    key: 'readed', title: '关闭',
+                                    url: this.state.repo.issue_events_url ? this.state.repo.issue_events_url.replace('/(\{.*\})/', '') : '',
+                                    component: 'normal'
+                                },
+                            ]
+                        });
                     }} />
                     <TouchFeedbackItem name="retweet" title="Pull Requests" onPress={() => {
-                        Actions.push('ProfilePage', {});
+                        Actions.push('Issues', {
+                            routes: [
+                                {
+                                    key: 'notread', title: '开启',
+                                    url: this.state.repo.issue_events_url ? this.state.repo.issue_events_url.replace('/(\{.*\})/', '') : '',
+                                    component: 'normal'
+                                },
+                                {
+                                    key: 'readed', title: '关闭',
+                                    url: this.state.repo.issue_events_url ? this.state.repo.issue_events_url.replace('/(\{.*\})/', '') : '',
+                                    component: 'normal'
+                                },
+                            ]
+                        });
                     }} />
                     <TouchFeedbackItem name="code" title="Sources" onPress={() => {
-                        Actions.push('ProfilePage', {});
+                        Actions.push('SourcePage', {
+                            title: `${this.state.repo.full_name}`,
+                            url: `repos/${this.state.repo.full_name}/contents`
+                        });
                     }} />
                 </View>
                 <View style={styles.list}>

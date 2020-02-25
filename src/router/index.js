@@ -51,6 +51,10 @@ import OwnedRepository from '../container/OwnedRepositoryPage';
 import ShowCode from '../container/ShowCode';
 import ReposityPage from '../container/ReposityPage';
 import StaredPage from '../container/StaredPage';
+import AboutAuthor from '../container/AboutAuthor';
+import FeedBack from '../container/FeedBack'
+import SourcePage from '../container/SourcePage';
+import Pictures from '../container/Pictures'
 const { width } = Dimensions.get('window');
 
 const router = () => (
@@ -194,6 +198,30 @@ const router = () => (
             }}
           />
         </Scene>
+        <Scene
+          key="SourcePage"
+          wrap
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            component={SourcePage}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
 
         <Scene
           key="TrendingPage"
@@ -287,6 +315,29 @@ const router = () => (
           )}>
           <Scene
             component={RepositoryDetail}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="PicturesPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            component={Pictures}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,
@@ -493,8 +544,6 @@ const router = () => (
             />
           )}>
           <Scene
-
-            component={My}
             titleStyle={{
               color: TEXT_COLOR,
               fontSize: 20,
@@ -504,6 +553,50 @@ const router = () => (
                 .darken(0.6)
                 .hex()}`,
             }}
+            component={My}
+
+          />
+        </Scene>
+        <Scene
+          key="AboutAuthorPage"
+          hideNavBar
+        >
+          <Scene
+
+            component={AboutAuthor}
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+          />
+        </Scene>
+        <Scene
+          key="FeedBackPage"
+          renderLeftButton={() => (
+            <CustomIconComponent
+              name="arrow-left"
+              onPress={() => {
+                Actions.pop();
+              }}
+            />
+          )}>
+          <Scene
+            titleStyle={{
+              color: TEXT_COLOR,
+              fontSize: 20,
+            }}
+            navigationBarStyle={{
+              backgroundColor: `${Color(BG_COLOR)
+                .darken(0.6)
+                .hex()}`,
+            }}
+            component={FeedBack}
+
           />
         </Scene>
         <Drawer

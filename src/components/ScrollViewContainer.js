@@ -96,13 +96,13 @@ class ScrollViewContainer extends PureComponent {
     return (
       <View style={styles.container}>
         <FlatList
-
           ref={ref => {
             this.list = ref;
           }}
           ListEmptyComponent={() => <EmptyComponent />}
           style={styles.flatList}
           data={this.state.data}
+
           refreshing={this.state.loading}
           onRefresh={() => {
             this.LoadData();

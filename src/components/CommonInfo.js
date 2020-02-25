@@ -4,6 +4,7 @@ import TouchFeedbackItem from '../components/TouchFeedbackItem'
 import { TEXT_COLOR } from '../constants/styles';
 import { SCREEN_WIDTH } from '../constants/constants';
 import http from '../untils/http';
+import filesize from 'filesize'
 import moment from 'moment'
 import momentLocaleZhCn from 'moment/locale/zh-cn'
 import { Actions } from 'react-native-router-flux';
@@ -46,7 +47,7 @@ const CommonInfo = ({
         <View style={styles.item}>
             <TouchFeedbackItem
                 name='info-circle'
-                title={repo.has_issues ? repo.open_issues_count : "0"}
+                title={repo.has_issues ? `${repo.open_issues_count}` : "0"}
                 hideArrow
             />
         </View>
@@ -68,7 +69,7 @@ const CommonInfo = ({
         <View style={styles.item}>
             <TouchFeedbackItem
                 name='archive'
-                title={repo.size ? `${Math.round(repo.size / 1024)} M ` : '0 Kb'}
+                title={repo.size ? filesize(repo.size) : '0 Kb'}
                 hideArrow
             />
         </View>
@@ -80,7 +81,7 @@ const CommonInfo = ({
                 rightTitle={repo.owner ? repo.owner.login : 'null'}
                 onPress={() => {
                     Actions.push('ProfilePage', {
-                        url: `users/${repo.owner.login}`
+                        url: `users/${repo.owner ? repo.owner.login : ''}`
                     });
                 }}
             />

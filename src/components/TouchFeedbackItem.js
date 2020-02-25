@@ -19,7 +19,7 @@ export default class TouchFeedbackItem extends Component {
                         }
                         <View style={styles.subinfo}>
                             {this.props.title ? <Text style={[styles.text, this.props.textStyle]}>{this.props.title}</Text> : <View />}
-
+                            {this.props.size ? <Text style={[styles.size, this.props.sizeStyle]}>{this.props.size}</Text> : <View />}
                             {this.props.updated_at ? <Text style={[styles.text, this.props.small]}>{moment(this.props.updated_at, "YYYYMMDD").fromNow()}</Text> : <View />}
                         </View>
                     </View>
@@ -85,5 +85,13 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         fontSize: 18,
         color: "#999"
+    },
+    title: {
+
+    },
+    size: {
+        fontSize: 12,
+        paddingLeft: 15,
+        paddingTop: 5,
     }
 })

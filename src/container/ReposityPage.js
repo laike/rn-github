@@ -5,12 +5,13 @@ import { StyleSheet, StatusBar, View } from 'react-native';
 import { STATUS_BAR_STYLE, BG_COLOR, TEXT_COLOR } from '../constants/styles';
 import CommonDetail from '../components/CommonDetail'
 
-const ReposityPage = (props) => {
+const ReposityPage = ({ url }) => {
 
+  //这里我们需要获取用户的基本信息
   return (
     <View style={styles.container}>
       <StatusBar {...STATUS_BAR_STYLE} />
-      <CommonDetail url={`users/laike/repos`} component={'myrespositories'} />
+      <CommonDetail url={url} component={'myrespositories'} />
     </View>
   );
 

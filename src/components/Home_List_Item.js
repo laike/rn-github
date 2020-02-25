@@ -23,7 +23,7 @@ class Home_List_Item extends PureComponent {
       <TouchableOpacity
         style={styles.container}
         onPress={() => {
-          Actions.push('RepositoryDetailPage', { full_name: this.props.data.full_name, title: this.props.data.full_name });
+          Actions.push('ShowCodePage', { url: `repos/${this.props.data.full_name}`, title: this.props.data.full_name });
         }}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{this.props.data.full_name}</Text>

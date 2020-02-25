@@ -28,10 +28,13 @@ import {
   CLIENT_ID,
   USERNAME_NOT_ALLOWED_NULL,
   USER_HAS_LOGIN_IN,
+  USER_KEY,
 } from '../constants/constants';
 import { Actions } from 'react-native-router-flux';
 import { DeviceEventEmitter } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { doUserLogin, setUserInfo } from './userUntils';
+import { Alert } from 'react-native';
 
 //在这里我们再封装一层使用单例模式，并且使用异步函数结合await
 class Http {
@@ -64,7 +67,6 @@ class Http {
     this.server.interceptors.response.use(
       resp => {
         //请求需要权限这里可以处理跳转到登录页面
-        console.log(resp);
         if (resp.status === 401) {
           handleError(resp.status);
           return {
@@ -103,6 +105,50 @@ class Http {
         //一般不会错
       });
   }
+  doUserLogin() {
+
+    //如果获取到了token那么就获取用户信息
+    const token = this.getToken();
+    if (token) {
+      this.get('user', {
+        headers: { Authorization: `token ${token}` }
+      }).then((res) => {
+        //这里成功以后我们将获取到的用户信息永久存储本地
+        setUserInfo(JSON.stringify(res.data));
+        //跳转到首页
+        Actions.reset('root');
+
+      }).catch(err => {
+        //如果出错的话弹出一个框给用户，让用户选择是否继续尝试。
+        Alert.alert(
+          '提示信息',
+          '用户信息获取失败，可能Github网络不稳定，或者您没有连接到wifi！是否尝试？',
+          [
+            {
+              text: '取消',
+              onPress: () => {
+                //跳转到登录页面
+                Actions.reset('Login');
+              }, style: 'cancel'
+            },
+            {
+              text: '确定',
+              onPress: () => {
+                this.doUserLogin();
+              }
+            },
+          ],
+          { cancelable: false }
+        )
+      })
+    } else {
+      //否则跳转到登录页面
+      Actions.reset('Login');
+    }
+
+
+
+  }
   openAuthorizationPage() {
     Actions.replace('GitHubLoginPage', {
       source: {
@@ -128,9 +174,8 @@ class Http {
                 error => Promise.reject(error),
               );
               //这里通知用户登录成功！
-              toast('登录成功！');
-              //然后跳转到首页
-              Actions.reset('root');
+              toast('登录成功！正在获取用户信息...');
+              this.doUserLogin();
             })
             .catch(() => {
               //这里通知用户登录成功！

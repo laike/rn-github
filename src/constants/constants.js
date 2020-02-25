@@ -51,3 +51,4 @@ export const GITHUB_THIRDPARTY_AUTHORIZATION_URL =
 export const CLIENT_ID = '6d3b92a0131a6b5a7b92';
 export const USER_HAS_LOGIN_IN = 'USER_HAS_LOGIN_IN';
 export const GH_CHART_API = 'https://ghchart.rshah.org/'
+export const USER_KEY = 'rn_github_user_key'

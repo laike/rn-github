@@ -8,8 +8,7 @@ import EmptyComponent from './EmptyComponent';
 import { markdownToNative } from '../untils/MdHtmlUntils';
 import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
-
-
+import TouchFeedbackItem from '../components/TouchFeedbackItem'
 const CommonDetailForTab = ({ route }) => {
     const { url, component, initial = [] } = route;
     const [data, setData] = useState(initial);

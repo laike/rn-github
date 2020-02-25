@@ -9,7 +9,8 @@ import store from './stores';
 import { View, Text } from 'react-native';
 import CodePush from 'react-native-code-push';
 import { MenuProvider } from 'react-native-popup-menu';
-
+//启动屏新增
+import SplashScreen from 'react-native-splash-screen'
 
 const codePushOptions = {
   //设置检查更新的频率
@@ -50,6 +51,8 @@ const App = () => {
   CodePush.disallowRestart(); //禁止重启
   syncImmediate(); //开始检查更新
   useEffect(() => {
+    // 这里进行启动屏关闭
+    SplashScreen.hide();
     // CodePush.allowRestart(); //在加载完了，允许重启
   });
   return (
