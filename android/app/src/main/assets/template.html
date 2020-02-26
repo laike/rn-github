@@ -34,7 +34,7 @@
             }).then(res => {
                 res.text().then(rs => {
                     var code = document.getElementById('code');
-                    code.innerText = `${rs}`;
+                    code.innerText = rs;
                     var codes = document.querySelectorAll('pre code');
                     codes.forEach(function(block, i) {
                         console.log(block);
