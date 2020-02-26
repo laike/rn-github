@@ -38,15 +38,16 @@ https://appcenter.ms/users/lake1355-qq.com/apps/rngithub/analytics/log-flow
 关于如何集成 code-push
 https://github.com/microsoft/react-native-code-push
 简书介入 code-push 教程
-https://www.jianshu.com/p/6a5e00d22723
-#今天遇到的问题，在获取notifications这个api的时候，突然发现一只401，403状态码表示用户没有得到授权，最后解决方法是在授权地址中需要加入scopes这个参数。页面基本上都有了，但是有几个问题待解决启动页白屏问题，暂时因为编译问题没有弄。还有就是向WebView这个组件插入js代码还没有实现，实现了的话很多东西可以做，
-#今天遇到的问题就是使用组件react-native-splash-screen的时候遇到的，如下解决方案可行
+https://www.jianshu.com/p/6a5e00d22723 #今天遇到的问题，在获取 notifications 这个 api 的时候，突然发现一只 401，403 状态码表示用户没有得到授权，最后解决方法是在授权地址中需要加入 scopes 这个参数。页面基本上都有了，但是有几个问题待解决启动页白屏问题，暂时因为编译问题没有弄。还有就是向 WebView 这个组件插入 js 代码还没有实现，实现了的话很多东西可以做， #今天遇到的问题就是使用组件 react-native-splash-screen 的时候遇到的，如下解决方案可行
 
-启动页报错要设置canOverrideExistingModule=true
+启动页报错要设置 canOverrideExistingModule=true
 解决如下：
 \node_modules\react-native-splash-screen\android\src\main\java\org\devio\rn\splashscreen\SplashScreenModule.java
 
-@Override    
+@Override  
 public boolean canOverrideExistingModule() { return true; }
 
 SplashScreenModule.java 需要加上这个，否则报错。
+
+#使用 codepush 的时候，需要先将 js 打包命令如下
+npx react-native bundle --platform android --entry-file index.js --bundle-output ./bundles/index.android.bundle --dev false

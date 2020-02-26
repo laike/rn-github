@@ -1,0 +1,1 @@
+code-push release iOSRNHybridForAndroid ./bundles/index.android.bundle 1.0.1 --deploymentName Production --description "1.支持文章缓存。" --mandatory true

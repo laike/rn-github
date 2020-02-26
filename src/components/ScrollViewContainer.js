@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -14,22 +14,22 @@ import Trending_List_Item from './Trending_List_Item';
 import User_List_item from './User_List_Item';
 import EmptyComponent from './EmptyComponent';
 import _ from 'lodash';
-import { MAIN_COLOR } from '../constants/styles';
-import { doActionsRequest } from '../untils/untils';
+import {MAIN_COLOR} from '../constants/styles';
+import {doActionsRequest} from '../untils/untils';
 import User_Event_List_Item from './User_Event_List_Item';
 
 const propTypes = {
   action: PropTypes.any,
 };
 const defaultProps = {
-  action: new Promise((resolve, reject) => { }),
+  action: new Promise((resolve, reject) => {}),
 };
 
 class ScrollViewContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.page = 1;
-    this.pagesize = 10;//最大就请求到10就行了这个github考虑的
+    this.pagesize = 10; //最大就请求到10就行了这个github考虑的
     this.state = {
       data: [],
       appState: AppState.currentState,
@@ -102,7 +102,6 @@ class ScrollViewContainer extends PureComponent {
           ListEmptyComponent={() => <EmptyComponent />}
           style={styles.flatList}
           data={this.state.data}
-
           refreshing={this.state.loading}
           onRefresh={() => {
             this.LoadData();
@@ -134,7 +133,6 @@ class ScrollViewContainer extends PureComponent {
               );
             } else if (this.props.type === 'search/users') {
               return (
-
                 <User_List_item
                   keyExtractor={(item, index) => index.toString()}
                   data={data.item}

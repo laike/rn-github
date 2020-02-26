@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
 // 这里使用新功能Hooks
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Router from './router';
 //这里我们需要引入redux中间件等等一下东西
-import { Provider } from 'react-redux';
-
+import {Provider} from 'react-redux';
 import store from './stores';
-import { View, Text } from 'react-native';
 import CodePush from 'react-native-code-push';
-import { MenuProvider } from 'react-native-popup-menu';
+import {MenuProvider} from 'react-native-popup-menu';
 //启动屏新增
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
+import {toast} from './untils/untils';
 
 const codePushOptions = {
   //设置检查更新的频率
@@ -53,7 +52,8 @@ const App = () => {
   useEffect(() => {
     // 这里进行启动屏关闭
     SplashScreen.hide();
-    // CodePush.allowRestart(); //在加载完了，允许重启
+    CodePush.allowRestart(); //在加载完了，允许重启
+    toast('检查更新中...');
   });
   return (
     <Provider store={store}>

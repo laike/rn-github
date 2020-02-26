@@ -32,7 +32,7 @@ class Dynamic_List_Item extends PureComponent {
           <View style={styles.owner}>
             <Text>{this.props.data.owner.login}</Text>
             <Image
-              source={{uri: this.props.data.owner.avatar_url}}
+              source={require('../data/images/github.png')}
               style={styles.avatar}
             />
           </View>

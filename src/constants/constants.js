@@ -1,6 +1,6 @@
 //定义全局的常量
-import { Dimensions } from 'react-native';
-const { width, height } = Dimensions.get('window');
+import {Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
 export const SCREEN_WIDTH = width;
 export const SCREEN_HEIGHT = height;
 export const TRENDING_PAGE_MENUS_DATA = [
@@ -38,8 +38,8 @@ export const TRENDING_PAGE_MENUS_DATA_QUERY = [
 ];
 
 export const SEARCH_TABS = [
-  { type: 'search/reponsitories', name: '仓库' },
-  { type: 'search/users', name: '用户' },
+  {type: 'search/reponsitories', name: '仓库'},
+  {type: 'search/users', name: '用户'},
 ];
 
 //用户登录相关提示
@@ -50,8 +50,11 @@ export const GITHUB_THIRDPARTY_AUTHORIZATION_URL =
   'https://github.com/login/oauth/authorize';
 export const CLIENT_ID = '6d3b92a0131a6b5a7b92';
 export const USER_HAS_LOGIN_IN = 'USER_HAS_LOGIN_IN';
-export const GH_CHART_API = 'https://ghchart.rshah.org/'
-export const USER_KEY = 'rn_github_user_key'
+export const GH_CHART_API = 'https://ghchart.rshah.org/';
+export const USER_KEY = 'rn_github_user_key';
 
 //系统变量相关
-export const SYSTEM_VERSION = '1.0.1';//用于更新缓存
+export const SYSTEM_VERSION = '1.0.1'; //用于更新缓存
+
+//搜索相关
+export const SEACH_FILTERS = 'SEACH_FILTERS';

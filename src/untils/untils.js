@@ -1,13 +1,13 @@
 /**
  * 工具类库（时间格式化 localstorage封装等等 realm库工具）
  */
-import config, { TOKEN_KEY } from '../config/config';
+import config, {TOKEN_KEY} from '../config/config';
 import Realm from '../dao/db';
 //这里我们需要引入一个toast
 import Toast from 'react-native-root-toast';
 import schema from '../dao/schema';
 //引入Actions
-import { Actions } from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import Qs from 'qs';
 //导入url parse这个类库对URL进行分析
 import Parse from 'url-parse';
@@ -174,7 +174,9 @@ export const createAsyncSaveFunc = (
   API,
 ) => {
   return async () => {
-    console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    if (__DEV__) {
+      console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    }
     //这里获取数据
     let res = await API(...params);
     if (res && res.data) {
@@ -211,7 +213,9 @@ export const createAsyncSaveFunc = (
 export const getDataFromLocal = (table = '', filter = '') => {
   //先从Realm数据库中进行查询
   let localDatas = null;
-  // console.log(`getDataFromLocal\n ${table}\n ${filter}`);
+  if (__DEV__) {
+    console.log(`getDataFromLocal\n ${table}\n ${filter}`);
+  }
   try {
     localDatas = Realm.objects(table).filtered(filter);
     if (localDatas && localDatas.length > 0) {
@@ -243,18 +247,18 @@ export const doActionsRequest = (
   action = new Promise((resolve, reject) => {
     resolve(false);
   }),
-  callback = () => { },
-  before = () => { },
+  callback = () => {},
+  before = () => {},
   saved = false,
 ) => async () => {
   before();
   action
-    .then(({ value }) => {
-      const { data, save, result } = value;
+    .then(({value}) => {
+      const {data, save, result} = value;
       if (!result) {
         return typeof save === 'function' ? save() : null;
       } else if (result) {
-        toast(`获取到${resp.data.length}条数据`);
+        toast(`获取到${data.length}条数据`);
         callback(data);
       }
       //用户强制要求获取远程数据并且储存在本地realm数据库
@@ -264,7 +268,7 @@ export const doActionsRequest = (
     })
     .then((resp = null) => {
       //这里进行数据获取
-      console.log('这里进行数据获取 resp')
+      console.log('这里进行数据获取 resp');
       if (__DEV__) {
         if (resp) {
           console.log('正在从服务器重新获取数据，并且保存到realm本地数据库！');
@@ -272,7 +276,6 @@ export const doActionsRequest = (
       }
       if (resp && resp.data) {
         toast(`获取到${resp.data.length}条数据`);
-
         callback(resp.data);
       }
     })
@@ -293,7 +296,7 @@ export const openUrl = (url = '') => {
         //是github内置网页
         toast('内部页面后续功能开放');
       } else {
-        Actions.WebPage({ url: url });
+        Actions.WebPage({url: url});
       }
     }
   }
@@ -392,15 +395,15 @@ export const getData = async key => {
   return AsyncStorage.getItem(key)
     .then(tk => {
       if (__DEV__) {
-        console.log(`正在获取${key}...`)
+        console.log(`正在获取${key}...`);
       }
       if (tk) {
-        return JSON.parse(tk);//默认进行了JSON编码转换
+        return JSON.parse(tk); //默认进行了JSON编码转换
       } else {
         return null;
       }
     })
-    .catch((err) => {
+    .catch(err => {
       if (__DEV__) {
         console.log(err);
       }
@@ -410,7 +413,7 @@ export const getData = async key => {
 export const storeData = (key, value) => {
   try {
     if (__DEV__) {
-      console.log(`正在设置token: ${key}=${value}`);
+      console.log(`正在设置token: ${key}`);
     }
     AsyncStorage.setItem(key, value);
     return true;

@@ -1,20 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  SectionList,
-  RecyclerViewBackedScrollView,
-} from 'react-native';
+import {Text, View, StyleSheet, DeviceEventEmitter} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TEXT_COLOR, BG_COLOR } from '../constants/styles';
-import { FlatList, TouchableHighlight, TouchableNativeFeedback } from 'react-native-gesture-handler';
+import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import {
+  FlatList,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import Color from 'color';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
+import {SEACH_FILTERS} from '../constants/constants';
+import FilterItem from './FilterItem';
 const propTypes = {};
 const defaultProps = {};
 const keys = require('../data/keys.json');
@@ -33,24 +32,19 @@ class SearchFilter extends PureComponent {
               </View>
             );
           }}
-          renderItem={(data) => {
-
-            return (
-              Platform.OS === 'android' ? <TouchableNativeFeedback style={[styles.item, styles.current]}>
-                <Text style={[styles.center]}>{data.item.name}</Text>
-              </TouchableNativeFeedback> : <TouchableHighlight style={styles.item}>
-                  <Text style={[styles.center]}>{data.item.name}</Text>
-                </TouchableHighlight>
-            )
-          }} />
+          renderItem={data => <FilterItem data={data.item} />}
+        />
         <FlatList
           style={styles.list}
-          data={[{
-            name: 'star'
-          }, { name: 'fork' },
-          {
-            name: 'update'
-          }]}
+          data={[
+            {
+              name: 'star',
+            },
+            {name: 'fork'},
+            {
+              name: 'update',
+            },
+          ]}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={() => {
             return (
@@ -59,22 +53,15 @@ class SearchFilter extends PureComponent {
               </View>
             );
           }}
-          renderItem={(data) => {
-
-            return (
-              Platform.OS === 'android' ? <TouchableNativeFeedback style={[styles.item, styles.current]}>
-                <Text style={[styles.center]}>{data.item.name}</Text>
-              </TouchableNativeFeedback> : <TouchableHighlight style={styles.item}>
-                  <Text style={[styles.center]}>{data.item.name}</Text>
-                </TouchableHighlight>
-            )
-          }} />
+          renderItem={data => <FilterItem data={data.item} />}
+        />
         <FlatList
           style={styles.list}
-          data={[{
-            name: 'ASC'
-          },
-          { name: 'DSC' },
+          data={[
+            {
+              name: 'ASC',
+            },
+            {name: 'DSC'},
           ]}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={() => {
@@ -84,18 +71,8 @@ class SearchFilter extends PureComponent {
               </View>
             );
           }}
-          renderItem={(data) => {
-
-            return (
-              Platform.OS === 'android' ? <TouchableNativeFeedback style={[styles.item, styles.current]}>
-                <Text style={[styles.center]}>{data.item.name}</Text>
-              </TouchableNativeFeedback> : <TouchableHighlight style={styles.item}>
-                  <Text style={[styles.center]}>{data.item.name}</Text>
-                </TouchableHighlight>
-            )
-          }} />
-
-
+          renderItem={data => <FilterItem data={data.item} />}
+        />
       </View>
     );
   }
@@ -106,13 +83,13 @@ SearchFilter.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color(BG_COLOR).darken(0.6).hex(),
+    backgroundColor: Color(BG_COLOR)
+      .darken(0.6)
+      .hex(),
   },
-  list: {
 
-  },
   current: {
-    backgroundColor: 'rgba(0,0,0,0.2)'
+    backgroundColor: 'rgba(0,0,0,0.2)',
   },
   item: {
     padding: 15,
@@ -121,12 +98,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     padding: 10,
-
   },
   center: {
-    textAlign: "center",
-    color: TEXT_COLOR
-  }
-
+    textAlign: 'center',
+    color: TEXT_COLOR,
+  },
 });
 export default SearchFilter;

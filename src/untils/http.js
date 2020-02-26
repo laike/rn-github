@@ -12,7 +12,7 @@ import {
   queryOne,
   toast,
 } from './untils';
-import { BASE_URL, TOKEN_KEY, CODE_KEY } from '../config/config';
+import {BASE_URL, TOKEN_KEY, CODE_KEY} from '../config/config';
 import QS from 'qs'; //这个库很强大
 import {
   CODE_NOT_FOUND,
@@ -30,11 +30,11 @@ import {
   USER_HAS_LOGIN_IN,
   USER_KEY,
 } from '../constants/constants';
-import { Actions } from 'react-native-router-flux';
-import { DeviceEventEmitter } from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import {DeviceEventEmitter} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { doUserLogin, setUserInfo } from './userUntils';
-import { Alert } from 'react-native';
+import {doUserLogin, setUserInfo} from './userUntils';
+import {Alert} from 'react-native';
 
 //在这里我们再封装一层使用单例模式，并且使用异步函数结合await
 class Http {
@@ -48,9 +48,7 @@ class Http {
     this.server = axios.create({
       baseURL: BASE_URL,
       timeout: this.options.timeout, //请求超时时间
-      withCredentials: false, //不允许跨域防止XSRF
     });
-
     //这里在本地存储里面查找
     AsyncStorage.getItem(TOKEN_KEY).then(token => {
       console.log('初始化成功', token);
@@ -58,6 +56,7 @@ class Http {
       this.server.interceptors.request.use(
         config => {
           config.headers.Authorization = `token ${token}`;
+          config.headers.UserAgent = 'laike';
           return config;
         },
         error => Promise.reject(error),
@@ -66,21 +65,7 @@ class Http {
     //设置响应拦截
     this.server.interceptors.response.use(
       resp => {
-        //请求需要权限这里可以处理跳转到登录页面
-        if (resp.status === 401) {
-          handleError(resp.status);
-          return {
-            success: false,
-            code: NEED_AUTH,
-            msg: '权限不够，需要登录后进行操作！',
-          };
-        }
-        //请求成功的处理方式
-        return {
-          success: true,
-          code: CODE_SUCCESS,
-          data: resp.data,
-        };
+        return resp;
       },
       error => {
         if (__DEV__) {
@@ -94,7 +79,7 @@ class Http {
       },
     );
   }
-  //这里我们要写一个，当用户登录以后马上向本地数据库中存储用户的基本信息 
+  //这里我们要写一个，当用户登录以后马上向本地数据库中存储用户的基本信息
   //https://api.github.com/user
   saveUserInfo() {
     this.get('user')
@@ -105,49 +90,44 @@ class Http {
         //一般不会错
       });
   }
-  doUserLogin() {
-
+  doUserLogin(scene = 'loginpage') {
     //如果获取到了token那么就获取用户信息
     const token = this.getToken();
+    console.log(`douserlogin `, token);
     if (token) {
-      this.get('user', {
-        headers: { Authorization: `token ${token}` }
-      }).then((res) => {
-        //这里成功以后我们将获取到的用户信息永久存储本地
-        setUserInfo(JSON.stringify(res.data));
-        //跳转到首页
-        Actions.reset('root');
-
-      }).catch(err => {
-        //如果出错的话弹出一个框给用户，让用户选择是否继续尝试。
-        Alert.alert(
-          '提示信息',
-          '用户信息获取失败，可能Github网络不稳定，或者您没有连接到wifi！是否尝试？',
-          [
-            {
-              text: '取消',
-              onPress: () => {
-                //跳转到登录页面
-                Actions.reset('Login');
-              }, style: 'cancel'
-            },
-            {
-              text: '确定',
-              onPress: () => {
-                this.doUserLogin();
-              }
-            },
-          ],
-          { cancelable: false }
-        )
+      this.get(`https://windke.cn/auth/user`, {
+        params: {
+          access_token: token,
+        },
       })
+        .then(res => {
+          //这里成功以后我们将获取到的用户信息永久存储本地
+
+          setUserInfo(res.data);
+          if (scene === 'loginpage') {
+            //跳转到首页
+            Actions.reset('root');
+          } else if (scene === 'settingpage') {
+            //提示
+            toast('用户信息刷新成功！');
+          }
+        })
+        .catch(err => {
+          if (scene === 'loginpage') {
+            //提示用户个人信息获取失败，然后还是跳转到首页因为到达这一步已经获取到了access_token
+            toast(
+              '用户信息获取失败!可能网络不稳定或者您没有连接到wifi,是否尝试？',
+            );
+            Actions.reset('Login');
+          } else if (scene === 'settingpage') {
+            //提示
+            toast('用户信息刷新失败，请稍后重试！');
+          }
+        });
     } else {
       //否则跳转到登录页面
       Actions.reset('Login');
     }
-
-
-
   }
   openAuthorizationPage() {
     Actions.replace('GitHubLoginPage', {
@@ -169,6 +149,7 @@ class Http {
               this.server.interceptors.request.use(
                 config => {
                   config.headers.Authorization = `token ${params.accessToken}`;
+                  config.headers.UserAgent = 'laike';
                   return config;
                 },
                 error => Promise.reject(error),
