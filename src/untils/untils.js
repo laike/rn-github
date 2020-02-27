@@ -391,14 +391,14 @@ export const cloneArr = (arr = []) => {
   return newArr;
 };
 
-export const getData = async key => {
+export const getData = async (key, json = true) => {
   return AsyncStorage.getItem(key)
     .then(tk => {
       if (__DEV__) {
         console.log(`正在获取${key}...`);
       }
       if (tk) {
-        return JSON.parse(tk); //默认进行了JSON编码转换
+        return json ? JSON.parse(tk) : tk; //默认进行了JSON编码转换
       } else {
         return null;
       }
@@ -413,7 +413,7 @@ export const getData = async key => {
 export const storeData = (key, value) => {
   try {
     if (__DEV__) {
-      console.log(`正在设置token: ${key}`);
+      console.log(`正在设置token: ${key} ${value}`);
     }
     AsyncStorage.setItem(key, value);
     return true;

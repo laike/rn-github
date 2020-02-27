@@ -5,7 +5,8 @@ import {
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
 import Color from 'color';
-import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
+import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import {SEACH_FILTERS} from '../constants/constants';
 
 const FilterItem = ({data}) => {
@@ -32,9 +33,7 @@ export default FilterItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    backgroundColor: BG_COLOR,
   },
   list: {},
   current: {

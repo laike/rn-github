@@ -35,3 +35,7 @@ export const GET_LANGUAGES = 'GET_LANGUAGES';
 //用户操作相关常量
 export const SEARCH_USER = 'SEARCH_USER';
 export const GET_USER_DYNAMIC = 'GET_USER_DYNAMIC';
+
+//主题操作相关
+export const CHANGE_THEME = 'CHANGE_THEME';
+export const GET_THEME = 'GET_THEME';

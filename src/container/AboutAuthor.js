@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -15,14 +15,15 @@ import WebView from '../components/WebViewComponent';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 //引入mannager
 import HttpManager from '../untils/http';
-import { STATUS_BAR_STYLE, BG_COLOR } from '../constants/styles';
+import {STATUS_BAR_STYLE, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { BlurView } from '@react-native-community/blur';
+import {BlurView} from '@react-native-community/blur';
 import Color from 'color';
-import { ECHARTS_INSERT_JS } from '../constants/js';
+import {ECHARTS_INSERT_JS} from '../constants/js';
 import LottieView from 'lottie-react-native';
-import { toast } from '../untils/untils';
-import { Actions } from 'react-native-router-flux';
+import {toast} from '../untils/untils';
+import {Actions} from 'react-native-router-flux';
 export default class AboutAuthor extends Component {
   constructor(props) {
     super(props);
@@ -45,12 +46,11 @@ export default class AboutAuthor extends Component {
         //再来请求仓库
         this.setState({
           userinfo: res.data,
-
         });
         HttpManager.get(res.data.repos_url).then(res1 => {
           this.setState({
             data: res1.data,
-            loading: false
+            loading: false,
           });
         });
       })
@@ -68,7 +68,7 @@ export default class AboutAuthor extends Component {
     this.load();
   }
   render() {
-    const { onScroll = () => { } } = this.props;
+    const {onScroll = () => {}} = this.props;
     return (
       <View style={styles.container}>
         <StatusBar {...STATUS_BAR_STYLE} />
@@ -90,13 +90,10 @@ export default class AboutAuthor extends Component {
               </View>
             );
           }}
-
           renderScrollComponent={props => (
             <ParallaxScrollView
               onScroll={onScroll}
-              headerBackgroundColor={Color(BG_COLOR)
-                .darken(0.6)
-                .hex()}
+              headerBackgroundColor={BG_COLOR}
               stickyHeaderHeight={STICKY_HEADER_HEIGHT}
               parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
               backgroundSpeed={10}
@@ -153,7 +150,7 @@ export default class AboutAuthor extends Component {
                     name={'arrow-left'}
                     style={[
                       styles.stickySectionText,
-                      { position: 'absolute', left: 10, top: 10 },
+                      {position: 'absolute', left: 10, top: 10},
                     ]}
                     onPress={() => Actions.pop()}
                   />
@@ -208,9 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    backgroundColor: BG_COLOR,
   },
   stickySectionText: {
     color: 'white',

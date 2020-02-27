@@ -18,16 +18,17 @@ class User_Event_List_Item extends PureComponent {
   constructor(props) {
     super(props);
   }
+  onPress() {
+    Actions.push('ShowCodePage', {
+      title: `${this.props.data.repo.name}`,
+      url: `repos/${this.props.data.repo.name}`,
+    });
+  }
   render() {
     return (
       <TouchableOpacity
         style={styles.container}
-        onPress={() => {
-          Actions.push('ShowCodePage', {
-            title: `${this.props.data.repo.name}`,
-            url: `repos/${this.props.data.repo.name}`,
-          });
-        }}>
+        onPress={this.onPress.bind(this)}>
         <View style={styles.top}>
           <Image
             source={require('../data/images/github.png')}

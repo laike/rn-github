@@ -7,7 +7,8 @@ import {
   RefreshControl,
   View,
 } from 'react-native';
-import {BG_COLOR} from '../constants/styles';
+
+import store from '../stores';
 import http from '../untils/http';
 import {toast} from '../untils/untils';
 import EventListItem from './EventListItem';
@@ -17,6 +18,7 @@ import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
 import TouchFeedbackItem from '../components/TouchFeedbackItem';
 import Issues_List_Item from './Issues_List_Item';
+import {BG_COLOR} from '../constants/styles';
 const CommonDetailForTab = ({route}) => {
   const {url, component, initial = []} = route;
   const [data, setData] = useState(initial);
@@ -90,7 +92,7 @@ const CommonDetailForTab = ({route}) => {
         <View />
       )}
       {!component ? (
-        data ? (
+        data.length > 0 ? (
           data.map((nt, index) => <EventListItem key={index} data={nt} />)
         ) : (
           <EmptyComponent />

@@ -1,28 +1,14 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  RefreshControl,
-  Image,
-  Platform,
-} from 'react-native';
-import {toast} from '../untils/untils';
-import http from '../untils/http';
-import TouchFeedbackItem from '../components/TouchFeedbackItem';
-import {
-  TouchableHighlight,
-  TouchableNativeFeedback,
-} from 'react-native-gesture-handler';
+import {View, StyleSheet} from 'react-native';
 import Color from 'color';
-import {BG_COLOR, MAIN_COLOR, TEXT_COLOR} from '../constants/styles';
-import {Actions} from 'react-native-router-flux';
+import store from '../stores';
+import {MAIN_COLOR, TEXT_COLOR, BG_COLOR} from '../constants/styles';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import CommonDetailForTab from '../components/CommonDetailForTab';
 const renderScene = SceneMap({
   notread: CommonDetailForTab,
   readed: CommonDetailForTab,
+  all: CommonDetailForTab,
 });
 const renderTabBar = props => (
   <TabBar
@@ -40,20 +26,28 @@ export default class Issues extends Component {
     const {url} = props;
     this.state = {
       index: 0,
-      routes: [
-        {
-          key: 'notread',
-          title: '开启',
-          url: `${url}?state=all`,
-          component: 'issues',
-        },
-        {
-          key: 'readed',
-          title: '关闭',
-          url: `${url}?stae=all&sort=created`,
-          component: 'issues',
-        },
-      ],
+      routes: props.routes
+        ? props.routes
+        : [
+            {
+              key: 'notread',
+              title: '开启',
+              url: `${url}?state=open`,
+              component: 'issues',
+            },
+            {
+              key: 'readed',
+              title: '关闭',
+              url: `${url}?state=close`,
+              component: 'issues',
+            },
+            {
+              key: 'all',
+              title: '全部',
+              url: `${url}?state=all`,
+              component: 'issues',
+            },
+          ],
     };
   }
 

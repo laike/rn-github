@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  BG_COLOR,
   TEXT_COLOR,
   STATUS_BAR_STYLE,
   SHADOW_COLOR,
+  BG_COLOR,
 } from '../constants/styles';
+import store from '../stores';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 const {width, height} = Dimensions.get('screen');
@@ -113,9 +114,7 @@ const styles = StyleSheet.create({
   container: {
     height,
     width,
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    backgroundColor: BG_COLOR,
     justifyContent: 'center',
     alignItems: 'center',
   },

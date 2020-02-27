@@ -11,18 +11,17 @@ import {
 import {toast} from '../untils/untils';
 import http from '../untils/http';
 import TouchFeedbackItem from '../components/TouchFeedbackItem';
-import {
-  TouchableHighlight,
-  TouchableNativeFeedback,
-} from 'react-native-gesture-handler';
+
 import Color from 'color';
-import {BG_COLOR, MAIN_COLOR, TEXT_COLOR} from '../constants/styles';
+import {MAIN_COLOR, TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import {Actions} from 'react-native-router-flux';
-import WebViewComponent from '../components/WebViewComponent';
+
 import {GH_CHART_API, SCREEN_WIDTH} from '../constants/constants';
 import CommonHeader from '../components/CommonHeader';
 import CommonToolBar from '../components/CommonToolBar';
 import CommonInfo from '../components/CommonInfo';
+
 export default class ShowCode extends Component {
   constructor(props) {
     super(props);
@@ -77,8 +76,8 @@ export default class ShowCode extends Component {
               callback: () => {
                 Actions.push('CommonPage', {
                   title: 'Stagazers',
-                  url: `users/${this.state.repo.full_name}/starred`,
-                  component: 'starred',
+                  url: `repos/${this.state.repo.full_name}/stargazers`,
+                  component: 'stargazers',
                 });
               },
             },
@@ -88,8 +87,8 @@ export default class ShowCode extends Component {
               callback: () => {
                 Actions.push('CommonPage', {
                   title: 'Watchers',
-                  url: `users/${this.state.repo.full_name}/followers`,
-                  component: 'followers',
+                  url: `repos/${this.state.repo.full_name}/subscribers`,
+                  component: 'subscribers',
                 });
               },
             },
@@ -97,10 +96,9 @@ export default class ShowCode extends Component {
               label: 'Forks',
               data: this.state.repo.forks_count,
               callback: () => {
-                Actions.push('CommonPage', {
+                Actions.push('ReposityPage', {
                   title: 'Forks',
-                  url: `users/${this.state.repo.full_name}/subscriptions`,
-                  component: 'subscriptions',
+                  url: `repos/${this.state.repo.full_name}/forks`,
                 });
               },
             },
@@ -157,23 +155,25 @@ export default class ShowCode extends Component {
             name="retweet"
             title="Pull Requests"
             onPress={() => {
-              Actions.push('Issues', {
+              Actions.push('IssuesPage', {
                 routes: [
                   {
-                    key: 'notread',
+                    key: 'open',
                     title: '开启',
-                    url: this.state.repo.issue_events_url
-                      ? this.state.repo.issue_events_url.replace('/({.*})/', '')
-                      : '',
-                    component: 'normal',
+                    url: `repos/${this.state.repo.full_name}/pulls?state=open`,
+                    component: 'issues',
                   },
                   {
-                    key: 'readed',
+                    key: 'close',
                     title: '关闭',
-                    url: this.state.repo.issue_events_url
-                      ? this.state.repo.issue_events_url.replace('/({.*})/', '')
-                      : '',
-                    component: 'normal',
+                    url: `repos/${this.state.repo.full_name}/pulls?state=close`,
+                    component: 'issues',
+                  },
+                  {
+                    key: 'all',
+                    title: '全部',
+                    url: `repos/${this.state.repo.full_name}/pulls?state=all`,
+                    component: 'issues',
                   },
                 ],
               });
@@ -183,10 +183,16 @@ export default class ShowCode extends Component {
             name="code"
             title="Sources"
             onPress={() => {
-              Actions.push('SourcePage', {
-                title: `${this.state.repo.full_name}`,
-                url: `repos/${this.state.repo.full_name}/contents`,
+              Actions.push('CommonPage', {
+                title: 'Branches',
+                full_name: this.state.repo.full_name,
+                url: `repos/${this.state.repo.full_name}/branches`,
+                component: 'sourcesbranches',
               });
+              // Actions.push('SourcePage', {
+              //   title: `${this.state.repo.full_name}`,
+              //   url: `repos/${this.state.repo.full_name}/contents`,
+              // });
             }}
           />
         </View>
@@ -222,9 +228,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    backgroundColor: BG_COLOR,
   },
   avatar: {
     width: 100,

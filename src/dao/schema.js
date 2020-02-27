@@ -11,6 +11,15 @@ export default [
       time: 'string',
     },
   },
+  //阅读历史表 记录用户访问过的仓库记录
+  {
+    name: 'RespositoryHistories',
+    properties: {
+      name: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
   //趋势表
   {
     name: 'TrendingReponsitories',

@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableNativeFeedback,
-  Platform,
-  TouchableHighlight,
-} from 'react-native';
+import {Text, StyleSheet, View, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
@@ -17,9 +15,7 @@ export default class TouchFeedbackItem extends Component {
   }
   render() {
     return Platform.OS === 'android' ? (
-      <TouchableNativeFeedback
-        background={TouchableNativeFeedback.Ripple()}
-        {...this.props}>
+      <TouchableNativeFeedback>
         <View style={styles.item}>
           <View style={styles.left}>
             {this.props.name ? (
@@ -32,7 +28,9 @@ export default class TouchFeedbackItem extends Component {
             )}
             <View style={styles.subinfo}>
               {this.props.title ? (
-                <Text style={[styles.text, this.props.textStyle]}>
+                <Text
+                  style={[styles.text, this.props.textStyle]}
+                  onLongPress={this.props.onPress}>
                   {this.props.title}
                 </Text>
               ) : (
@@ -76,7 +74,7 @@ export default class TouchFeedbackItem extends Component {
         </View>
       </TouchableNativeFeedback>
     ) : (
-      <TouchableHighlight>
+      <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.item}>
           <View style={styles.left}>
             {this.props.name ? (
@@ -139,14 +137,21 @@ export default class TouchFeedbackItem extends Component {
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
-    padding: 10,
     flex: 1,
     alignItems: 'center',
     borderBottomColor: '#ddd',
     borderBottomWidth: 0.3,
     marginBottom: 3,
   },
-  left: {flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 20},
+  left: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 20,
+  },
+  subinfo: {
+    flex: 1,
+  },
   icon: {fontSize: 18},
   right: {
     paddingRight: 10,
@@ -156,6 +161,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     paddingLeft: 15,
+    flex: 1,
+    padding: 10,
+    textAlignVertical: 'center',
   },
   small: {
     fontSize: 12,

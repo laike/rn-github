@@ -15,13 +15,14 @@ class Dynamic_List_Item extends PureComponent {
   constructor(props) {
     super(props);
   }
+  onPress() {
+    Actions.RepositoryDetailPage({data: this.props.data});
+  }
   render() {
     return (
       <TouchableOpacity
         style={styles.container}
-        onPress={() => {
-          Actions.RepositoryDetailPage({data: this.props.data});
-        }}>
+        onPress={this.onPress.bind(this)}>
         <View>
           <Text style={styles.title}>{this.props.data.full_name}</Text>
         </View>

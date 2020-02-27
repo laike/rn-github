@@ -36,7 +36,8 @@ import TestPage from '../container/TestPage';
 import DynamicPage from '../container/DynamicPage';
 import SearchFilter from '../components/SearchFilter';
 import RssPage from '../container/RssPage';
-import {BG_COLOR, TEXT_COLOR, BLACK_COLOR} from '../constants/styles';
+import {TEXT_COLOR, BLACK_COLOR} from '../constants/styles';
+import store from '../stores';
 import Color from 'color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -57,6 +58,7 @@ import SourcePage from '../container/SourcePage';
 import Pictures from '../container/Pictures';
 import CodeFile from '../container/CodeFile';
 import CommonPage from '../container/CommonPage';
+import ThemePage from '../container/ThemePage';
 const {width} = Dimensions.get('window');
 
 const router = () => (
@@ -114,6 +116,7 @@ const router = () => (
             icon={TabIcon}
           />
         </Scene>
+        <Scene key="ThemePage" component={ThemePage} back />
         <Scene key="IssuesPage" title="问题中心" component={Issues} back />
 
         <Scene key="RssPage" title="个人动态" component={RssPage} back />

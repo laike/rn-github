@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import { Actions } from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { BG_COLOR, TEXT_COLOR } from '../constants/styles';
+import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import Color from 'color';
 const styles = StyleSheet.create({
   container: {
@@ -33,20 +34,20 @@ export default class CustomNavBar extends React.Component {
         {this.props.renderLeft ? (
           this.props.renderLeft()
         ) : (
-            <TouchableOpacity
-              onPress={Actions.pop}
-              style={[styles.navBarItem, { paddingLeft: 10 }]}>
-              <Icon
-                name="arrow-left"
-                style={[
-                  this.props.renderLeftStyle
-                    ? this.props.renderLeftStyle
-                    : styles.icon,
-                  { color: TEXT_COLOR, fontSize: 16 },
-                ]}
-              />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            onPress={Actions.pop}
+            style={[styles.navBarItem, {paddingLeft: 10}]}>
+            <Icon
+              name="arrow-left"
+              style={[
+                this.props.renderLeftStyle
+                  ? this.props.renderLeftStyle
+                  : styles.icon,
+                {color: TEXT_COLOR, fontSize: 16},
+              ]}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -64,12 +65,12 @@ export default class CustomNavBar extends React.Component {
       <View
         style={[
           styles.navBarItem,
-          { flexDirection: 'row', justifyContent: 'flex-end' },
+          {flexDirection: 'row', justifyContent: 'flex-end'},
         ]}>
         <TouchableOpacity
           onPress={() => this.props.onPress()}
-          style={{ paddingRight: 10 }}>
-          <Icon name={'search'} style={{ color: TEXT_COLOR, fontSize: 16 }} />
+          style={{paddingRight: 10}}>
+          <Icon name={'search'} style={{color: TEXT_COLOR, fontSize: 16}} />
         </TouchableOpacity>
       </View>
     );
@@ -81,9 +82,7 @@ export default class CustomNavBar extends React.Component {
         style={[
           styles.container,
           {
-            backgroundColor: Color(BG_COLOR)
-              .darken(0.6)
-              .hex(),
+            backgroundColor: BG_COLOR,
           },
         ]}>
         {this._renderLeft()}

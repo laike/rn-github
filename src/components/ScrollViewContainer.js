@@ -88,26 +88,37 @@ class ScrollViewContainer extends PureComponent {
       console.log(this.props.search);
       this.LoadData();
     }
+    if (prevProps.page !== this.props.page) {
+      console.log(this.props.page);
+      this.LoadData();
+    }
   }
   Link(url) {
     Linking.open(url);
   }
+  //新增下拉自动加载功能
+  onEndReached() {
+    if (this.page <= this.pagesize) {
+      console.log(this.page++);
+      this.props.addPage(this.page++);
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
+        {this.state.data.length === 0 ? <EmptyComponent /> : <View />}
         <FlatList
           ref={ref => {
             this.list = ref;
           }}
-          ListEmptyComponent={() => <EmptyComponent />}
           style={styles.flatList}
           data={this.state.data}
           refreshing={this.state.loading}
           onRefresh={() => {
             this.LoadData();
           }}
-          onEndReachedThreshold={0.1}
-          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.3}
+          onEndReached={this.onEndReached.bind(this)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={data => {
             if (this.props.type === 'home') {

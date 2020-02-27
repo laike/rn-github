@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {BLACK_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import Color from 'color';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
@@ -84,9 +85,7 @@ const styles = StyleSheet.create({
   },
   issueText: {
     fontSize: 16,
-    color: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    color: BG_COLOR,
     textAlign: 'center',
     paddingLeft: 5,
   },

@@ -8,7 +8,7 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import {BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import http from '../untils/http';
 import {toast} from '../untils/untils';
 import EventListItem from './EventListItem';
@@ -27,8 +27,17 @@ import {
 import User_Event_List_Item from './User_Event_List_Item';
 import Branches_LIst_Item from './Branches_LIst_Item';
 import Repos_Commit_List_Item from './Repos_Commit_List_Item';
+import Source_Branch_List_Item from './Source_Branch_List_Item';
+import Trending_List_Item from './Trending_List_Item';
+import {BG_COLOR} from '../constants/styles';
 
-const CommonDetail = ({url, component, initial = []}) => {
+const CommonDetail = ({
+  url,
+  component,
+  full_name,
+  readhistory,
+  initial = [],
+}) => {
   const [data, setData] = useState(initial);
   const [loading, setLoading] = useState(false);
   console.log(component, url);
@@ -47,6 +56,8 @@ const CommonDetail = ({url, component, initial = []}) => {
     if (component === 'search/reponsitories' || component === 'search/users') {
       console.log('items is setings ...');
       setData(res.data.items);
+    } else if (component === 'readhistories') {
+      setData(res);
     } else {
       setData(res.data);
     }
@@ -107,16 +118,22 @@ const CommonDetail = ({url, component, initial = []}) => {
 
   function load() {
     setLoading(true);
-    getHttp()
-      .then(res => {
-        setLoading(false);
-        setResponse(res);
-        console.log('data 类型是：', typeof res.data);
-      })
-      .catch(err => {
-        console.log(err);
-        toast('数据获取失败！');
-      });
+    //这里判断一下是否传入了readhistory这个属性如果传入
+    if (!readhistory) {
+      getHttp()
+        .then(res => {
+          setLoading(false);
+          setResponse(res);
+          console.log('data 类型是：', typeof res.data);
+        })
+        .catch(err => {
+          console.log(err);
+          toast('数据获取失败！');
+        });
+    } else {
+      setResponse(readhistory);
+      setLoading(false);
+    }
   }
   useEffect(() => {
     load();
@@ -135,7 +152,7 @@ const CommonDetail = ({url, component, initial = []}) => {
         />
       }>
       {!component ? (
-        data ? (
+        data.length > 0 ? (
           data.map((nt, index) => <EventListItem key={index} data={nt} />)
         ) : (
           <EmptyComponent />
@@ -144,7 +161,7 @@ const CommonDetail = ({url, component, initial = []}) => {
         <View />
       )}
       {component === 'dynamic' ? (
-        data ? (
+        data.length > 0 ? (
           data.map((nt, index) => (
             <User_Event_List_Item key={index} data={nt} />
           ))
@@ -156,7 +173,7 @@ const CommonDetail = ({url, component, initial = []}) => {
       )}
       {/* 如果是branches */}
       {component === 'branches' ? (
-        data ? (
+        data.length > 0 ? (
           data.map((nt, index) => <Branches_LIst_Item key={index} data={nt} />)
         ) : (
           <EmptyComponent />
@@ -164,8 +181,24 @@ const CommonDetail = ({url, component, initial = []}) => {
       ) : (
         <View />
       )}
+      {/* sources code page branch */}
+      {component === 'sourcesbranches' ? (
+        data.length > 0 ? (
+          data.map((nt, index) => (
+            <Source_Branch_List_Item
+              key={index}
+              data={nt}
+              full_name={full_name}
+            />
+          ))
+        ) : (
+          <EmptyComponent />
+        )
+      ) : (
+        <View />
+      )}
       {component === 'reposcommits' ? (
-        data ? (
+        data.length > 0 ? (
           data.map((nt, index) => (
             <Repos_Commit_List_Item key={index} data={nt} />
           ))
@@ -176,6 +209,24 @@ const CommonDetail = ({url, component, initial = []}) => {
         <View />
       )}
 
+      {component === 'subscribers' ? (
+        data.length > 0 ? (
+          data.map((nt, index) => <User_List_Item key={index} data={nt} />)
+        ) : (
+          <EmptyComponent />
+        )
+      ) : (
+        <View />
+      )}
+      {component === 'stargazers' ? (
+        data.length > 0 ? (
+          data.map((nt, index) => <User_List_Item key={index} data={nt} />)
+        ) : (
+          <EmptyComponent />
+        )
+      ) : (
+        <View />
+      )}
       {component === 'readme' ? (
         data ? (
           <View>{markdownToNative(data)}</View>
@@ -189,6 +240,22 @@ const CommonDetail = ({url, component, initial = []}) => {
       component === 'myrespositories' ? (
         data.length > 0 ? (
           data.map((item, index) => <Home_List_Item key={index} data={item} />)
+        ) : (
+          <EmptyComponent />
+        )
+      ) : (
+        <View />
+      )}
+      {/* 如果是阅读列表要做特殊处理 */}
+      {component === 'readhistories' ? (
+        data.length > 0 ? (
+          data.map((item, index) =>
+            item.builtBy ? (
+              <Trending_List_Item key={index} data={item} />
+            ) : (
+              <Home_List_Item key={index} data={item} />
+            ),
+          )
         ) : (
           <EmptyComponent />
         )

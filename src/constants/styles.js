@@ -6,7 +6,6 @@ import {StyleSheet} from 'react-native';
  */
 export const BG_COLOR = '#ffffff';
 export const TEXT_COLOR = '#ffffff';
-export const MAIN_COLOR = '#ececec';
 export const BLACK_COLOR = '#000000';
 export const WHITE_COLOR = '#ffffff';
 //设置全局的状态栏颜色
@@ -17,7 +16,6 @@ export const STATUS_BAR_STYLE = {
   backgroundColor: BG_COLOR,
 };
 export const SHADOW_COLOR = '#ddd';
-
 /**
  *详情页面自定义样式
  */

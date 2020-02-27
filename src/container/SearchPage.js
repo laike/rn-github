@@ -13,6 +13,7 @@ import Color from 'color';
 import {SEARCH_TABS, SCREEN_WIDTH, SEACH_FILTERS} from '../constants/constants';
 // import Display from 'react-native-display';
 import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import CommonDetailForTab from '../components/CommonDetailForTab';
 import {toast, insert, queryOne, queryAll} from '../untils/untils';
 import Qs from 'qs';
@@ -23,7 +24,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
-import Display from 'react-native-display';
+
 const propTypes = {};
 const defaultProps = {};
 const renderScene = SceneMap({
@@ -166,7 +167,7 @@ class SearchPage extends Component {
           </Button>
           {/* 新增历史记录功能包括用户搜索过的所有关键字，我们需要一个历史记录表来操作， */}
         </View>
-        <Display enable={this.state.enable}>
+        {this.state.enable ? (
           <ScrollView
             ref={ref => {
               this.list = ref;
@@ -205,10 +206,13 @@ class SearchPage extends Component {
                 </TouchableWithoutFeedback>
               ))
             ) : (
-              <Text>暂时没有搜索记录</Text>
+              <Text style={{padding: 10}}>暂时没有搜索记录</Text>
             )}
           </ScrollView>
-        </Display>
+        ) : (
+          <View />
+        )}
+
         <TabView
           lazy
           navigationState={this.state}
@@ -238,7 +242,7 @@ const styles = StyleSheet.create({
   },
   historyList: {
     position: 'absolute',
-    top: 0,
+    top: 45,
     left: 10,
     width: SCREEN_WIDTH - 20,
     backgroundColor: TEXT_COLOR,

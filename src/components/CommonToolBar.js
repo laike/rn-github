@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import Color from 'color';
-import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import {TEXT_COLOR} from '../constants/styles';
+import store from '../stores';
 import {SCREEN_WIDTH} from '../constants/constants';
 import {
   TouchableHighlight,
@@ -20,14 +21,14 @@ const CommonToolBar = ({data = {}, ...rest}) => {
           <Text
             style={styles.num}
             onPress={() => {
-              info.callback();
+              info.callback && info.callback();
             }}>
             {info.data}
           </Text>
           <Text
             style={styles.info}
             onPress={() => {
-              info.callback();
+              info.callback && info.callback();
             }}>
             {info.label}
           </Text>
@@ -38,11 +39,11 @@ const CommonToolBar = ({data = {}, ...rest}) => {
         style={styles.subitem}
         key={index}
         onPress={() => {
-          info.callback();
+          info.callback && info.callback();
         }}>
         <TouchableHighlight
           onPress={() => {
-            info.callback();
+            info.callback && info.callback();
           }}>
           <Text style={styles.num}>{info.data}</Text>
           <Text style={styles.info}>{info.label}</Text>

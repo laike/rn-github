@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, StyleSheet} from 'react-native';
 //引入第三方webview控件
 import WebWiew from 'react-native-webview';
-import { Actions } from 'react-native-router-flux';
-import { ECHARTS_INSERT_JS } from '../constants/js';
+import {Actions} from 'react-native-router-flux';
+import {ECHARTS_INSERT_JS} from '../constants/js';
 class WebViewComponent extends PureComponent {
   constructor(props) {
     super(props);
   }
-  onLoadEnd() { }
-  onLoadProgress() { }
-  onLoadStart() { }
+  onLoadEnd() {}
+  onLoadProgress() {}
+  onLoadStart() {}
   render() {
     return (
       <View style={styles.container}>

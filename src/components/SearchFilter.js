@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, DeviceEventEmitter} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import {
   FlatList,
   TouchableHighlight,

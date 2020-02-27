@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TEXT_COLOR } from '../constants/styles';
+import {TEXT_COLOR} from '../constants/styles';
+import {Actions} from 'react-native-router-flux';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -11,11 +12,18 @@ const defaultProps = {
   data: [],
 };
 class User_List_Item extends PureComponent {
+  onPress() {
+    Actions.push('ProfilePage', {
+      url: `users/${this.props.data.login}`,
+    });
+  }
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={this.onPress.bind(this)}>
         <Image
-          source={require("../data/images/github.png")}
+          source={require('../data/images/github.png')}
           style={styles.avatar}
         />
         <Text style={styles.title}>{this.props.data.login}</Text>
@@ -30,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 10,
-    shadowOffset: { x: 4, y: 4 },
+    shadowOffset: {x: 4, y: 4},
     shadowColor: '#dddddd',
     shadowRadius: 2,
     shadowOpacity: 0.2,

@@ -3,10 +3,14 @@ import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {SCREEN_WIDTH} from '../constants/constants';
 import Color from 'color';
-import {BG_COLOR, TEXT_COLOR} from '../constants/styles';
+import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 export default class SearchTabBar extends Component {
   constructor(props) {
     super(props);
+  }
+  onPress() {
+    this.props.goToPage(index);
   }
   render() {
     return (
@@ -16,9 +20,7 @@ export default class SearchTabBar extends Component {
             <TouchableOpacity
               key={index}
               style={[styles.option, index === 0 ? styles.borderRight : {}]}
-              onPress={() => {
-                this.props.goToPage(index);
-              }}>
+              onPress={this.onPress.bind(this)}>
               <Text
                 style={[
                   styles.text,
@@ -50,9 +52,7 @@ const styles = StyleSheet.create({
   },
   option: {
     width: (SCREEN_WIDTH - 10) / 2,
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
+    backgroundColor: BG_COLOR,
     padding: 15,
     fontSize: 14,
   },

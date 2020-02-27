@@ -46,3 +46,17 @@ export const ECHARTS_INSERT_JS = `
 
 
 `;
+
+export const CLEAR_OTHER_ELEMENTS = `
+(function() {
+  //先清空页面
+  document.querySelector('.details-reset').remove()
+document.querySelector('.position-relative > h2').remove()
+document.querySelector('#user-activity-overview').remove()
+document.querySelector('.contrib-footer').remove()
+
+
+})();
+
+
+`;

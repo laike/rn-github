@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR, BG_COLOR, BLACK_COLOR} from '../constants/styles';
+import {TEXT_COLOR, BLACK_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import Color from 'color';
 const propTypes = {
   focused: PropTypes.bool,
@@ -42,9 +43,9 @@ const TabIcon = props => {
           {
             color: props.focused
               ? BLACK_COLOR
-              : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+              : Color(BG_COLOR)
+                  .darken(0.6)
+                  .hex(),
           },
         ]}
       />
@@ -54,9 +55,9 @@ const TabIcon = props => {
           {
             color: props.focused
               ? BLACK_COLOR
-              : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+              : Color(BG_COLOR)
+                  .darken(0.6)
+                  .hex(),
           },
         ]}>
         {props.title}

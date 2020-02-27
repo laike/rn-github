@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { PureComponent } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, View, StyleSheet, Image} from 'react-native';
 const propTypes = {};
 const defaultProps = {};
 class EmptyComponent extends PureComponent {
@@ -11,13 +11,21 @@ class EmptyComponent extends PureComponent {
           style={styles.image}
           source={require('../data/images/empty-result.png')}
         />
-        <Text style={styles.notFound}>没有找到相关内容，请刷新试试！</Text>
+        <Text style={styles.notFound}>
+          没有找到相关内容或者重新下拉刷新试试！
+        </Text>
         {/* 这里新增一个功能，用于动态和趋势页面等新增一个连接给用户刷新*/}
-        {
-          this.props.button ? <Text style={styles.retry} onPress={() => {
-            this.props.load()
-          }}>点击重新加载</Text> : <View />
-        }
+        {this.props.button ? (
+          <Text
+            style={styles.retry}
+            onPress={() => {
+              this.props.load();
+            }}>
+            点击重新加载
+          </Text>
+        ) : (
+          <View />
+        )}
       </View>
     );
   }
@@ -34,7 +42,7 @@ const styles = StyleSheet.create({
   },
   retry: {
     color: 'red',
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 14,
   },
   image: {

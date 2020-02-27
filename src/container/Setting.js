@@ -8,17 +8,14 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import {
-  STATUS_BAR_STYLE,
-  BLACK_COLOR,
-  TEXT_COLOR,
-  BG_COLOR,
-} from '../constants/styles';
+import {STATUS_BAR_STYLE, TEXT_COLOR, BG_COLOR} from '../constants/styles';
 import Color from 'color';
 import TouchFeedbackItem from '../components/TouchFeedbackItem';
 import {Actions} from 'react-native-router-flux';
 import {getUserInfo} from '../untils/userUntils';
 import http from '../untils/http';
+import store from '../stores';
+import Theme from '../untils/theme';
 export default class Setting extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +27,7 @@ export default class Setting extends Component {
   componentDidMount() {
     //这里获取一下用户基本信息
     getUserInfo().then(info => {
+      console.log(info);
       this.setState({
         user: info,
       });
@@ -53,18 +51,18 @@ export default class Setting extends Component {
           />
         }>
         <StatusBar {...STATUS_BAR_STYLE} />
-        <View style={styles.header}>
-          <TouchFeedbackItem
-            name="github"
-            title={this.state.user.login}
-            iconStyle={{
-              fontSize: 80,
-            }}
-            onPress={() => {
-              Actions.push('ProfilePage', {});
-            }}
-          />
-        </View>
+
+        <TouchFeedbackItem
+          name="github"
+          title={this.state.user.login}
+          iconStyle={{
+            fontSize: 80,
+          }}
+          onPress={() => {
+            Actions.push('ProfilePage', {});
+          }}
+        />
+
         <View style={styles.body}>
           <TouchFeedbackItem
             name="user"
@@ -96,6 +94,18 @@ export default class Setting extends Component {
               Actions.push('IssuesPage', {});
             }}
           />
+          <View style={styles.event}>
+            <Text style={styles.eventtitle}>主题</Text>
+          </View>
+          <TouchFeedbackItem
+            name="gear"
+            title="主题切换"
+            onPress={() => {
+              //切换主题代码，主要是修改本地localstorage就进行了切换
+              Actions.push('ThemePage', {});
+            }}
+          />
+
           <View style={styles.event}>
             <Text style={styles.eventtitle}>动态</Text>
           </View>
@@ -142,7 +152,7 @@ export default class Setting extends Component {
               Actions.SearchPage({});
             }}
           />
-          <View style={styles.event}>
+          {/* <View style={styles.event}>
             <Text style={styles.eventtitle}>搜藏的仓库</Text>
           </View>
 
@@ -152,9 +162,9 @@ export default class Setting extends Component {
             onPress={() => {
               Actions.push('ShowCodePage', {title: '仓库信息页'});
             }}
-          />
+          /> */}
           <View style={styles.event}>
-            <Text style={styles.eventtitle}>Info and Preference</Text>
+            <Text style={styles.eventtitle}>设置中心</Text>
           </View>
           <TouchFeedbackItem
             name="gear"
