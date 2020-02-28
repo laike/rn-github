@@ -14,7 +14,7 @@ import {toast} from '../untils/untils';
 import EventListItem from './EventListItem';
 import EmptyComponent from './EmptyComponent';
 import {markdownToNative} from '../untils/MdHtmlUntils';
-
+import _ from 'lodash';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
@@ -30,6 +30,7 @@ import Repos_Commit_List_Item from './Repos_Commit_List_Item';
 import Source_Branch_List_Item from './Source_Branch_List_Item';
 import Trending_List_Item from './Trending_List_Item';
 import {BG_COLOR} from '../constants/styles';
+import HtmlViewComponent from './Base/HtmlViewComponent';
 
 const CommonDetail = ({
   url,
@@ -44,7 +45,7 @@ const CommonDetail = ({
   function getHttp() {
     if (component === 'readme' || component === 'code') {
       return http.get(url, {
-        headers: {Accept: 'application/vnd.github.3.raw+json'},
+        headers: {Accept: 'application/vnd.github.3.html'},
         params: {branch: 'master'},
       });
     } else {
@@ -59,6 +60,7 @@ const CommonDetail = ({
     } else if (component === 'readhistories') {
       setData(res);
     } else {
+      console.log(res.data);
       setData(res.data);
     }
   }
@@ -229,8 +231,9 @@ const CommonDetail = ({
       )}
       {component === 'readme' ? (
         data ? (
-          <View>{markdownToNative(data)}</View>
+          <HtmlViewComponent content={data} style={{color: 'red'}} />
         ) : (
+          // <View>{markdownToNative(data)}</View>
           <EmptyComponent />
         )
       ) : (
@@ -274,7 +277,8 @@ const CommonDetail = ({
       {/* 如果是代码显示那么 */}
       {component === 'code' ? (
         data ? (
-          renderView('autoview')
+          // renderView('autoview')
+          <HtmlViewComponent content={data} />
         ) : (
           <EmptyComponent />
         )

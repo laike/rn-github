@@ -13,7 +13,6 @@ class RepositoryDetail extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        {/* <HtmlViewComponent html={this.state.readmeData} /> */}
         <CommonDetail
           url={
             this.props.url

@@ -34,6 +34,7 @@ class User_Event_List_Item extends PureComponent {
           <CustomImage
             uri={this.props.data.actor.avatar_url}
             style={styles.avatar}
+            maxImageWidth={40}
             iconSize={40}
             iconName="logo-github"
           />
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginLeft: 10,
+    borderRadius: 10,
   },
   stars: {
     width: 80,

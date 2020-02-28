@@ -2,6 +2,7 @@
  * 工具类库（时间格式化 localstorage封装等等 realm库工具）
  */
 import config, {TOKEN_KEY} from '../config/config';
+import {Linking} from 'react-native';
 import Realm from '../dao/db';
 //这里我们需要引入一个toast
 import Toast from 'react-native-root-toast';
@@ -432,3 +433,30 @@ export const Init = () => {
   clearAllRealmTabs(); //清除表
   clearAllCache(); //清除缓存
 };
+
+/**
+ *
+ * @param {*} url
+ */
+export function parseImgUrl(url) {
+  if (/^\/\/.*/.test(url)) {
+    url = 'http:' + url;
+  }
+  return url;
+}
+
+/**
+ *
+ * @param {*} url
+ */
+export function link(url) {
+  Linking.canOpenURL(url)
+    .then(supported => {
+      if (supported) {
+        return Linking.openURL(url);
+      }
+    })
+    .catch(err => {
+      console.error('An error occurred', err);
+    });
+}

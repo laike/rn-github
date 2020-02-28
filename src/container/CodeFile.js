@@ -20,7 +20,6 @@ export const LayoutComponent = CodeFile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2b2b2b',
   },
   code: {
     width: SCREEN_WIDTH,

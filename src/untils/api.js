@@ -2,7 +2,7 @@
  * GitHub API 工具封装
  */
 import HttpManager from './http';
-import Qs from 'qs'
+import Qs from 'qs';
 //引入开源github trending api
 import {
   languages,
@@ -27,7 +27,7 @@ export default {
    */
   searchUserInfo(username, params) {
     return new Promise((resolve, reject) => {
-      HttpManager.get(`users?q=${username}`, { params })
+      HttpManager.get(`users?q=${username}`, {params})
         .then(res => {
           resolve({
             data: res.data.items,
@@ -44,7 +44,7 @@ export default {
    * @param {object} params 查询参数 eg:type,page,per_page,sort
    */
   getUserRestoriesInfo(username, params) {
-    return HttpManager.get(`users/${username}/repos`, { params });
+    return HttpManager.get(`users/${username}/repos`, {params});
   },
   /**
    * 搜索用户
@@ -53,7 +53,7 @@ export default {
    */
   searchUser(username, params) {
     return new Promise((resolve, reject) => {
-      HttpManager.get(`search/users?q=${username}`, { params })
+      HttpManager.get(`search/users?q=${username}`, {params})
         .then(res => {
           resolve({
             data: res.data.items,
@@ -93,7 +93,7 @@ export default {
    */
   searchRepositories(query, params) {
     return new Promise((resolve, reject) => {
-      HttpManager.get(`search/repositories?q=${query}`, { params })
+      HttpManager.get(`search/repositories?q=${query}`, {params})
         .then(res => {
           resolve({
             data: res.data.items,
@@ -125,7 +125,7 @@ export default {
         break;
       case FETCH_DEVOLOPERS:
         promise = new Promise((resolve, reject) => {
-          fetchDevelopers({ language })
+          fetchDevelopers({language})
             .then(res => {
               resolve({
                 data: res,
@@ -141,7 +141,7 @@ export default {
         break;
       case FETCH_RANDOM_REPOSITORIES:
         promise = new Promise((resolve, reject) => {
-          fetchRandomRepositories({ language, since })
+          fetchRandomRepositories({language, since})
             .then(res => {
               resolve({
                 data: res,
@@ -152,7 +152,7 @@ export default {
         break;
       case FETCH_REPOSITORIES:
         promise = new Promise((resolve, reject) => {
-          fetchRepositories({ language, since })
+          fetchRepositories({language, since})
             .then(res => {
               resolve({
                 data: res,
@@ -164,7 +164,7 @@ export default {
         break;
       default:
         promise = new Promise((resolve, reject) => {
-          fetchRepositories({ language, since })
+          fetchRepositories({language, since})
             .then(res => {
               resolve({
                 data: res,
@@ -187,8 +187,8 @@ export default {
     return new Promise((resolve, reject) => {
       console.log(`repos/${fullname}/readme`);
       HttpManager.get(`repos/${fullname}/readme`, {
-        headers: { Accept: 'application/vnd.github.3.raw+json' },
-        params: { branch },
+        headers: {Accept: 'application/vnd.github.3.html'},
+        params: {branch},
       })
         .then(res => {
           resolve({
@@ -201,14 +201,14 @@ export default {
     });
   },
   /**
-   * 
-   * @param {*} query 
-   * @param {*} data 
+   *
+   * @param {*} query
+   * @param {*} data
    */
   getUserDynamic(query, data) {
     return new Promise((resolve, reject) => {
       console.log(`${query}?${Qs.stringify(data)}`);
-      HttpManager.get(`${query}?${Qs.stringify(data)}`,)
+      HttpManager.get(`${query}?${Qs.stringify(data)}`)
         .then(res => {
           resolve({
             data: res.data,
@@ -218,6 +218,5 @@ export default {
           reject(err);
         });
     });
-  }
+  },
 };
-

@@ -58,6 +58,10 @@ class ScrollViewContainer extends PureComponent {
     AppState.addEventListener('change', this.AppStateChange);
   }
   LoadData(saved = false) {
+    if (this.props.selectIndex) {
+      console.log(TRENDING_PAGE_MENUS_DATA_QUERY[0][this.props.selectIndex[0]]);
+      console.log(TRENDING_PAGE_MENUS_DATA_QUERY[1][this.props.selectIndex[1]]);
+    }
     InteractionManager.runAfterInteractions(() => {
       let action = new Promise((resolve, reject) => {});
       if (this.props.type === 'trending') {
@@ -75,10 +79,17 @@ class ScrollViewContainer extends PureComponent {
         action,
         data => {
           let preData = this.state.data;
-          this.setState({
-            loading: false,
-            data: [...preData, ...data],
-          });
+          if (this.props.type !== 'trending') {
+            this.setState({
+              loading: false,
+              data: [...preData, ...data],
+            });
+          } else {
+            this.setState({
+              loading: false,
+              data,
+            });
+          }
 
           //添加page
         },
