@@ -55,7 +55,10 @@ const CustomImage = ({
       },
       error => {
         if (!isDestoried) {
-          setError(true);
+          //防止加载小图像的时候出现问题
+          if (!iconSize) {
+            setError(true);
+          }
         }
       },
     );
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 5,
-    margin: 10,
+    margin: 5,
     position: 'relative',
   },
   icon: {

@@ -67,6 +67,9 @@ class Setting extends Component {
           title={this.state.user.login}
           iconStyle={{
             fontSize: 80,
+            color: Color(this.props.theme.theme)
+              .darken(0.6)
+              .hex(),
           }}
           onPress={() => {
             Actions.push('ProfilePage', {});

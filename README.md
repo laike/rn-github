@@ -51,3 +51,5 @@ SplashScreenModule.java 需要加上这个，否则报错。
 
 #使用 codepush 的时候，需要先将 js 打包命令如下
 npx react-native bundle --platform android --entry-file index.js --bundle-output ./bundles/index.android.bundle --dev false
+
+#git 使用相关
