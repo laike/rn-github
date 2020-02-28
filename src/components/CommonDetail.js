@@ -19,6 +19,10 @@ import AutoHeightWebView from 'react-native-autoheight-webview';
 import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
 import WebViewComponent from './WebViewComponent';
+import SyntaxHighlighter from 'react-native-syntax-highlighter';
+/*by default component uses hljs so access hljs styles, import from /prism for prism styles */
+import codeThemes from 'react-syntax-highlighter/styles/hljs';
+console.log(codeThemes);
 import {
   SYSTEM_VERSION,
   SCREEN_WIDTH,
@@ -31,6 +35,7 @@ import Source_Branch_List_Item from './Source_Branch_List_Item';
 import Trending_List_Item from './Trending_List_Item';
 import {BG_COLOR} from '../constants/styles';
 import HtmlViewComponent from './Base/HtmlViewComponent';
+import theme from '../reducers/theme';
 
 const CommonDetail = ({
   url,
@@ -73,7 +78,7 @@ const CommonDetail = ({
     return data;
   }
 
-  function renderView(type = 'webwiew') {
+  function renderView(type = 'highlightjs') {
     if (type === 'webview') {
       return (
         <WebViewComponent
@@ -96,6 +101,18 @@ const CommonDetail = ({
                 })()
                 `}
         />
+      );
+    } else if (type === 'highlightjs') {
+      return (
+        <View style={{flex: 1}}>
+          <SyntaxHighlighter
+            language="javascript"
+            fontSize={20}
+            style={codeThemes[theme.codetheme]}
+            highlighter={'prism' || 'hljs'}>
+            {renderData()}
+          </SyntaxHighlighter>
+        </View>
       );
     } else {
       return (
@@ -277,9 +294,9 @@ const CommonDetail = ({
       {/* 如果是代码显示那么 */}
       {component === 'code' ? (
         data ? (
-          // renderView('autoview')
-          <HtmlViewComponent content={data} />
+          renderView('autoview')
         ) : (
+          // <HtmlViewComponent content={data} />
           <EmptyComponent />
         )
       ) : (

@@ -3,10 +3,10 @@ import randomColor from 'randomcolor';
 import {storeData, getData, toast} from './untils';
 import {THEME_KEY, RESTART_TO_CHANGE_THEM} from '../constants/constants';
 import store from '../stores';
-import {GET_THEME} from '../constants/types';
+import {GET_THEME, GET_CODE_THEME} from '../constants/types';
 import {DeviceEventEmitter} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {BG_COLOR} from '../constants/styles';
+import {BG_COLOR, CODE_THEME_KEY} from '../constants/styles';
 const {dispatch, getState} = store;
 export const changeTheme = color => {
   storeData(THEME_KEY, color);
@@ -15,13 +15,23 @@ export const changeTheme = color => {
   }
   toast('主题修改成功！');
   Theme.getInstance().color = color;
-  DeviceEventEmitter.emit(RESTART_TO_CHANGE_THEM);
   dispatch({
     type: GET_THEME,
     res: color,
   });
   Actions.reset('root');
 };
+
+export const changeCodeTheme = color => {
+  storeData(CODE_THEME_KEY, color);
+  toast('代码主题修改成功！');
+};
+
+export const getGlobalCodeTheme = async () => {
+  const theme = await getData(CODE_THEME_KEY, false);
+  return theme;
+};
+
 export const getGlobalTheme = async () => {
   const theme = await getData(THEME_KEY, false);
   console.log('getGlobalTheme:', theme);
@@ -46,6 +56,17 @@ export const initTheme = () => {
         res: color,
       });
       console.log(getState());
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  getGlobalCodeTheme()
+    .then(color => {
+      dispatch({
+        type: GET_CODE_THEME,
+        res: color,
+      });
     })
     .catch(err => {
       console.log(err);

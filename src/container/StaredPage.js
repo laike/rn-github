@@ -4,6 +4,7 @@ import {StyleSheet, StatusBar, View} from 'react-native';
 import store from '../stores';
 
 import CommonDetail from '../components/CommonDetail';
+import {STATUS_BAR_STYLE} from '../constants/styles';
 
 const StaredPage = props => {
   return (

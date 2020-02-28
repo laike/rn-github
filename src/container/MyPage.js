@@ -85,7 +85,13 @@ const MyPage = ({theme}) => {
           ]}>
           <Text style={styles.eventtitle}>代码查看器主题</Text>
         </View>
-        <TouchFeedbackItem name="gear" title="默认主题" onPress={() => {}} />
+        <TouchFeedbackItem
+          name="gear"
+          title="默认主题"
+          onPress={() => {
+            Actions.push('CodeThemePage', {});
+          }}
+        />
         <View
           style={[
             styles.event,

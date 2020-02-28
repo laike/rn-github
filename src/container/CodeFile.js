@@ -7,16 +7,20 @@ import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../constants/constants';
 import CommonDetail from '../components/CommonDetail';
 import Color from 'color';
 import store from '../stores';
-const CodeFile = ({url}) => {
+const CodeFile = ({url, ...rest}) => {
   return (
     <View style={styles.container}>
-      <CommonDetail url={url ? url : ``} component={'code'} initial={''} />
+      <CommonDetail url={url ? url : ``} rest component={'code'} initial={''} />
     </View>
   );
 };
 
 export const LayoutComponent = CodeFile;
-
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

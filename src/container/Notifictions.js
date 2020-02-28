@@ -87,7 +87,9 @@ const styles = StyleSheet.create({
   },
 
   tabbar: {
-    backgroundColor: BG_COLOR,
+    backgroundColor: Color(BG_COLOR)
+      .darken(0.6)
+      .hex(),
   },
   tabStyle: {
     borderBottomColor: TEXT_COLOR,
@@ -97,3 +99,8 @@ const styles = StyleSheet.create({
 });
 
 export const LayoutComponent = Notifictions;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

@@ -8,8 +8,6 @@ import CustomImage from './CustomImage';
 import {parseImgUrl, link} from '../../untils/untils';
 import Spinner from './Spinner';
 import {SCREEN_WIDTH} from '../../constants/constants';
-import {BG_COLOR} from '../../constants/styles';
-import Color from 'color';
 
 const {width} = Dimensions.get('window');
 const defaultMaxImageWidth = width - 30 - 20;

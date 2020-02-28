@@ -48,6 +48,7 @@ import * as Profile from '../container/Profile';
 import * as Notifictions from '../container/Notifictions';
 import * as News from '../container/News';
 import * as Issues from '../container/Issues';
+import * as CodeTheme from '../container/CodeTheme';
 
 import * as OwnedRepository from '../container/OwnedRepositoryPage';
 import * as ShowCode from '../container/ShowCode';
@@ -124,6 +125,12 @@ const router = () => (
             icon={ConnectCommponent(TabIcon)}
           />
         </Scene>
+
+        <Scene
+          key="CodeThemePage"
+          component={ConnectCommponent(CodeTheme)}
+          back
+        />
         <Scene key="ThemePage" component={ConnectCommponent(ThemePage)} back />
         <Scene
           key="IssuesPage"
@@ -131,44 +138,37 @@ const router = () => (
           component={ConnectCommponent(Issues)}
           back
         />
-
         <Scene
           key="RssPage"
           title="个人动态"
           component={ConnectCommponent(RssPage)}
           back
         />
-
         <Scene
           key="ReposityPage"
           component={ConnectCommponent(ReposityPage)}
           back
         />
-
         <Scene
           key="StaredPage"
           component={ConnectCommponent(StaredPage)}
           back
         />
-
         <Scene
           key="SourcePage"
           component={ConnectCommponent(SourcePage)}
           back
         />
-
         <Scene
           key="ShowCodePage"
           component={ConnectCommponent(ShowCode)}
           back
         />
-
         <Scene
           key="CodeFilePage"
           component={ConnectCommponent(CodeFile)}
           back
         />
-
         <Scene
           key="CustomLanguagePage"
           title="自定义语言"
@@ -180,20 +180,17 @@ const router = () => (
           component={ConnectCommponent(RepositoryDetail)}
           back
         />
-
         <Scene
           key="PicturesPage"
           component={ConnectCommponent(Pictures)}
           back
         />
-
         <Scene
           key="ProfilePage"
           title=""
           component={ConnectCommponent(Profile)}
           back
         />
-
         <Scene
           key="NewsPage"
           title="新闻中心"
@@ -206,24 +203,19 @@ const router = () => (
           component={ConnectCommponent(OwnedRepository)}
           back
         />
-
         <Scene
           key="NotifictionsPage"
           title="消息中心"
           component={ConnectCommponent(Notifictions)}
           back
         />
-
         <Scene key="WebPage" component={ConnectCommponent(WebPage)} back />
-
         <Scene key="MyPage" component={ConnectCommponent(MyPage)} back />
-
         <Scene
           key="AboutAuthorPage"
           component={ConnectCommponent(AboutAuthor)}
           back
         />
-
         <Scene
           key="FeedBackPage"
           component={ConnectCommponent(FeedBack)}
