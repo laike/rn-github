@@ -7,7 +7,6 @@ import {
   FlatList,
   InteractionManager,
   Linking,
-  AppState,
 } from 'react-native';
 import Home_List_Item from './Home_List_Item';
 import Trending_List_Item from './Trending_List_Item';
@@ -35,27 +34,12 @@ class ScrollViewContainer extends PureComponent {
     this.pagesize = 10; //最大就请求到10就行了这个github考虑的
     this.state = {
       data: [],
-      appState: AppState.currentState,
       loading: false,
     };
     this.request = null;
   }
-  AppStateChange(nextAppState) {
-    if (
-      this.appState.match(/incative|background/) &&
-      nextAppState === 'active'
-    ) {
-      //表示APP已经从后台后者不活动状态唤醒了
-      this.LoadData();
-    }
-    this.setState({
-      appState: nextAppState,
-    });
-  }
   componentDidMount() {
     this.LoadData();
-    //在这里我们新增当前活动窗口事件监听
-    AppState.addEventListener('change', this.AppStateChange);
   }
   LoadData(saved = false) {
     InteractionManager.runAfterInteractions(() => {
@@ -94,7 +78,6 @@ class ScrollViewContainer extends PureComponent {
     if (this.request) {
       this.request = null;
     }
-    AppState.removeEventListener('change', this.AppStateChange);
   }
   componentDidUpdate(prevProps, preveState) {
     if (prevProps.selectIndex !== this.props.selectIndex) {

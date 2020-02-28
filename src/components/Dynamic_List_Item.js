@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR} from '../constants/styles';
 import {Actions} from 'react-native-router-flux';
 import CustomImage from './Base/CustomImage';
+import _ from 'lodash';
 const propTypes = {
   data: PropTypes.object,
 };

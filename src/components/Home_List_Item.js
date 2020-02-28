@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR} from '../constants/styles';
 import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
+import _ from 'lodash';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
 import {addReadHistory} from '../untils/userUntils';
 import CustomImage from './Base/CustomImage';

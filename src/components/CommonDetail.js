@@ -14,7 +14,7 @@ import {toast} from '../untils/untils';
 import EventListItem from './EventListItem';
 import EmptyComponent from './EmptyComponent';
 import {markdownToNative} from '../untils/MdHtmlUntils';
-
+import _ from 'lodash';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import Home_List_Item from './Home_List_Item';
 import User_List_Item from './User_List_Item';
