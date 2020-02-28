@@ -9,13 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {STATUS_BAR_STYLE, TEXT_COLOR} from '../constants/styles';
-import store from '../stores';
 
 import ScrollViewContainer from '../components/ScrollViewContainer';
-import Color from 'color';
-import {bindActionCreators} from 'redux';
-import responsitoryActions from '../actions/reponsitories';
-import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Menu,
@@ -25,22 +20,13 @@ import {
   renderers,
 } from 'react-native-popup-menu';
 const {Popover} = renderers;
-// import {getLanguageList} from '../untils/untils';
-//导入trending常量
+
 import {
   TRENDING_PAGE_MENUS_DATA,
   TRENDING_PAGE_MENUS_DATA_QUERY,
 } from '../constants/constants';
 
-@connect(
-  state => ({
-    trendingState: state.trending_list,
-  }),
-  dispatch => ({
-    responsitories: bindActionCreators(responsitoryActions, dispatch),
-  }),
-)
-class Home extends Component {
+class TrendingPage extends Component {
   constructor(props) {
     super(props);
     //这里要设置一个状态
@@ -59,12 +45,14 @@ class Home extends Component {
     this.setState({
       selectIndex: [0, opt],
       since: TRENDING_PAGE_MENUS_DATA_QUERY[0][opt],
+      s: TRENDING_PAGE_MENUS_DATA[0][opt],
     });
   }
   onSelect2(opt) {
     this.setState({
       selectIndex: [1, opt],
       language: TRENDING_PAGE_MENUS_DATA_QUERY[1][opt],
+      l: TRENDING_PAGE_MENUS_DATA[1][opt],
     });
   }
   render() {
@@ -125,13 +113,9 @@ class Home extends Component {
           </Menu>
         </View>
         <ScrollViewContainer
-          key="trending"
           type="trending"
+          {...this.props}
           selectIndex={this.state.selectIndex}
-          action={this.props.responsitories.getTrending(
-            this.state.since,
-            this.state.language,
-          )}
         />
       </View>
     );
@@ -171,4 +155,12 @@ const styles = StyleSheet.create({
 const touchableOpacityProps = {
   activeOpacity: 0.6,
 };
-export default Home;
+
+export const LayoutComponent = TrendingPage;
+
+//state
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

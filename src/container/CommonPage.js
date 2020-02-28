@@ -16,8 +16,7 @@ const CommonPage = ({url, title, component, full_name, readhistory}) => {
   );
 };
 
-export default CommonPage;
-
+export const LayoutComponent = CommonPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

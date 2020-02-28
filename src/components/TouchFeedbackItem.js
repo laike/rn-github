@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   subinfo: {
     flex: 1,
   },
-  icon: {fontSize: 18},
+  icon: {fontSize: 18, paddingLeft: 10},
   right: {
     paddingRight: 10,
     flexDirection: 'row',

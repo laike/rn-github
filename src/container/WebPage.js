@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, StyleSheet, StatusBar} from 'react-native';
 import WebViewComponent from '../components/WebViewComponent';
-import { Actions } from 'react-native-router-flux';
-import { STATUS_BAR_STYLE } from '../constants/styles';
+import {Actions} from 'react-native-router-flux';
+import {STATUS_BAR_STYLE} from '../constants/styles';
 class WebPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default WebPage;
+export const LayoutComponent = WebPage;

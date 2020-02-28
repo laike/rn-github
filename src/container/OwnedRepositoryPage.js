@@ -23,7 +23,7 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import CommonDetail from '../components/CommonDetail';
 import {color} from 'react-native-reanimated';
 import Setting from './Setting';
-import My from './My';
+import My from './MyPage';
 
 const renderScene = SceneMap({
   notread: CommonDetail,
@@ -42,7 +42,7 @@ const renderTabBar = props => (
   />
 );
 
-export default class OwnedRepository extends Component {
+class OwnedRepository extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,3 +98,4 @@ const styles = StyleSheet.create({
   },
   labelStyle: {},
 });
+export const LayoutComponent = OwnedRepository;

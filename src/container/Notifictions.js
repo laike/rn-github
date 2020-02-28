@@ -32,7 +32,7 @@ const renderTabBar = props => (
   />
 );
 
-export default class Notifictions extends Component {
+class Notifictions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,3 +95,5 @@ const styles = StyleSheet.create({
   },
   labelStyle: {},
 });
+
+export const LayoutComponent = Notifictions;

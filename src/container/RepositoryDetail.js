@@ -1,22 +1,25 @@
-import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
-import { SCREEN_WIDTH } from '../constants/constants';
-import HtmlViewComponent from '../components/HtmlViewComponent';
+import React, {PureComponent} from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {connect} from 'react-redux';
+import {SCREEN_WIDTH} from '../constants/constants';
+import HtmlViewComponent from '../components/Base/HtmlViewComponent';
 import CommonDetail from '../components/CommonDetail';
 class RepositoryDetail extends PureComponent {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
   render() {
     return (
       <View style={styles.container}>
         {/* <HtmlViewComponent html={this.state.readmeData} /> */}
-        <CommonDetail url={this.props.url ? this.props.url : `repos/${this.props.full_name}/readme`}
+        <CommonDetail
+          url={
+            this.props.url
+              ? this.props.url
+              : `repos/${this.props.full_name}/readme`
+          }
           component={'readme'}
           initial={''}
         />
@@ -30,4 +33,4 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
   },
 });
-export default RepositoryDetail;
+export const LayoutComponent = RepositoryDetail;

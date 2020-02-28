@@ -102,7 +102,7 @@ class Http {
       })
         .then(res => {
           //这里成功以后我们将获取到的用户信息永久存储本地
-
+          console.log(`res.data is ${res.data}`);
           setUserInfo(res.data);
           if (scene === 'loginpage') {
             //跳转到首页

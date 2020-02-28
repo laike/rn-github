@@ -18,11 +18,12 @@ import store from '../stores';
 import {Actions} from 'react-native-router-flux';
 
 import {GH_CHART_API, SCREEN_WIDTH} from '../constants/constants';
+
 import CommonHeader from '../components/CommonHeader';
 import CommonToolBar from '../components/CommonToolBar';
 import CommonInfo from '../components/CommonInfo';
 
-export default class ShowCode extends Component {
+class ShowCode extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +67,7 @@ export default class ShowCode extends Component {
             onRefresh={this.onRefresh.bind(this)}
           />
         }>
-        <CommonHeader type={'repo'} data={this.state.repo} />
+        <CommonHeader type={'repo'} data={this.state.repo} {...this.props} />
 
         <CommonToolBar
           data={[
@@ -280,3 +281,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+export const LayoutComponent = ShowCode;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

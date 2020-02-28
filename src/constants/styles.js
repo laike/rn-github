@@ -12,7 +12,7 @@ export const WHITE_COLOR = '#ffffff';
 export const STATUS_BAR_STYLE = {
   animated: true,
   barStyle: 'light-content', // dark-content
-  hidden: true, //是否隐藏状态栏
+  // hidden: true, //是否隐藏状态栏
   backgroundColor: BG_COLOR,
 };
 export const SHADOW_COLOR = '#ddd';

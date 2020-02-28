@@ -5,6 +5,7 @@ import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR} from '../constants/styles';
 import {Actions} from 'react-native-router-flux';
+import CustomImage from './Base/CustomImage';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -32,9 +33,14 @@ class Dynamic_List_Item extends PureComponent {
         <View style={styles.bottom}>
           <View style={styles.owner}>
             <Text>{this.props.data.owner.login}</Text>
-            <Image
-              source={require('../data/images/github.png')}
+
+            <CustomImage
+              key={_.uniqueId()}
+              uri={this.props.data.owner.avatar_url}
+              maxImageWidth={20}
               style={styles.avatar}
+              iconSize={20}
+              iconName="logo-github"
             />
           </View>
           <View style={styles.stars}>

@@ -30,9 +30,9 @@ export const getGlobalTheme = async () => {
 export const getTheme = () => {
   //code
   return randomColor({
-    luminosity: 'bright',
-    count: 30,
-    format: 'rgb',
+    luminosity: 'light',
+    count: 60,
+    format: 'rgba',
   });
 };
 

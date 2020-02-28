@@ -20,12 +20,14 @@ import {MAIN_COLOR, TEXT_COLOR, BG_COLOR} from '../constants/styles';
 import store from '../stores';
 import {Actions} from 'react-native-router-flux';
 import WebViewComponent from '../components/WebViewComponent';
+
 import {GH_CHART_API, SCREEN_WIDTH} from '../constants/constants';
 import CommonHeader from '../components/CommonHeader';
 import CommonToolBar from '../components/CommonToolBar';
 import moment from 'moment';
 import {CLEAR_OTHER_ELEMENTS} from '../constants/js';
-export default class Profile extends Component {
+
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +75,8 @@ export default class Profile extends Component {
             onRefresh={this.onRefresh.bind(this)}
           />
         }>
-        <CommonHeader data={this.state.user} />
+        <CommonHeader data={this.state.user} {...this.props} />
+
         <WebViewComponent
           source={{
             uri: `https://github.com/users/${
@@ -84,7 +87,6 @@ export default class Profile extends Component {
           scrollEnabled={true}
           injectedJavaScript={CLEAR_OTHER_ELEMENTS}
         />
-
         <CommonToolBar
           data={[
             {
@@ -223,3 +225,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export const LayoutComponent = Profile;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

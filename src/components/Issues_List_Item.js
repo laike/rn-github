@@ -6,7 +6,7 @@ import store from '../stores';
 import Color from 'color';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
-import HtmlViewComponent from '../components/HtmlViewComponent';
+import HtmlViewComponent from '../components/Base/HtmlViewComponent';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 const Issues_List_Item = ({data}) => {
   return (

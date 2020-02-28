@@ -79,7 +79,7 @@ const SourcePage = ({url}) => {
   );
 };
 
-export default SourcePage;
+export const LayoutComponent = SourcePage;
 
 const styles = StyleSheet.create({
   container: {},

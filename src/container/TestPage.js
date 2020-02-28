@@ -13,7 +13,7 @@ import {Actions} from 'react-native-router-flux';
 import HttpManager from '../untils/http';
 import {USER_HAS_LOGIN_IN} from '../constants/constants';
 import {TOKEN_KEY} from '../config/config';
-export default class TestPage extends Component {
+class TestPage extends Component {
   componentDidMount() {
     DeviceEventEmitter.addListener(USER_HAS_LOGIN_IN, event => {
       //code
@@ -56,3 +56,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
 });
+
+export const LayoutComponent = TestPage;

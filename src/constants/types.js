@@ -39,3 +39,6 @@ export const GET_USER_DYNAMIC = 'GET_USER_DYNAMIC';
 //主题操作相关
 export const CHANGE_THEME = 'CHANGE_THEME';
 export const GET_THEME = 'GET_THEME';
+
+//tab切换页面 动态页面相关
+export const GET_DYNAMIC = 'GET_DYNAMIC';

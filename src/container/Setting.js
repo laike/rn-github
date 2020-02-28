@@ -16,7 +16,7 @@ import {getUserInfo} from '../untils/userUntils';
 import http from '../untils/http';
 import store from '../stores';
 import Theme from '../untils/theme';
-export default class Setting extends Component {
+class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,7 +51,17 @@ export default class Setting extends Component {
           />
         }>
         <StatusBar {...STATUS_BAR_STYLE} />
-
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(this.props.theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
+          <Text style={styles.eventtitle}>基础信息</Text>
+        </View>
         <TouchFeedbackItem
           name="github"
           title={this.state.user.login}
@@ -94,7 +104,15 @@ export default class Setting extends Component {
               Actions.push('IssuesPage', {});
             }}
           />
-          <View style={styles.event}>
+          <View
+            style={[
+              styles.event,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}>
             <Text style={styles.eventtitle}>主题</Text>
           </View>
           <TouchFeedbackItem
@@ -102,11 +120,19 @@ export default class Setting extends Component {
             title="主题切换"
             onPress={() => {
               //切换主题代码，主要是修改本地localstorage就进行了切换
-              Actions.push('ThemePage', {});
+              Actions.push('ThemePage', {title: '选择主题'});
             }}
           />
 
-          <View style={styles.event}>
+          <View
+            style={[
+              styles.event,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}>
             <Text style={styles.eventtitle}>动态</Text>
           </View>
           <TouchFeedbackItem
@@ -118,7 +144,15 @@ export default class Setting extends Component {
               });
             }}
           />
-          <View style={styles.event}>
+          <View
+            style={[
+              styles.event,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}>
             <Text style={styles.eventtitle}>仓库信息</Text>
           </View>
           <TouchFeedbackItem
@@ -152,7 +186,14 @@ export default class Setting extends Component {
               Actions.SearchPage({});
             }}
           />
-          {/* <View style={styles.event}>
+          {/* <View style={[
+              styles.event,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}>
             <Text style={styles.eventtitle}>搜藏的仓库</Text>
           </View>
 
@@ -163,7 +204,15 @@ export default class Setting extends Component {
               Actions.push('ShowCodePage', {title: '仓库信息页'});
             }}
           /> */}
-          <View style={styles.event}>
+          <View
+            style={[
+              styles.event,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}>
             <Text style={styles.eventtitle}>设置中心</Text>
           </View>
           <TouchFeedbackItem
@@ -191,7 +240,9 @@ export default class Setting extends Component {
 }
 
 const styles = StyleSheet.create({
-  setting: {},
+  setting: {
+    margin: 5,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -200,9 +251,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   event: {
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
@@ -212,3 +260,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+export const LayoutComponent = Setting;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

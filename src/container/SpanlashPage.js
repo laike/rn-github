@@ -38,7 +38,7 @@ const FadeInOut = props => {
     </Animated.View>
   );
 };
-export default class SpanlashPage extends Component {
+class SpanlashPage extends Component {
   componentDidMount() {
     setTimeout(() => {
       //如果没有登录跳转到第三方登录页面
@@ -61,16 +61,19 @@ export default class SpanlashPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar {...STATUS_BAR_STYLE} />
+        <StatusBar
+          {...STATUS_BAR_STYLE}
+          backgroundColor={Color(this.props.theme.theme).darken(0.3)}
+        />
         <LinearGradient
           colors={[
-            Color(BG_COLOR)
+            Color(this.props.theme.theme)
               .darken(0.3)
               .hex(),
-            Color(BG_COLOR)
+            Color(this.props.theme.theme)
               .darken(0.6)
               .hex(),
-            Color(BG_COLOR)
+            Color(this.props.theme.theme)
               .darken(0.8)
               .hex(),
           ]}
@@ -89,9 +92,6 @@ export default class SpanlashPage extends Component {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
     width: width,
     height: height,
     alignItems: 'center',
@@ -118,3 +118,9 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+export const LayoutComponent = SpanlashPage;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

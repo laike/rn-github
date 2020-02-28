@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {MAIN_COLOR, TEXT_COLOR} from '../constants/styles';
 import CommonDetail from '../components/CommonDetail';
 import store from '../stores';
-export default class RssPage extends Component {
+class RssPage extends Component {
   constructor(props) {
     super(props);
   }
@@ -28,3 +28,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export const LayoutComponent = RssPage;

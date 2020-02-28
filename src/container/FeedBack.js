@@ -97,7 +97,7 @@ const FeedBack = ({params}) => {
   );
 };
 
-export default FeedBack;
+export const LayoutComponent = FeedBack;
 
 const styles = StyleSheet.create({
   container: {

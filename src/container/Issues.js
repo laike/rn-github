@@ -10,20 +10,29 @@ const renderScene = SceneMap({
   readed: CommonDetailForTab,
   all: CommonDetailForTab,
 });
+let THEME = BG_COLOR;
 const renderTabBar = props => (
   <TabBar
     {...props}
     scrollEnabled
     indicatorStyle={styles.indicatorStyle}
-    style={styles.tabbar}
+    style={[
+      styles.tabbar,
+      {
+        backgroundColor: Color(THEME)
+          .darken(0.6)
+          .hex(),
+      },
+    ]}
     labelStyle={styles.labelStyle}
     tabStyle={styles.tabStyle}
   />
 );
-export default class Issues extends Component {
+class Issues extends Component {
   constructor(props) {
     super(props);
-    const {url} = props;
+    const {url, theme} = props;
+    THEME = theme.theme;
     this.state = {
       index: 0,
       routes: props.routes
@@ -63,12 +72,18 @@ export default class Issues extends Component {
           lazy
           navigationState={this.state}
           renderScene={renderScene}
-          renderTabBar={renderTabBar}
+          renderTabBar={renderTabBar.bind(this)}
           onIndexChange={this.onIndexChange.bind(this)}
         />
       </View>
     );
   }
+}
+export const LayoutComponent = Issues;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
 }
 
 const styles = StyleSheet.create({
@@ -76,11 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: TEXT_COLOR,
     flex: 1,
   },
-  tabbar: {
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
-  },
+  tabbar: {},
   tabStyle: {
     borderBottomColor: TEXT_COLOR,
     borderBottomWidth: 0.3,

@@ -189,4 +189,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default Login;
+export const LayoutComponent = Login;

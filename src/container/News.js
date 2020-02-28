@@ -11,7 +11,7 @@ import {
 import {MAIN_COLOR, TEXT_COLOR} from '../constants/styles';
 import CommonDetail from '../components/CommonDetail';
 import store from '../stores';
-export default class News extends Component {
+class News extends Component {
   constructor(props) {
     super(props);
   }
@@ -29,6 +29,7 @@ export default class News extends Component {
     );
   }
 }
+export const LayoutComponent = News;
 
 const styles = StyleSheet.create({
   container: {

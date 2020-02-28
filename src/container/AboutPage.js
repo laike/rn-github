@@ -7,7 +7,7 @@ import {
 } from '../constants/constants';
 //这里我们调用HttpManager来设置access_token
 import HttpManager from '../untils/http';
-export default class My extends Component {
+class AboutPage extends Component {
   render() {
     return (
       <View style={styles}>
@@ -44,3 +44,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
 });
+export const LayoutComponent = AboutPage;

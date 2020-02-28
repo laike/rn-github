@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReposityPage;
+export const LayoutComponent = ReposityPage;

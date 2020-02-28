@@ -21,7 +21,15 @@ const keys = require('../data/keys.json');
 class SearchFilter extends PureComponent {
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: Color(this.props.theme.theme)
+              .darken(0.6)
+              .hex(),
+          },
+        ]}>
         <FlatList
           style={styles.list}
           data={keys}
@@ -84,9 +92,6 @@ SearchFilter.defaultProps = defaultProps;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
   },
 
   current: {
@@ -105,4 +110,10 @@ const styles = StyleSheet.create({
     color: TEXT_COLOR,
   },
 });
-export default SearchFilter;
+
+export const LayoutComponent = SearchFilter;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

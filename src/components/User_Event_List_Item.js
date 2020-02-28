@@ -7,6 +7,7 @@ import {TEXT_COLOR} from '../constants/styles';
 import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
+import CustomImage from './Base/CustomImage';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 const propTypes = {
   data: PropTypes.object,
@@ -30,9 +31,11 @@ class User_Event_List_Item extends PureComponent {
         style={styles.container}
         onPress={this.onPress.bind(this)}>
         <View style={styles.top}>
-          <Image
-            source={require('../data/images/github.png')}
+          <CustomImage
+            uri={this.props.data.actor.avatar_url}
             style={styles.avatar}
+            iconSize={40}
+            iconName="logo-github"
           />
           <Text style={styles.title}>{this.props.data.actor.login}</Text>
           <Text style={{fontSize: 12, color: '#999', paddingTop: 3}}>

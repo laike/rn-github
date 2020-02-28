@@ -24,7 +24,7 @@ import {ECHARTS_INSERT_JS} from '../constants/js';
 import LottieView from 'lottie-react-native';
 import {toast} from '../untils/untils';
 import {Actions} from 'react-native-router-flux';
-export default class AboutAuthor extends Component {
+class AboutAuthor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -261,3 +261,5 @@ const styles = StyleSheet.create({
     height: 300,
   },
 });
+
+export const LayoutComponent = AboutAuthor;

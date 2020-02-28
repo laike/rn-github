@@ -8,6 +8,8 @@ import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
 import {addReadHistory} from '../untils/userUntils';
+import _ from 'lodash';
+import CustomImage from './Base/CustomImage';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 const propTypes = {
   data: PropTypes.object,
@@ -47,10 +49,13 @@ class Trending_List_Item extends PureComponent {
           <View style={styles.owner}>
             <Text>{this.props.data.author}</Text>
             {this.props.data.builtBy.map((user, index) => (
-              <Image
-                key={index}
-                source={require('../data/images/github.png')}
+              <CustomImage
+                key={_.uniqueId()}
+                uri={user.avatar}
+                maxImageWidth={20}
                 style={styles.avatar}
+                iconSize={20}
+                iconName="logo-github"
               />
             ))}
           </View>

@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, StatusBar} from 'react-native';
 import {getTheme, changeTheme} from '../untils/theme';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../constants/constants';
 import {
   TouchableNativeFeedback,
   ScrollView,
 } from 'react-native-gesture-handler';
+import {STATUS_BAR_STYLE} from '../constants/styles';
 
 const ThemePage = ({params}) => {
   const [colors, setColors] = useState(getTheme());
@@ -13,6 +14,7 @@ const ThemePage = ({params}) => {
 
   return (
     <ScrollView>
+      <StatusBar {...STATUS_BAR_STYLE} />
       <View style={styles.container}>
         {colors.map((color, index) => (
           <TouchableNativeFeedback
@@ -31,7 +33,7 @@ const ThemePage = ({params}) => {
     </ScrollView>
   );
 };
-export default ThemePage;
+export const LayoutComponent = ThemePage;
 
 const styles = StyleSheet.create({
   container: {
@@ -41,9 +43,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   color: {
-    width: SCREEN_WIDTH / 5,
-    height: SCREEN_WIDTH / 5,
-    margin: 10,
+    width: SCREEN_WIDTH / 4 - 10,
+    height: SCREEN_WIDTH / 4 - 10,
+    margin: 5,
   },
   colorText: {
     fontSize: 12,

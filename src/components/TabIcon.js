@@ -43,7 +43,7 @@ const TabIcon = props => {
           {
             color: props.focused
               ? BLACK_COLOR
-              : Color(BG_COLOR)
+              : Color(props.theme.theme)
                   .darken(0.6)
                   .hex(),
           },
@@ -55,7 +55,7 @@ const TabIcon = props => {
           {
             color: props.focused
               ? BLACK_COLOR
-              : Color(BG_COLOR)
+              : Color(props.theme.theme)
                   .darken(0.6)
                   .hex(),
           },
@@ -83,4 +83,10 @@ const styles = StyleSheet.create({
     fontFamily: 'arial',
   },
 });
-export default TabIcon;
+
+export const LayoutComponent = TabIcon;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

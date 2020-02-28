@@ -10,7 +10,7 @@ import momentLocaleZhCn from 'moment/locale/zh-cn';
 import LinearGradient from 'react-native-linear-gradient';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 //使用react hooks 实例
-const CommonHeader = ({data = {}, type = 'user', ...rest}) => {
+const CommonHeader = ({data = {}, type = 'user', theme, ...rest}) => {
   //定义state
   const [user, setUser] = useState(data);
   const [viewRef, setViewRef] = useState(null);
@@ -75,13 +75,13 @@ const CommonHeader = ({data = {}, type = 'user', ...rest}) => {
       /> */}
       <LinearGradient
         colors={[
-          Color(BG_COLOR)
+          Color(theme.theme)
             .darken(0.1)
             .hex(),
-          Color(BG_COLOR)
+          Color(theme.theme)
             .darken(0.4)
             .hex(),
-          Color(BG_COLOR)
+          Color(theme.theme)
             .darken(0.9)
             .hex(),
         ]}
@@ -102,6 +102,7 @@ const CommonHeader = ({data = {}, type = 'user', ...rest}) => {
 };
 
 export default CommonHeader;
+
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'column',

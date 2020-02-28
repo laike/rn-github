@@ -15,7 +15,7 @@ const CodeFile = ({url}) => {
   );
 };
 
-export default CodeFile;
+export const LayoutComponent = CodeFile;
 
 const styles = StyleSheet.create({
   container: {

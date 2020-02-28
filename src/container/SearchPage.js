@@ -31,12 +31,20 @@ const renderScene = SceneMap({
   repository: CommonDetailForTab,
   users: CommonDetailForTab,
 });
+let THEME = BG_COLOR;
 const renderTabBar = props => (
   <TabBar
     {...props}
     scrollEnabled
     indicatorStyle={styles.indicatorStyle}
-    style={styles.tabbar}
+    style={[
+      styles.tabbar,
+      {
+        backgroundColor: Color(THEME)
+          .darken(0.6)
+          .hex(),
+      },
+    ]}
     labelStyle={styles.labelStyle}
     tabStyle={styles.tabStyle}
   />
@@ -44,6 +52,7 @@ const renderTabBar = props => (
 class SearchPage extends Component {
   constructor(props) {
     super(props);
+    THEME = props.theme.theme;
     this.state = {
       data: [],
       input: 'rn-github',
@@ -132,7 +141,14 @@ class SearchPage extends Component {
             }}
           />
           <Button
-            style={styles.searchBtn}
+            style={[
+              styles.searchBtn,
+              {
+                backgroundColor: Color(this.props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
+              },
+            ]}
             onPress={() => {
               if (this.state.input === '') {
                 toast('请输入搜索关键字！');
@@ -270,9 +286,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   searchBtn: {
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
     color: TEXT_COLOR,
     paddingLeft: 40,
     paddingRight: 40,
@@ -293,11 +306,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
 
-  tabbar: {
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
-  },
+  tabbar: {},
   tabStyle: {
     borderBottomColor: TEXT_COLOR,
     borderBottomWidth: 0.3,
@@ -306,4 +315,9 @@ const styles = StyleSheet.create({
   labelStyle: {},
 });
 
-export default SearchPage;
+export const LayoutComponent = SearchPage;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

@@ -14,7 +14,7 @@ import TouchFeedbackItem from '../components/TouchFeedbackItem';
 import {Actions} from 'react-native-router-flux';
 import {clearAllRealmTabs, clearAllCache, toast} from '../untils/untils';
 import {checkUpdate, getreadHistories} from '../untils/userUntils';
-const MyPage = ({params}) => {
+const MyPage = ({theme}) => {
   function onRefresh() {}
   return (
     <ScrollView
@@ -23,6 +23,17 @@ const MyPage = ({params}) => {
       <StatusBar {...STATUS_BAR_STYLE} />
 
       <View style={styles.body}>
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
+          <Text style={styles.eventtitle}>个人信息</Text>
+        </View>
         <TouchFeedbackItem
           name="user"
           title="个人信息"
@@ -42,7 +53,15 @@ const MyPage = ({params}) => {
             });
           }}
         />
-        <View style={styles.event}>
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
           <Text style={styles.eventtitle}>系统选项</Text>
         </View>
         <TouchFeedbackItem
@@ -55,7 +74,27 @@ const MyPage = ({params}) => {
             toast('缓存清除成功！');
           }}
         />
-        <View style={styles.event}>
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
+          <Text style={styles.eventtitle}>代码查看器主题</Text>
+        </View>
+        <TouchFeedbackItem name="gear" title="默认主题" onPress={() => {}} />
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
           <Text style={styles.eventtitle}>项目信息</Text>
         </View>
         <TouchFeedbackItem
@@ -81,7 +120,15 @@ const MyPage = ({params}) => {
           }}
         />
 
-        <View style={styles.event}>
+        <View
+          style={[
+            styles.event,
+            {
+              backgroundColor: Color(theme.theme)
+                .darken(0.6)
+                .hex(),
+            },
+          ]}>
           <Text style={styles.eventtitle}>其他</Text>
         </View>
 
@@ -97,7 +144,12 @@ const MyPage = ({params}) => {
   );
 };
 
-export default MyPage;
+export const LayoutComponent = MyPage;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}
 const styles = StyleSheet.create({
   setting: {},
   header: {
@@ -108,9 +160,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   event: {
-    backgroundColor: Color(BG_COLOR)
-      .darken(0.6)
-      .hex(),
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,

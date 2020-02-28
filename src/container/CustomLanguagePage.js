@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   },
   listItem: {},
 });
-export default CustomLanguagePage;
+export const LayoutComponent = CustomLanguagePage;
