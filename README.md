@@ -4,11 +4,13 @@
 
 ## 应用截图
 
-> 安卓：
+安卓：
 
 <img src="https://windke.cn/Public/screenshot/android/1.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/2.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/3.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/4.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/5.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/6.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/7.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/8.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/9.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/10.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/11.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/12.png" width="200"/>
 
-> IOS
+IOS 版本
+
+<img src="https://windke.cn/Public/screenshot/android/1.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/2.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/3.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/4.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/5.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/6.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/7.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/8.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/9.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/10.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/11.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/12.png" width="200"/>
 
 ## 应用下载链接
 
@@ -17,8 +19,7 @@
 ![avatar](https://windke.cn/Public/screenshot/android/apk.png)
 
 IOS 版本
-
-> 目前自用中，暂且只在自己设备上使用，原因就是没有证书不管是个人还是企业的，如果想体验 IOS 版本，请自行下载项目进行编译配置，在自己手机上运行。
+目前自用中，暂且只在自己设备上使用，原因就是没有证书不管是个人还是企业的，如果想体验 IOS 版本，请自行下载项目进行编译配置，在自己手机上运行。
 
 ## 关于作者
 
@@ -29,6 +30,7 @@ IOS 版本
 ## 用到的技术
 
 这是一个可以用于学习 react-native 的项目，项目采用主要以 redux + react-redux +redux-thunk 为 app 提供状态管理实现主题切换和数据共享实时更新的功能。本地存储用户 token 以及用户基本数据采用 AsyncStorage 技术进行永久性存储，动态和趋势两个页面采用 Realm 数据库进行存储，因为这两个页面的数据已经使用 AsyncStorage 这个技术不能满足了，因为需要查询和排序，为了保证用户得到最新的信息并且最大限度保证用户的体验，设置了四个小时数据库的缓存时间，四个小时内用户打开动态和趋势页面从本地数据库 Realm 中获取，四个小时后自动获取 github 新数据，为啥要这样操作？是因为国内访问 github 很慢，所以需要缓存数据到本地数据库，以提高用户体验。项目中封装了 realm 数据的的查询 插入 修改 以及网页跳转 动态创建网络请求函数等基本操作函数提高了代码复用性，项目中部分使用到了闭包特性，比如 createAsyncSaveFunc 这个函数，封装了 Axios 的请求类添加了 interceptors 请求和响应拦截器，项目中也使用到了单例模式比如请求类 Http 和数据库类 Db 减少应用程序每次都通过实例化类动态创建一个新的实例的额外内存开销，单例都通过 getInstance()这个方法获取单例，项目中还通过 file 协议加载应用下的静态 html 文件，并且通过 WebView 的 js 代码注入功能实现可切换代码查看器多主题的功能，本应用还支持 Scheme 协议，在网页中（安卓里面可以用 windke://windke 打开此 app，ios 里面通过浏览器 windke://也可以打开页面，此方案是为以后如果想通过 Hybrid 混合应用开发提供基本 scheme 协议支持) ，应用集成了 code-push 热更新功能，通过配置可以实现 IOS 和 Android 端的代码热更新，关于 IOS 热更新问题请详细看 code-push 官网需要审核，Android 端没有什么热更新限制，同时该项目还集成了微软的 appcenter 功能可以实时查看用户访问 APP 的情况（包括设备信息，浏览信息，还可以通过 api 监控用户更多信息）
+
 **以上是项目主要技术部分**
 
 ## 用到的第三方框架
