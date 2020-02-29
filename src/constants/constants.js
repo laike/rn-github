@@ -49,5 +49,17 @@ export const PASSWORD_NOT_ALLOWED_NULL = '密码不能为空！';
 export const GITHUB_THIRDPARTY_AUTHORIZATION_URL =
   'https://github.com/login/oauth/authorize';
 export const CLIENT_ID = '6d3b92a0131a6b5a7b92';
+export const USER_HAS_LOGIN_IN = 'USER_HAS_LOGIN_IN';
+export const GH_CHART_API = 'https://ghchart.rshah.org/';
+export const USER_KEY = 'rn_github_user_key';
+export const GITHUB_CHARTS_URL = `https://github.com/users/laike/contributions?to=2020-02-26`;
 
-export const CLIENT_SECRET = '743854be1c99ef8a637aaba8863f253d8cbb781c';
+//系统变量相关
+export const SYSTEM_VERSION = '1.0.1'; //用于更新缓存
+
+//搜索相关
+export const SEACH_FILTERS = 'SEACH_FILTERS';
+
+//主题相关
+export const THEME_KEY = 'rn_github_theme_key';
+export const RESTART_TO_CHANGE_THEM = 'RESTART_TO_CHANGE_THEM';

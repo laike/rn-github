@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR} from '../constants/styles';
+import {WHITE_COLOR, BLACK_COLOR} from '../constants/styles';
 const propTypes = {};
 const defaultProps = {};
 class CustomIconComponent extends Component {
@@ -12,6 +12,7 @@ class CustomIconComponent extends Component {
   render() {
     return (
       <TouchableOpacity
+        style={styles.left}
         onPress={() => {
           this.props.onPress();
         }}>
@@ -24,6 +25,9 @@ class CustomIconComponent extends Component {
 CustomIconComponent.propTypes = propTypes;
 CustomIconComponent.defaultProps = defaultProps;
 const styles = StyleSheet.create({
-  icon: {color: TEXT_COLOR, marginRight: 15, fontSize: 16},
+  icon: {color: BLACK_COLOR, marginRight: 15, fontSize: 16},
+  left: {
+    paddingLeft: 10,
+  },
 });
 export default CustomIconComponent;

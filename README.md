@@ -29,3 +29,11 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
 #今天遇到的问题 Realm 查询出错主要是少写了双引号
 `name = ${title}` 需要写成 `name = "${title}"`
+
+#今天遇到集成 lottie-ios 的大坑主要是没有创建 Swift Header 所以报错，详细信息请参考
+https://stackoverflow.com/questions/52536380/why-linker-link-static-libraries-with-errors-ios
+需要在项目目录下面新建一个空的 Swift 文件建立这个文件的根本目的是创建 Header 使得能够编译 lottie-ios
+Open ios/YourAppName.xcodeproj in Xcode
+Right-click on Your App Name in the Project Navigator on the left, and click New File…
+Create a single empty Swift file to the project (make sure that Your App Name target is selected when adding)
+when Xcode asks, press Create Bridging Header and do not remove Swift file then. re-run your build.

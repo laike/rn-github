@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 //引入第三方webview控件
 import WebWiew from 'react-native-webview';
 import {Actions} from 'react-native-router-flux';
+import {ECHARTS_INSERT_JS} from '../constants/js';
 class WebViewComponent extends PureComponent {
   constructor(props) {
     super(props);
@@ -25,7 +26,9 @@ class WebViewComponent extends PureComponent {
           scalesPageToFit={true}
           scrollEnabled={false}
           automaticallyAdjustContentInsets={true}
+          allowsInlineMediaPlayback={true}
           mixedContentMode={'always'}
+          // injectedJavaScript={ECHARTS_INSERT_JS}
           {...this.props}
         />
       </View>
@@ -35,7 +38,6 @@ class WebViewComponent extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
   },
 });
 export default WebViewComponent;

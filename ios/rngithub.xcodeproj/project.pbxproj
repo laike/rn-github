@@ -19,6 +19,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* rngithubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rngithubTests.m */; };
 		6196AC4E944BDD44057596A0 /* libPods-rngithubTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0CBC83B6D95530CD40F94AE /* libPods-rngithubTests.a */; };
+		6E006142240A75B40038D68A /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E006141240A75B40038D68A /* File.swift */; };
 		7EA8F8A13A54A0C2AFC1119A /* libPods-rngithub-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE43875A2DD86B3EDAB5175 /* libPods-rngithub-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rngithub/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* rngithub-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rngithub-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* rngithub-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rngithub-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E006140240A75B30038D68A /* rngithub-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rngithub-Bridging-Header.h"; sourceTree = "<group>"; };
+		6E006141240A75B40038D68A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		7098EA429614510C9857667D /* Pods-rngithub-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rngithub-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-rngithub-tvOS/Pods-rngithub-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8DF8CC3BE2144F82D71088DC /* libPods-rngithub-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rngithub-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FF1F1C23DCB4C01995211FA /* Pods-rngithub-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rngithub-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-rngithub-tvOSTests/Pods-rngithub-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -161,7 +164,6 @@
 				FDAEF1B37C145E24C74BB6B2 /* Pods-rngithubTests.debug.xcconfig */,
 				C48C930EA5D8EBF4BE219997 /* Pods-rngithubTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,12 +177,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6E006141240A75B40038D68A /* File.swift */,
 				13B07FAE1A68108700A75B9A /* rngithub */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rngithubTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				585A945115831A77BDA5968B /* Pods */,
+				6E006140240A75B30038D68A /* rngithub-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -293,6 +297,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1130;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -309,6 +316,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -578,6 +586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				6E006142240A75B40038D68A /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -631,6 +640,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDAEF1B37C145E24C74BB6B2 /* Pods-rngithubTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -654,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C48C930EA5D8EBF4BE219997 /* Pods-rngithubTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = rngithubTests/Info.plist;
@@ -675,6 +686,7 @@
 			baseConfigurationReference = C752E1F0260D465240AEE304 /* Pods-rngithub.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = rngithub/Info.plist;
@@ -686,6 +698,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rngithub;
+				SWIFT_OBJC_BRIDGING_HEADER = "rngithub-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -695,6 +710,7 @@
 			baseConfigurationReference = DE3892DFE6C2D67F8BA879E3 /* Pods-rngithub.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = rngithub/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -705,6 +721,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rngithub;
+				SWIFT_OBJC_BRIDGING_HEADER = "rngithub-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

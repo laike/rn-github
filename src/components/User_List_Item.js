@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TEXT_COLOR} from '../constants/styles';
+import {Actions} from 'react-native-router-flux';
+import CustomImage from './Base/CustomImage';
+import _ from 'lodash';
 const propTypes = {
   data: PropTypes.object,
 };
@@ -11,13 +14,25 @@ const defaultProps = {
   data: [],
 };
 class User_List_Item extends PureComponent {
+  onPress() {
+    Actions.push('ProfilePage', {
+      url: `users/${this.props.data.login}`,
+    });
+  }
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
-        <Image
-          source={{uri: this.props.data.avatar_url}}
+      <TouchableOpacity
+        style={styles.container}
+        onPress={this.onPress.bind(this)}>
+        <CustomImage
+          key={_.uniqueId()}
+          uri={this.props.data.avatar_url}
+          maxImageWidth={20}
           style={styles.avatar}
+          iconSize={20}
+          iconName="logo-github"
         />
+
         <Text style={styles.title}>{this.props.data.login}</Text>
       </TouchableOpacity>
     );

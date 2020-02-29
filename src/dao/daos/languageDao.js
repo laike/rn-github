@@ -10,7 +10,7 @@ import {CONST_BASIC_LANGUAGES} from '../../constants/constants';
  * @param {string} query  查询参数
  * @param {string} data 额外查询参数
  */
-export const getLanguages = async (query, data) => {
+export const getLanguage = async (query, data) => {
   //这里获取数据
   const Query = `${query}`;
   //这里是我们最关键的一步使用闭包保存query和data变量

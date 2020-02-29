@@ -12,25 +12,20 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  BG_COLOR,
   TEXT_COLOR,
   STATUS_BAR_STYLE,
   SHADOW_COLOR,
+  BG_COLOR,
 } from '../constants/styles';
+import store from '../stores';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 const {width, height} = Dimensions.get('screen');
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import loginActions from '../actions/login';
-import {toast} from '../untils/untils';
-import {
-  USERNAME_NOT_ALLOWED_NULL,
-  PASSWORD_NOT_ALLOWED_NULL,
-  CLIENT_ID,
-  CLIENT_SECRET,
-} from '../constants/constants';
 import HttpManager from '../untils/http';
+import Color from 'color';
 
 @connect(
   state => ({
@@ -44,30 +39,8 @@ import HttpManager from '../untils/http';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
   }
   componentDidMount() {}
-  doLogin() {}
-  loginSubmit() {
-    //获取到state 然后调用Api进行登录
-    const {username, password} = this.state;
-    this.doLogin();
-    if (username === '') {
-      toast(USERNAME_NOT_ALLOWED_NULL);
-      return;
-    }
-    if (password === '') {
-      toast(PASSWORD_NOT_ALLOWED_NULL);
-      return;
-    }
-    //登录判断逻辑
-
-    //Actions.reset('root');
-    Keyboard.dismiss();
-  }
   render() {
     return (
       <View style={styles.container}>
@@ -76,7 +49,7 @@ class Login extends Component {
           <View style={styles.title_container}>
             <Icon name="github" style={styles.title} />
           </View>
-          <View style={styles.control_input}>
+          {/* <View style={styles.control_input}>
             <View style={styles.icon_container}>
               <Icon name="user" style={styles.icon} />
             </View>
@@ -112,14 +85,14 @@ class Login extends Component {
                 }}
               />
             </View>
-          </View>
+          </View> */}
           <View style={styles.control_submit}>
             <Button
               style={styles.submit_btn}
               onPress={() => {
-                this.loginSubmit();
+                HttpManager.openAuthorizationPage();
               }}>
-              登录
+              通过GitHub网站登录
             </Button>
           </View>
           <View style={styles.regContainer}>
@@ -147,13 +120,13 @@ const styles = StyleSheet.create({
   },
   login: {
     width: width - 80,
-    height: 400,
-    backgroundColor: '#fff',
+    height: 230,
+    backgroundColor: 'rgba(255,255,255,0.9)',
     borderRadius: 10,
     shadowColor: SHADOW_COLOR,
-    shadowOffset: {x: 10, y: 10},
+    shadowOffset: {x: 18, y: 18},
     shadowOpacity: 0.4,
-    shadowRadius: 5,
+    shadowRadius: 10,
     elevation: 5, //android上的阴影效果
   },
   title_container: {
@@ -216,4 +189,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default Login;
+export const LayoutComponent = Login;

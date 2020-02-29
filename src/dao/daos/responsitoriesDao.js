@@ -18,7 +18,7 @@ import {
  * @param {string} query  查询参数
  * @param {string} data 额外查询参数
  */
-export const searchResponsitories = async (query, data) => {
+export const searchRepository = async (query, data) => {
   //这里是我们最关键的一步使用闭包保存query和data变量
   let save = createAsyncSaveFunc(
     [query, data],
@@ -52,7 +52,7 @@ export const searchResponsitories = async (query, data) => {
  * @param {string} since
  * @param {string} language
  */
-export const getTrending = async (since, language) => {
+export const getTrend = async (since, language) => {
   let save = createAsyncSaveFunc(
     [FETCH_REPOSITORIES, since, language],
     'TrendingReponsitories',

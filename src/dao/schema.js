@@ -11,6 +11,15 @@ export default [
       time: 'string',
     },
   },
+  //阅读历史表 记录用户访问过的仓库记录
+  {
+    name: 'RespositoryHistories',
+    properties: {
+      name: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
   //趋势表
   {
     name: 'TrendingReponsitories',
@@ -41,6 +50,25 @@ export default [
   //ReadMe表
   {
     name: 'ReadMes',
+    properties: {
+      name: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
+  //用户token表
+  {
+    name: 'UserToken',
+    properties: {
+      key: 'string',
+      token: 'string',
+      data: 'string',
+      time: 'string',
+    },
+  },
+  //用户动态表
+  {
+    name: 'UserDynamic',
     properties: {
       name: 'string',
       data: 'string',

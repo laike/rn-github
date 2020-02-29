@@ -3,7 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TEXT_COLOR, BG_COLOR} from '../constants/styles';
+import {TEXT_COLOR, BLACK_COLOR, BG_COLOR} from '../constants/styles';
+import store from '../stores';
 import Color from 'color';
 const propTypes = {
   focused: PropTypes.bool,
@@ -23,8 +24,8 @@ const TabIcon = props => {
     case '个人中心':
       name = 'user';
       break;
-    case '设置':
-      name = 'gear';
+    case '动态':
+      name = 'google-plus-circle';
       break;
     case '趋势':
       name = 'bar-chart-o';
@@ -41,10 +42,10 @@ const TabIcon = props => {
           styles.icon,
           {
             color: props.focused
-              ? TEXT_COLOR
-              : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+              ? BLACK_COLOR
+              : Color(props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
           },
         ]}
       />
@@ -53,10 +54,10 @@ const TabIcon = props => {
           styles.title,
           {
             color: props.focused
-              ? TEXT_COLOR
-              : `${Color(BG_COLOR)
-                  .darken(0.1)
-                  .hex()}`,
+              ? BLACK_COLOR
+              : Color(props.theme.theme)
+                  .darken(0.6)
+                  .hex(),
           },
         ]}>
         {props.title}
@@ -82,4 +83,10 @@ const styles = StyleSheet.create({
     fontFamily: 'arial',
   },
 });
-export default TabIcon;
+
+export const LayoutComponent = TabIcon;
+export function mapStateToProps(state, props) {
+  return {
+    theme: state.theme,
+  };
+}

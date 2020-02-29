@@ -7,7 +7,6 @@ import {
   FlatList,
   InteractionManager,
   Linking,
-  AppState,
 } from 'react-native';
 import Home_List_Item from './Home_List_Item';
 import Trending_List_Item from './Trending_List_Item';
@@ -16,7 +15,11 @@ import EmptyComponent from './EmptyComponent';
 import _ from 'lodash';
 import {MAIN_COLOR} from '../constants/styles';
 import {doActionsRequest} from '../untils/untils';
-
+import User_Event_List_Item from './User_Event_List_Item';
+import {
+  TRENDING_PAGE_MENUS_DATA,
+  TRENDING_PAGE_MENUS_DATA_QUERY,
+} from '../constants/constants';
 const propTypes = {
   action: PropTypes.any,
 };
@@ -27,39 +30,52 @@ const defaultProps = {
 class ScrollViewContainer extends PureComponent {
   constructor(props) {
     super(props);
+    this.page = 1;
+    this.pagesize = 10; //最大就请求到10就行了这个github考虑的
     this.state = {
       data: [],
-      appState: AppState.currentState,
       loading: false,
     };
     this.request = null;
   }
-  AppStateChange(nextAppState) {
-    if (
-      this.appState.match(/incative|background/) &&
-      nextAppState === 'active'
-    ) {
-      //表示APP已经从后台后者不活动状态唤醒了
-      this.LoadData();
-    }
-    this.setState({
-      appState: nextAppState,
-    });
-  }
   componentDidMount() {
     this.LoadData();
-    //在这里我们新增当前活动窗口事件监听
-    AppState.addEventListener('change', this.AppStateChange);
   }
   LoadData(saved = false) {
+    if (this.props.selectIndex) {
+      console.log(TRENDING_PAGE_MENUS_DATA_QUERY[0][this.props.selectIndex[0]]);
+      console.log(TRENDING_PAGE_MENUS_DATA_QUERY[1][this.props.selectIndex[1]]);
+    }
     InteractionManager.runAfterInteractions(() => {
+      let action = new Promise((resolve, reject) => {});
+      if (this.props.type === 'trending') {
+        action = this.props.actions.getTrending(
+          TRENDING_PAGE_MENUS_DATA_QUERY[0][this.props.selectIndex[0]],
+          TRENDING_PAGE_MENUS_DATA_QUERY[1][this.props.selectIndex[1]],
+        );
+      } else if (this.props.type === 'dynamic') {
+        action = this.props.actions.getUserDynamic('events', {
+          page: this.page,
+          per_page: 20,
+        });
+      }
       doActionsRequest(
-        this.props.action,
+        action,
         data => {
-          this.setState({
-            loading: false,
-            data,
-          });
+          let preData = this.state.data;
+          if (this.props.type !== 'trending') {
+            this.setState({
+              loading: false,
+              data: [...preData, ...data],
+            });
+          } else {
+            this.setState({
+              loading: false,
+              data,
+            });
+          }
+
+          //添加page
         },
         () => {
           this.setState({
@@ -73,36 +89,42 @@ class ScrollViewContainer extends PureComponent {
     if (this.request) {
       this.request = null;
     }
-    AppState.removeEventListener('change', this.AppStateChange);
   }
   componentDidUpdate(prevProps, preveState) {
-    //console.log('insiderComponents', this.props.selectIndex);
     if (prevProps.selectIndex !== this.props.selectIndex) {
       this.LoadData();
     }
     if (prevProps.search !== this.props.search) {
-      console.log(this.props.search);
       this.LoadData();
     }
   }
   Link(url) {
     Linking.open(url);
   }
+  //新增下拉自动加载功能
+  onEndReached() {
+    //注意这里的trending流行趋势是没有page分页一说的，每天都是最新
+    if (this.page <= this.pagesize && this.props.type !== 'trending') {
+      this.page++;
+      this.LoadData();
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
+        {this.state.data.length === 0 ? <EmptyComponent /> : <View />}
         <FlatList
           ref={ref => {
             this.list = ref;
           }}
-          ListEmptyComponent={() => <EmptyComponent />}
           style={styles.flatList}
           data={this.state.data}
           refreshing={this.state.loading}
           onRefresh={() => {
             this.LoadData();
           }}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.3}
+          onEndReached={this.onEndReached.bind(this)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={data => {
             if (this.props.type === 'home') {
@@ -129,6 +151,13 @@ class ScrollViewContainer extends PureComponent {
             } else if (this.props.type === 'search/users') {
               return (
                 <User_List_item
+                  keyExtractor={(item, index) => index.toString()}
+                  data={data.item}
+                />
+              );
+            } else if (this.props.type === 'dynamic') {
+              return (
+                <User_Event_List_Item
                   keyExtractor={(item, index) => index.toString()}
                   data={data.item}
                 />

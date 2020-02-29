@@ -7,7 +7,7 @@ import {
 } from '../constants/constants';
 //这里我们调用HttpManager来设置access_token
 import HttpManager from '../untils/http';
-export default class My extends Component {
+class AboutPage extends Component {
   render() {
     return (
       <View style={styles}>
@@ -20,10 +20,12 @@ export default class My extends Component {
             onPress={() => {
               Actions.WebPage({
                 source: {
-                  url: `${GITHUB_THIRDPARTY_AUTHORIZATION_URL}?client_id=${CLIENT_ID}`,
+                  uri: `${GITHUB_THIRDPARTY_AUTHORIZATION_URL}?client_id=${CLIENT_ID}`,
                 },
                 onMessage: event => {
                   let params = JSON.parse(event.nativeEvent.data);
+                  console.log(params); //这里每次获取的accesstoken都不不一样，每次都更新所以不会重复。
+
                   //HttpManager.setToken();
                   Actions.MyPage({data: params});
                 },
@@ -42,3 +44,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
 });
+export const LayoutComponent = AboutPage;

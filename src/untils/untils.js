@@ -1,7 +1,8 @@
 /**
  * 工具类库（时间格式化 localstorage封装等等 realm库工具）
  */
-import config from '../config/config';
+import config, {TOKEN_KEY} from '../config/config';
+import {Linking} from 'react-native';
 import Realm from '../dao/db';
 //这里我们需要引入一个toast
 import Toast from 'react-native-root-toast';
@@ -14,7 +15,8 @@ import Parse from 'url-parse';
 //引入判断工具库
 import _ from 'lodash';
 //引入rn内置组件库
-import {Linking} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 /**
  * 显示Toast
  * @param {string} msg
@@ -73,9 +75,6 @@ export const handleError = (code, msg = '') => {
     case 401:
       //这里处理未授权
       //授权逻辑
-      if (Actions.currentScene !== 'login') {
-        Actions.reset('login');
-      }
       return '未授权，请登录';
     case 403:
       toast('拒绝访问');
@@ -176,7 +175,9 @@ export const createAsyncSaveFunc = (
   API,
 ) => {
   return async () => {
-    console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    if (__DEV__) {
+      console.log(`createAsyncSaveFunc\n ${table}\n ${query}\n ${filter}`);
+    }
     //这里获取数据
     let res = await API(...params);
     if (res && res.data) {
@@ -213,7 +214,9 @@ export const createAsyncSaveFunc = (
 export const getDataFromLocal = (table = '', filter = '') => {
   //先从Realm数据库中进行查询
   let localDatas = null;
-  // console.log(`getDataFromLocal\n ${table}\n ${filter}`);
+  if (__DEV__) {
+    console.log(`getDataFromLocal\n ${table}\n ${filter}`);
+  }
   try {
     localDatas = Realm.objects(table).filtered(filter);
     if (localDatas && localDatas.length > 0) {
@@ -256,6 +259,7 @@ export const doActionsRequest = (
       if (!result) {
         return typeof save === 'function' ? save() : null;
       } else if (result) {
+        toast(`获取到${data.length}条数据`);
         callback(data);
       }
       //用户强制要求获取远程数据并且储存在本地realm数据库
@@ -263,13 +267,16 @@ export const doActionsRequest = (
         save && save();
       }
     })
-    .then(resp => {
+    .then((resp = null) => {
+      //这里进行数据获取
+      console.log('这里进行数据获取 resp');
       if (__DEV__) {
         if (resp) {
           console.log('正在从服务器重新获取数据，并且保存到realm本地数据库！');
         }
       }
       if (resp && resp.data) {
+        toast(`获取到${resp.data.length}条数据`);
         callback(resp.data);
       }
     })
@@ -277,6 +284,8 @@ export const doActionsRequest = (
       if (__DEV__) {
         console.log(err);
       }
+      console.log('这里进行数据获取 resp');
+      toast('获取数据失败，请下拉刷新试试');
     });
 };
 export const openUrl = (url = '') => {
@@ -300,14 +309,23 @@ export const openUrl = (url = '') => {
  * @param {string} filter 过滤
  * @param {string} filed 列
  */
-export const queryOne = (table = '', filter = '', filed = 'data') => {
+export const queryOne = (
+  table = '',
+  filter = '',
+  isparse = false,
+  filed = '',
+) => {
   let localDatas = null;
   try {
     localDatas = Realm.objects(table).filtered(filter);
     if (localDatas && localDatas.length > 0) {
-      return filed === 'data'
-        ? JSON.parse(localDatas[0][filed])
-        : localDatas[0][filed];
+      if (filed) {
+        return isparse
+          ? JSON.parse(localDatas[0][filed])
+          : localDatas[0][filed];
+      } else {
+        return isparse ? JSON.parse(localDatas[0]) : localDatas[0];
+      }
     } else {
       return false; //没有获取到本地数据
     }
@@ -324,10 +342,10 @@ export const queryOne = (table = '', filter = '', filed = 'data') => {
  * @param {string} filter 过滤
  * @param {number} limit 限制条数
  */
-export const queryAll = (table = '', filter = '', limit = 5) => {
+export const queryAll = (table = '', limit = 5) => {
   let localDatas = null;
   try {
-    localDatas = Realm.objects(table).filtered(filter);
+    localDatas = Realm.objects(table);
     if (localDatas && localDatas.length > 0) {
       return localDatas.slice(
         0,
@@ -336,6 +354,25 @@ export const queryAll = (table = '', filter = '', limit = 5) => {
     } else {
       return false; //没有获取到本地数据
     }
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
+
+export const insert = (table = '', filter = '', data = {}) => {
+  try {
+    console.log(`正在向${table}表中插入数据...`);
+    console.log(filter, data);
+    Realm.write(() => {
+      let localDatas = Realm.objects(table).filtered(`${filter}`);
+      if (localDatas && localDatas.length > 0) {
+        Realm.delete(localDatas);
+      }
+      Realm.create(table, data);
+    });
   } catch (error) {
     if (__DEV__) {
       console.log(error);
@@ -354,6 +391,40 @@ export const cloneArr = (arr = []) => {
   }
   return newArr;
 };
+
+export const getData = async (key, json = true) => {
+  return AsyncStorage.getItem(key)
+    .then(tk => {
+      if (__DEV__) {
+        console.log(`正在获取${key}...`);
+      }
+      if (tk) {
+        return json ? JSON.parse(tk) : tk; //默认进行了JSON编码转换
+      } else {
+        return null;
+      }
+    })
+    .catch(err => {
+      if (__DEV__) {
+        console.log(err);
+      }
+      return null;
+    });
+};
+export const storeData = (key, value) => {
+  try {
+    if (__DEV__) {
+      console.log(`正在设置token: ${key} ${value}`);
+    }
+    AsyncStorage.setItem(key, value);
+    return true;
+  } catch (error) {
+    if (__DEV__) {
+      console.log(error);
+    }
+    return false;
+  }
+};
 /**
  * 初始化
  */
@@ -362,3 +433,30 @@ export const Init = () => {
   clearAllRealmTabs(); //清除表
   clearAllCache(); //清除缓存
 };
+
+/**
+ *
+ * @param {*} url
+ */
+export function parseImgUrl(url) {
+  if (/^\/\/.*/.test(url)) {
+    url = 'http:' + url;
+  }
+  return url;
+}
+
+/**
+ *
+ * @param {*} url
+ */
+export function link(url) {
+  Linking.canOpenURL(url)
+    .then(supported => {
+      if (supported) {
+        return Linking.openURL(url);
+      }
+    })
+    .catch(err => {
+      console.error('An error occurred', err);
+    });
+}
