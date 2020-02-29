@@ -12,10 +12,12 @@
 
 ## 应用下载链接
 
-> 安卓版本
-> [https://windke.cn/Public/akps/app-release.apk](https://windke.cn/Public/akps/app-release.apk)
-> ![avatar](https://windke.cn/Public/screenshot/android/apk.png)
-> IOS 版本
+安卓版本
+
+![avatar](https://windke.cn/Public/screenshot/android/apk.png)
+
+IOS 版本
+
 > 目前自用中，暂且只在自己设备上使用，原因就是没有证书不管是个人还是企业的，如果想体验 IOS 版本，请自行下载项目进行编译配置，在自己手机上运行。
 
 ## 关于作者
