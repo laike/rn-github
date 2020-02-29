@@ -10,7 +10,7 @@
 
 IOS 版本
 
-<img src="https://windke.cn/Public/screenshot/android/1.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/2.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/3.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/4.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/5.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/6.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/7.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/8.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/9.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/10.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/11.png" width="200"/><img src="https://windke.cn/Public/screenshot/android/12.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/ios/1.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/2.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/3.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/4.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/5.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/6.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/7.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/8.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/9.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/10.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/11.png" width="200"/><img src="https://windke.cn/Public/screenshot/ios/12.png" width="200"/>
 
 ## 应用下载链接
 
