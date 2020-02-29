@@ -6,18 +6,18 @@
 
 > 安卓：
 
-![avatar](https://windke.cn/Public/screenshot/android/1.png)
-![avatar](https://windke.cn/Public/screenshot/android/2.png)
-![avatar](https://windke.cn/Public/screenshot/android/3.png)
-![avatar](https://windke.cn/Public/screenshot/android/4.png)
-![avatar](https://windke.cn/Public/screenshot/android/5.png)
-![avatar](https://windke.cn/Public/screenshot/android/6.png)
-![avatar](https://windke.cn/Public/screenshot/android/7.png)
-![avatar](https://windke.cn/Public/screenshot/android/8.png)
-![avatar](https://windke.cn/Public/screenshot/android/9.png)
-![avatar](https://windke.cn/Public/screenshot/android/10.png)
-![avatar](https://windke.cn/Public/screenshot/android/11.png)
-![avatar](https://windke.cn/Public/screenshot/android/12.png)
+<img src="https://windke.cn/Public/screenshot/android/1.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/2.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/3.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/4.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/5.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/6.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/7.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/8.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/9.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/10.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/11.png" width="200"/>
+<img src="https://windke.cn/Public/screenshot/android/12.png" width="200"/>
 
 > IOS
 
