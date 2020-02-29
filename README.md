@@ -5,18 +5,20 @@
 ## 应用截图
 
 > 安卓：
-> ![avatar](https://windke.cn/Public/screenshot/android/1.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/2.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/3.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/4.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/5.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/6.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/7.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/8.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/9.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/10.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/11.png)
-> ![avatar](https://windke.cn/Public/screenshot/android/12.png)
+
+![avatar](https://windke.cn/Public/screenshot/android/1.png)
+![avatar](https://windke.cn/Public/screenshot/android/2.png)
+![avatar](https://windke.cn/Public/screenshot/android/3.png)
+![avatar](https://windke.cn/Public/screenshot/android/4.png)
+![avatar](https://windke.cn/Public/screenshot/android/5.png)
+![avatar](https://windke.cn/Public/screenshot/android/6.png)
+![avatar](https://windke.cn/Public/screenshot/android/7.png)
+![avatar](https://windke.cn/Public/screenshot/android/8.png)
+![avatar](https://windke.cn/Public/screenshot/android/9.png)
+![avatar](https://windke.cn/Public/screenshot/android/10.png)
+![avatar](https://windke.cn/Public/screenshot/android/11.png)
+![avatar](https://windke.cn/Public/screenshot/android/12.png)
+
 > IOS
 
 ## 应用下载链接
@@ -41,16 +43,27 @@
 ## 用到的第三方框架
 
 @react-native-community/async-storage
+
 react-native-code-push
+
 react-native-gesture-handler
+
 react-native-parallax-scroll-view
+
 react-native-root-toast
+
 react-native-router-flux
+
 react-native-splash-screen
+
 react-native-tab-view
+
 react-native-vector-icons
+
 react-native-webview
+
 lottie-ios
+
 react-native-lottie
 
 ## 关于编译相关问题
@@ -117,12 +130,17 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 ```
 
 **appcenter 微软的地址**
+
 [https://appcenter.ms](https://appcenter.ms)
+
 **关于如何集成 code-push**
+
 [https://github.com/microsoft/react-native-code-push](https://github.com/microsoft/react-native-code-push)
+
 **简书介入 code-push 教程**
-[https://www.jianshu.com/p/6a5e00d22723](https://www.jianshu.com/p/6a5e00d22723)<br>
-<br>
+
+[https://www.jianshu.com/p/6a5e00d22723](https://www.jianshu.com/p/6a5e00d22723)
+
 **在获取 notifications 这个 api 的时候，突然发现一只 401，403 状态码表示用户没有得到授权，最后解决方法是在授权地址中需要加入 scopes 这个参数。**
 
 ```
@@ -130,8 +148,10 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 ```
 
 **使用组件 react-native-splash-screen 的时候遇到问题的，如下解决方案可行**
+
 **启动页报错要设置 canOverrideExistingModule=true**
 **SplashScreenModule.java 需要加上这个，否则报错。**
+
 解决如下：
 `\node_modules\react-native-splash-screen\android\src\main\java\org\devio\rn\splashscreen\SplashScreenModule.java`<br><br>`@Override public boolean canOverrideExistingModule() { return true; }`
 
@@ -142,20 +162,32 @@ source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 ### 发布到 code push
 
 `code-push release-react 应用名称 版本号 平台 更新信息`
+
 `npx react-native bundle --platform android --entry-file index.js --bundle-output ./bundles/index.android.bundle --assets-dest ./bundles --dev false`
+
 `code-push release iOSRNHybridForAndroid ./bundles/index.android.bundle 1.0.0 --deploymentName Production --description "1.支持文章缓存。" --mandatory true`
 `code-push release-react iOSRNHybridForAndroid --targetBinaryVersion "1.0.0" -m --description "Modified the header color"`
 
 ### GIT 常用命令
 
 `git add . 添加文件`
+
 `git commit - m ' modifed message ' 提交修改并附注信息`
+
 `git push origin master -u 提交到git`
+
 `git branch 查看分支`
+
 `git checkout beta 切换到beta分支`
+
 `git merge master 合并master 分支`
+
 `git pull origin master 更新最新代码到本地`
 
 ### 关于某些安装包安装过慢的问题
 
-1.使用淘宝镜像 2.科学上网 3.下载包到本地可以用迅雷等软件，然后修改 node_modules 包中的下载代码，然后开启本地 http-server ，修改到本地服务器地址。
+1.使用淘宝镜像
+
+2.科学上网
+
+3.下载包到本地可以用迅雷等软件，然后修改 node_modules 包中的下载代码，然后开启本地 http-server ，修改到本地服务器地址。
