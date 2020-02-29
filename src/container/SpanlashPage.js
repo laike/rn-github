@@ -65,7 +65,7 @@ class SpanlashPage extends Component {
           {...STATUS_BAR_STYLE}
           backgroundColor={Color(this.props.theme.theme).darken(0.3)}
         />
-        <LinearGradient
+        {/* <LinearGradient
           colors={[
             Color(this.props.theme.theme)
               .darken(0.3)
@@ -77,7 +77,7 @@ class SpanlashPage extends Component {
               .darken(0.8)
               .hex(),
           ]}
-          style={styles.bg}></LinearGradient>
+          style={styles.bg}></LinearGradient> */}
         <Icon name="github" style={styles.logo} />
         <View style={styles.animatedText}>
           <FadeInOut>

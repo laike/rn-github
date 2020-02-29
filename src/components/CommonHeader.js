@@ -8,6 +8,7 @@ import {BlurView, VibrancyView} from '@react-native-community/blur';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
 import LinearGradient from 'react-native-linear-gradient';
+import CustomImage from './Base/CustomImage';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 //使用react hooks 实例
 const CommonHeader = ({data = {}, type = 'user', theme, ...rest}) => {
@@ -86,16 +87,24 @@ const CommonHeader = ({data = {}, type = 'user', theme, ...rest}) => {
             .hex(),
         ]}
         style={styles.bg}></LinearGradient>
-      <Image
-        ref={img => {
-          backgroundImage = img;
-        }}
-        // onLoadEnd={() => {
-        //   setViewRef(findNodeHandle(backgroundImage));
-        // }}
-        source={require('../data/images/github2.png')}
-        style={styles.avatar}
-      />
+
+      {user.avatar_url ? (
+        <CustomImage
+          maxImageWidth={100}
+          uri={user.avatar_url}
+          style={[styles.avatar]}
+        />
+      ) : (
+        <Image
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 50,
+            marginTop: 10,
+          }}
+          source={require('../data/images/github2.png')}
+        />
+      )}
       {renderDes()}
     </View>
   );
@@ -113,8 +122,8 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   avatar: {
-    width: 100,
-    height: 100,
+    borderRadius: 50,
+    marginTop: 10,
   },
   nickname: {
     fontSize: 20,

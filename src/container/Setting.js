@@ -63,13 +63,10 @@ class Setting extends Component {
           <Text style={styles.eventtitle}>基础信息</Text>
         </View>
         <TouchFeedbackItem
-          name="github"
           title={this.state.user.login}
-          iconStyle={{
-            fontSize: 80,
-            color: Color(this.props.theme.theme)
-              .darken(0.6)
-              .hex(),
+          uri={this.state.user.avatar_url}
+          imageStyle={{
+            borderRadius: 30,
           }}
           onPress={() => {
             Actions.push('ProfilePage', {});

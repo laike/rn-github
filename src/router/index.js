@@ -12,14 +12,7 @@ import {
   Stack,
   Lightbox,
 } from 'react-native-router-flux';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import * as Home from '../container/Home';
 import * as MyPage from '../container/MyPage';
 import * as Setting from '../container/Setting';
@@ -49,7 +42,6 @@ import * as Notifictions from '../container/Notifictions';
 import * as News from '../container/News';
 import * as Issues from '../container/Issues';
 import * as CodeTheme from '../container/CodeTheme';
-
 import * as OwnedRepository from '../container/OwnedRepositoryPage';
 import * as ShowCode from '../container/ShowCode';
 import * as ReposityPage from '../container/ReposityPage';

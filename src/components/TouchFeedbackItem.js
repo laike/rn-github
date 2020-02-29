@@ -8,6 +8,7 @@ import {
 } from 'react-native-gesture-handler';
 import moment from 'moment';
 import momentLocaleZhCn from 'moment/locale/zh-cn';
+import CustomImage from './Base/CustomImage';
 moment.updateLocale('zh-cn', momentLocaleZhCn);
 export default class TouchFeedbackItem extends Component {
   constructor(props) {
@@ -22,6 +23,15 @@ export default class TouchFeedbackItem extends Component {
               <Icon
                 name={this.props.name}
                 style={[styles.icon, this.props.iconStyle]}
+              />
+            ) : (
+              <View />
+            )}
+            {this.props.uri ? (
+              <CustomImage
+                uri={this.props.uri}
+                maxImageWidth={60}
+                style={[styles.image, this.props.imageStyle]}
               />
             ) : (
               <View />
@@ -153,6 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {fontSize: 18, paddingLeft: 10},
+  image: {paddingLeft: 10, borderRadius: 30, marginTop: 10},
   right: {
     paddingRight: 10,
     flexDirection: 'row',
