@@ -35,7 +35,7 @@
         "randomcolor": "^0.5.4",
         "react": "16.9.0",
         "react-addons-pure-render-mixin": "^15.6.2",
-        "react-native": "0.61",
+        "react-native": "0.62",
         "react-native-autoheight-webview": "^1.4.2",
         "react-native-button": "^2.4.0",
         "react-native-check-box": "^2.1.7",
