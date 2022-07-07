@@ -29,7 +29,7 @@
         "lodash": "^4.17.15",
         "lottie-react-native": "^3.3.2",
         "markdown-it": "^10.0.0",
-        "moment": "^2.24.0",
+        "moment": "^2.29.4",
         "prop-types": "^15.7.2",
         "qs": "^6.9.1",
         "randomcolor": "^0.5.4",
